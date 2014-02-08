@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "C:\Users\Esteban\Documents\MDE\DSOAE\Projects\Tarea1\Tarea1_OS_Tick\bin\Project.abs"
+PROGRAM "C:\Users\Miguel\Documents\Maestria\DISOAE\Tareas\First_project\Tarea1_OS_Tick\bin\Project.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -15,7 +15,10 @@ FILE SECTION
 MC9S12XEP100.c.o                        Model: BANKED,        Lang: ANSI-C
 main.c.o                                Model: BANKED,        Lang: ANSI-C
 Start12.c.o                             Model: BANKED,        Lang: ANSI-C
+rtshc12.c.o (ansixbi.lib)               Model: BANKED,        Lang: ANSI-C
 int_vectors.c.o                         Model: BANKED,        Lang: ANSI-C
+mcu.c.o                                 Model: BANKED,        Lang: ANSI-C
+gpt.c.o                                 Model: BANKED,        Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -23,8 +26,9 @@ STARTUP SECTION
 Entry point: 0xC000 (_Startup)
 _startupData is allocated at 0xC00F and uses 6 Bytes
 extern struct _tagStartup {
-  unsigned nofZeroOut     0
-  _Copy    *toCopyDownBeg 0xC061
+  unsigned nofZeroOut     1
+  _Range   pZeroOut       0x2100     11
+  _Copy    *toCopyDownBeg 0xC14F
 } _startupData;
 
 *********************************************************************************************
@@ -33,9 +37,9 @@ Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                             15     R     0xC000     0xC00E   ROM_C000
 .startData                        81     R     0xC00F     0xC05F   ROM_C000
-NON_BANKED                         1     R     0xC060     0xC060   ROM_C000
-.copy                              2     R     0xC061     0xC062   ROM_C000
-.text                             71     R   0xFE8000   0xFE8046   PAGE_FE
+NON_BANKED                       239     R     0xC060     0xC14E   ROM_C000
+.copy                              2     R     0xC14F     0xC150   ROM_C000
+.text                            306     R   0xFE8000   0xFE8131   PAGE_FE
 .stack                           256   R/W     0x2000     0x20FF   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
@@ -776,11 +780,12 @@ NON_BANKED                         1     R     0xC060     0xC060   ROM_C000
 .abs_section_3ee                   2   N/I      0x3EE      0x3EF   .absSeg736
 .abs_section_3f2                   2   N/I      0x3F2      0x3F3   .absSeg737
 .abs_section_ff10                238     R     0xFF10     0xFFFD   .absSeg738
+.common                           11   R/W     0x2100     0x210A   RAM
 .vectSeg739_vect                   2     R     0xFFFE     0xFFFF   .vectSeg739
 
 Summary of section sizes per section type:
-READ_ONLY (R):         19A (dec:      410)
-READ_WRITE (R/W):      100 (dec:      256)
+READ_ONLY (R):         373 (dec:      883)
+READ_WRITE (R/W):      10B (dec:      267)
 NO_INIT (N/I):         383 (dec:      899)
 
 *********************************************************************************************
@@ -828,13 +833,13 @@ MODULE:                 -- MC9S12XEP100.c.o --
      _DBGXDLM                                    2F       1       1       0   .abs_section_2f
      _PORTK                                      32       1       1       0   .abs_section_32
      _DDRK                                       33       1       1       0   .abs_section_33
-     _SYNR                                       34       1       1       0   .abs_section_34
-     _REFDV                                      35       1       1       0   .abs_section_35
-     _POSTDIV                                    36       1       1       0   .abs_section_36
-     _CRGFLG                                     37       1       1       0   .abs_section_37
-     _CRGINT                                     38       1       1       0   .abs_section_38
-     _CLKSEL                                     39       1       1       0   .abs_section_39
-     _PLLCTL                                     3A       1       1       0   .abs_section_3a
+     _SYNR                                       34       1       1       4   .abs_section_34
+     _REFDV                                      35       1       1       4   .abs_section_35
+     _POSTDIV                                    36       1       1       1   .abs_section_36
+     _CRGFLG                                     37       1       1       3   .abs_section_37
+     _CRGINT                                     38       1       1       2   .abs_section_38
+     _CLKSEL                                     39       1       1       1   .abs_section_39
+     _PLLCTL                                     3A       1       1       4   .abs_section_3a
      _RTICTL                                     3B       1       1       0   .abs_section_3b
      _COPCTL                                     3C       1       1       0   .abs_section_3c
      _ARMCOP                                     3F       1       1       0   .abs_section_3f
@@ -936,7 +941,7 @@ MODULE:                 -- MC9S12XEP100.c.o --
      _MPUDESC3                                  11D       1       1       0   .abs_section_11d
      _MPUDESC4                                  11E       1       1       0   .abs_section_11e
      _MPUDESC5                                  11F       1       1       0   .abs_section_11f
-     _IVBR                                      121       1       1       0   .abs_section_121
+     _IVBR                                      121       1       1       1   .abs_section_121
      _INT_XGPRIO                                126       1       1       0   .abs_section_126
      _INT_CFADDR                                127       1       1       0   .abs_section_127
      _INT_CFDATA0                               128       1       1       0   .abs_section_128
@@ -944,7 +949,7 @@ MODULE:                 -- MC9S12XEP100.c.o --
      _INT_CFDATA2                               12A       1       1       0   .abs_section_12a
      _INT_CFDATA3                               12B       1       1       0   .abs_section_12b
      _INT_CFDATA4                               12C       1       1       0   .abs_section_12c
-     _INT_CFDATA5                               12D       1       1       0   .abs_section_12d
+     _INT_CFDATA5                               12D       1       1       1   .abs_section_12d
      _INT_CFDATA6                               12E       1       1       0   .abs_section_12e
      _INT_CFDATA7                               12F       1       1       0   .abs_section_12f
      _SCI4ACR2                                  132       1       1       0   .abs_section_132
@@ -1321,13 +1326,13 @@ MODULE:                 -- MC9S12XEP100.c.o --
      _SCI7SR2                                   33D       1       1       0   .abs_section_33d
      _SCI7DRH                                   33E       1       1       0   .abs_section_33e
      _SCI7DRL                                   33F       1       1       0   .abs_section_33f
-     _PITCFLMT                                  340       1       1       0   .abs_section_340
-     _PITFLT                                    341       1       1       0   .abs_section_341
-     _PITCE                                     342       1       1       0   .abs_section_342
-     _PITMUX                                    343       1       1       0   .abs_section_343
-     _PITINTE                                   344       1       1       0   .abs_section_344
-     _PITTF                                     345       1       1       0   .abs_section_345
-     _PITMTLD0                                  346       1       1       0   .abs_section_346
+     _PITCFLMT                                  340       1       1       3   .abs_section_340
+     _PITFLT                                    341       1       1       1   .abs_section_341
+     _PITCE                                     342       1       1       1   .abs_section_342
+     _PITMUX                                    343       1       1       1   .abs_section_343
+     _PITINTE                                   344       1       1       1   .abs_section_344
+     _PITTF                                     345       1       1       3   .abs_section_345
+     _PITMTLD0                                  346       1       1       1   .abs_section_346
      _PITMTLD1                                  347       1       1       0   .abs_section_347
      _PTR                                       368       1       1       0   .abs_section_368
      _PTIR                                      369       1       1       0   .abs_section_369
@@ -1373,8 +1378,8 @@ MODULE:                 -- MC9S12XEP100.c.o --
      _TIM_PAFLG                                 3F1       1       1       0   .abs_section_3f1
      _TIM_OCPD                                  3FC       1       1       0   .abs_section_3fc
      _TIM_PTPSR                                 3FE       1       1       0   .abs_section_3fe
-     _PORTAB                                      0       2       2       0   .abs_section_0
-     _DDRAB                                       2       2       2       0   .abs_section_2
+     _PORTAB                                      0       2       2       2   .abs_section_0
+     _DDRAB                                       2       2       2       1   .abs_section_2
      _PORTCD                                      4       2       2       0   .abs_section_4
      _DDRCD                                       6       2       2       0   .abs_section_6
      _PARTID                                     1A       2       2       0   .abs_section_1a
@@ -1488,7 +1493,7 @@ MODULE:                 -- MC9S12XEP100.c.o --
      _PWMDTY67                                  322       2       2       0   .abs_section_322
      _SCI6BD                                    330       2       2       0   .abs_section_330
      _SCI7BD                                    338       2       2       0   .abs_section_338
-     _PITLD0                                    348       2       2       0   .abs_section_348
+     _PITLD0                                    348       2       2       1   .abs_section_348
      _PITCNT0                                   34A       2       2       0   .abs_section_34a
      _PITLD1                                    34C       2       2       0   .abs_section_34c
      _PITCNT1                                   34E       2       2       0   .abs_section_34e
@@ -1536,41 +1541,67 @@ MODULE:                 -- MC9S12XEP100.c.o --
      _TIM_PACNT                                 3F2       2       2       0   .abs_section_3f2
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     main                                    FE8000       B      11       2   .text       
+     main                                    FE8000      26      38       2   .text       
+     pin_toggle                              FE8026       7       7       3   .text       
 - VARIABLES:
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
-     Init                                    FE800B      3C      60       2   .text       
+     Init                                    FE802D      3C      60       2   .text       
      _Startup                                  C000       F      15       1   .init       
 - VARIABLES:
      _startupData                              C00F       6       6       3   .startData  
 - LABELS:
      __SEG_END_SSTACK                          2100       0       0       1               
+MODULE:                 -- rtshc12.c.o (ansixbi.lib) --
+- PROCEDURES:
+     _LMULU16x32                               C060       F      15       1   NON_BANKED  
+     _lDivMod                                  C06F      B9     185       1   NON_BANKED  
+     _LDIVU                                    C128       E      14       2   NON_BANKED  
+- VARIABLES:
 MODULE:                 -- int_vectors.c.o --
 - PROCEDURES:
-     vfnDummy_D_Isr                            C060       1       1     118   NON_BANKED  
+     vfnDummy_D_Isr                            C136       1       1     117   NON_BANKED  
 - VARIABLES:
      vectors                                   FF10      EE     238       0   .abs_section_ff10
+MODULE:                 -- mcu.c.o --
+- PROCEDURES:
+     Mcu_Init                                FE8069       5       5       2   .text       
+     Mcu_DistributePllClock                  FE806E      76     118       2   .text       
+- VARIABLES:
+     gu16ClockGlobalStatus                     2100       2       2       2   .common     
+     u16PLL_Loss_of_Lock_Counter               2102       2       2       1   .common     
+     gu32BusFrequency                          2104       4       4       4   .common     
+MODULE:                 -- gpt.c.o --
+- PROCEDURES:
+     vfnPIT0_Init                            FE80E4      41      65       2   .text       
+     vfnPIT0_Start                           FE8125       D      13       2   .text       
+     vfnPIT_Channel0_Isr                       C137      18      24       1   NON_BANKED  
+- VARIABLES:
+     vfnPIT0_Callback                          2108       3       3       5   .common     
 
 *********************************************************************************************
 MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   MC9S12XEP100.c.o                           899      0      0
-  main.c.o                                     0     11      0
+  main.c.o                                     0     45      0
   Start12.c.o                                  0     75      0
+  rtshc12.c.o (ansixbi.lib)                    0    214      0
   int_vectors.c.o                              0      1    238
+  mcu.c.o                                      8    123      0
+  gpt.c.o                                      3    102      0
   other                                      256     83      2
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  main Init 
+  main pin_toggle Init Mcu_Init Mcu_DistributePllClock vfnPIT0_Init 
+  vfnPIT0_Start 
 SECTION: ".init"
   _Startup 
 SECTION: "NON_BANKED"
-  vfnDummy_D_Isr 
+  _LMULU16x32 _lDivMod _LDIVU vfnDummy_D_Isr vfnPIT_Channel0_Isr 
 SECTION: ".abs_section_8"
   _PORTE 
 SECTION: ".abs_section_9"
@@ -3047,6 +3078,9 @@ SECTION: ".abs_section_3ee"
   _TIM_TC7 
 SECTION: ".abs_section_3f2"
   _TIM_PACNT 
+SECTION: ".common"
+  gu16ClockGlobalStatus u16PLL_Loss_of_Lock_Counter gu32BusFrequency 
+  vfnPIT0_Callback 
 SECTION: ".abs_section_ff10"
   vectors 
 
@@ -3054,8 +3088,8 @@ SECTION: ".abs_section_ff10"
 OBJECT LIST SORTED BY ADDRESS
      Name                                      Addr   hSize   dSize     Ref    Section   RLIB
 ---------------------------------------------------------------------------------------------
-     _PORTAB                                      0       2       2       0   .abs_section_0
-     _DDRAB                                       2       2       2       0   .abs_section_2
+     _PORTAB                                      0       2       2       2   .abs_section_0
+     _DDRAB                                       2       2       2       1   .abs_section_2
      _PORTCD                                      4       2       2       0   .abs_section_4
      _DDRCD                                       6       2       2       0   .abs_section_6
      _PORTE                                       8       1       1       0   .abs_section_8
@@ -3092,13 +3126,13 @@ OBJECT LIST SORTED BY ADDRESS
      _DBGXDLM                                    2F       1       1       0   .abs_section_2f
      _PORTK                                      32       1       1       0   .abs_section_32
      _DDRK                                       33       1       1       0   .abs_section_33
-     _SYNR                                       34       1       1       0   .abs_section_34
-     _REFDV                                      35       1       1       0   .abs_section_35
-     _POSTDIV                                    36       1       1       0   .abs_section_36
-     _CRGFLG                                     37       1       1       0   .abs_section_37
-     _CRGINT                                     38       1       1       0   .abs_section_38
-     _CLKSEL                                     39       1       1       0   .abs_section_39
-     _PLLCTL                                     3A       1       1       0   .abs_section_3a
+     _SYNR                                       34       1       1       4   .abs_section_34
+     _REFDV                                      35       1       1       4   .abs_section_35
+     _POSTDIV                                    36       1       1       1   .abs_section_36
+     _CRGFLG                                     37       1       1       3   .abs_section_37
+     _CRGINT                                     38       1       1       2   .abs_section_38
+     _CLKSEL                                     39       1       1       1   .abs_section_39
+     _PLLCTL                                     3A       1       1       4   .abs_section_3a
      _RTICTL                                     3B       1       1       0   .abs_section_3b
      _COPCTL                                     3C       1       1       0   .abs_section_3c
      _ARMCOP                                     3F       1       1       0   .abs_section_3f
@@ -3251,7 +3285,7 @@ OBJECT LIST SORTED BY ADDRESS
      _MPUDESC3                                  11D       1       1       0   .abs_section_11d
      _MPUDESC4                                  11E       1       1       0   .abs_section_11e
      _MPUDESC5                                  11F       1       1       0   .abs_section_11f
-     _IVBR                                      121       1       1       0   .abs_section_121
+     _IVBR                                      121       1       1       1   .abs_section_121
      _INT_XGPRIO                                126       1       1       0   .abs_section_126
      _INT_CFADDR                                127       1       1       0   .abs_section_127
      _INT_CFDATA0                               128       1       1       0   .abs_section_128
@@ -3259,7 +3293,7 @@ OBJECT LIST SORTED BY ADDRESS
      _INT_CFDATA2                               12A       1       1       0   .abs_section_12a
      _INT_CFDATA3                               12B       1       1       0   .abs_section_12b
      _INT_CFDATA4                               12C       1       1       0   .abs_section_12c
-     _INT_CFDATA5                               12D       1       1       0   .abs_section_12d
+     _INT_CFDATA5                               12D       1       1       1   .abs_section_12d
      _INT_CFDATA6                               12E       1       1       0   .abs_section_12e
      _INT_CFDATA7                               12F       1       1       0   .abs_section_12f
      _SCI4BD                                    130       2       2       0   .abs_section_130
@@ -3694,15 +3728,15 @@ OBJECT LIST SORTED BY ADDRESS
      _SCI7SR2                                   33D       1       1       0   .abs_section_33d
      _SCI7DRH                                   33E       1       1       0   .abs_section_33e
      _SCI7DRL                                   33F       1       1       0   .abs_section_33f
-     _PITCFLMT                                  340       1       1       0   .abs_section_340
-     _PITFLT                                    341       1       1       0   .abs_section_341
-     _PITCE                                     342       1       1       0   .abs_section_342
-     _PITMUX                                    343       1       1       0   .abs_section_343
-     _PITINTE                                   344       1       1       0   .abs_section_344
-     _PITTF                                     345       1       1       0   .abs_section_345
-     _PITMTLD0                                  346       1       1       0   .abs_section_346
+     _PITCFLMT                                  340       1       1       3   .abs_section_340
+     _PITFLT                                    341       1       1       1   .abs_section_341
+     _PITCE                                     342       1       1       1   .abs_section_342
+     _PITMUX                                    343       1       1       1   .abs_section_343
+     _PITINTE                                   344       1       1       1   .abs_section_344
+     _PITTF                                     345       1       1       3   .abs_section_345
+     _PITMTLD0                                  346       1       1       1   .abs_section_346
      _PITMTLD1                                  347       1       1       0   .abs_section_347
-     _PITLD0                                    348       2       2       0   .abs_section_348
+     _PITLD0                                    348       2       2       1   .abs_section_348
      _PITCNT0                                   34A       2       2       0   .abs_section_34a
      _PITLD1                                    34C       2       2       0   .abs_section_34c
      _PITCNT1                                   34E       2       2       0   .abs_section_34e
@@ -3792,20 +3826,48 @@ OBJECT LIST SORTED BY ADDRESS
      _TIM_PACNT                                 3F2       2       2       0   .abs_section_3f2
      _TIM_OCPD                                  3FC       1       1       0   .abs_section_3fc
      _TIM_PTPSR                                 3FE       1       1       0   .abs_section_3fe
+     gu16ClockGlobalStatus                     2100       2       2       2   .common     
+     u16PLL_Loss_of_Lock_Counter               2102       2       2       1   .common     
+     gu32BusFrequency                          2104       4       4       4   .common     
+     vfnPIT0_Callback                          2108       3       3       5   .common     
      _Startup                                  C000       F      15       1   .init       
-     vfnDummy_D_Isr                            C060       1       1     118   NON_BANKED  
+     _LMULU16x32                               C060       F      15       1   NON_BANKED  
+     _lDivMod                                  C06F      B9     185       1   NON_BANKED  
+     _LDIVU                                    C128       E      14       2   NON_BANKED  
+     vfnDummy_D_Isr                            C136       1       1     117   NON_BANKED  
+     vfnPIT_Channel0_Isr                       C137      18      24       1   NON_BANKED  
      vectors                                   FF10      EE     238       0   .abs_section_ff10
-     main                                    FE8000       B      11       2   .text       
-     Init                                    FE800B      3C      60       2   .text       
+     main                                    FE8000      26      38       2   .text       
+     pin_toggle                              FE8026       7       7       3   .text       
+     Init                                    FE802D      3C      60       2   .text       
+     Mcu_Init                                FE8069       5       5       2   .text       
+     Mcu_DistributePllClock                  FE806E      76     118       2   .text       
+     vfnPIT0_Init                            FE80E4      41      65       2   .text       
+     vfnPIT0_Start                           FE8125       D      13       2   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
+NOT USED PROCEDURES
+rtshc12.c.o (ansixbi.lib):
+  _BSHL _BSHRS _BSHRU _BDIVMODU _BDIVMODS _ISHL _ISHRU _ISHRS _LSHL _LSHRU 
+  _LSHRS _LADD _LSUB _LAND _LOR _LXOR _LCMP _LCMP_P _LCMP_PP _LNEG _LCOM _LINC 
+  _LDEC _LMUL _LMULS16x32 _NEG_P _LDIVS _LMODU _LMODS _ILSEXT _COPY 
+  _CASE_DIRECT _CASE_DIRECT_BYTE _CASE_CHECKED _CASE_CHECKED_BYTE _CASE_SEARCH 
+  _CASE_SEARCH_BYTE _CASE_SEARCH_8 _CASE_SEARCH_8_BYTE _FCALL _FPCMP _PADD 
+  _PSUB _PINC _PDEC 
+mcu.c.o:
+  Mcu_InitClock vfnPll_Clock_Monitor_Isr 
+gpt.c.o:
+  vfnPIT1_Start vfnPIT_Stop 
+NOT USED VARIABLES
+rtshc12.c.o (ansixbi.lib):
+  _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
 
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC061 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC14F ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -3813,8 +3875,21 @@ Filling bytes inserted
 OBJECT-DEPENDENCIES SECTION
 ---------------------------------------------------------------------------------------------
 _Startup                  USES __SEG_END_SSTACK Init main 
-vectors                   USES vfnDummy_D_Isr _Startup 
+_LDIVU                    USES _lDivMod 
+vfnPIT_Channel0_Isr       USES _PITTF vfnPIT0_Callback 
+vectors                   USES vfnDummy_D_Isr vfnPIT_Channel0_Isr _Startup 
+main                      USES _IVBR Mcu_Init _DDRAB pin_toggle vfnPIT0_Init 
+                                vfnPIT0_Start 
+pin_toggle                USES _PORTAB 
 Init                      USES _startupData 
+Mcu_Init                  USES Mcu_DistributePllClock 
+Mcu_DistributePllClock    USES _PLLCTL gu16ClockGlobalStatus _SYNR _REFDV 
+                                _POSTDIV _CRGFLG _CRGINT u16PLL_Loss_of_Lock_Counter 
+                                _CLKSEL _LMULU16x32 _LDIVU gu32BusFrequency 
+vfnPIT0_Init              USES _PITCFLMT _PITCE _PITMUX _PITINTE _PITTF 
+                                gu32BusFrequency _LDIVU _PITMTLD0 _PITLD0 _INT_CFDATA5 
+                                vfnPIT0_Callback 
+vfnPIT0_Start             USES _PITCFLMT _PITFLT 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -3822,7 +3897,25 @@ DEPENDENCY TREE
  main and _Startup Group
  | 
  +- main                
- |    
+ |  | 
+ |  +- Mcu_Init            
+ |  |  | 
+ |  |  +- Mcu_DistributePllClock
+ |  |     | 
+ |  |     +- _LMULU16x32         
+ |  |     |    
+ |  |     +- _LDIVU              
+ |  |        | 
+ |  |        +- _lDivMod            
+ |  |             
+ |  +- pin_toggle          
+ |  |    
+ |  +- vfnPIT0_Init        
+ |  |  | 
+ |  |  +- _LDIVU               (see above)
+ |  |     
+ |  +- vfnPIT0_Start       
+ |       
  +- _Startup            
     | 
     +- Init                
@@ -3833,6 +3926,8 @@ DEPENDENCY TREE
  | 
  +- vfnDummy_D_Isr      
  |    
+ +- vfnPIT_Channel0_Isr 
+ |    
  +- _Startup             (see above)
     
 *********************************************************************************************
@@ -3842,5 +3937,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 7
-Total size of all blocks to be downloaded: 410
+Total size of all blocks to be downloaded: 883
 

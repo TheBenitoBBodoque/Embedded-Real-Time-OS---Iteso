@@ -17,21 +17,17 @@
 
 /** Core modules */
 /** Configuration Options */
-//#include    "configuration.h"
+#include    "mcu_cfg.h"
 /** MCU derivative information */
-//#include    __MCU_DERIVATIVE
+#include <mc9s12xep100.h>
 /** Variable types and common definitions */
 #include    "typedefs.h"
 
 /** Used modules */
 /** PIT definitions and prototypes*/
-//#include    "pit.h"
-/* Interrupt service routines prototypes */
-//#include    "serial.h"
-/** Scheduler function prototypes definitions */
-//#include    "Sch.h"
+#include    "gpt.h"
 /** PLL definitions and prototypes*/
-//#include    "pll.h"
+#include    "mcu.h"
 
 /*****************************************************************************************************
 * Definition of module wide VARIABLES
