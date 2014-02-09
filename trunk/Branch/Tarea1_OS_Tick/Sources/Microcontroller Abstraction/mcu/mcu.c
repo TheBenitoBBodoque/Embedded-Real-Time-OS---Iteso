@@ -21,13 +21,13 @@
 /* -- Variables --------------------------------------------------------*/
 
 /* Global variable that holds status of Clock */
-u16 gu16ClockGlobalStatus;
+u16 mcal_mcu_gu16ClockGlobalStatus;
 
 /* Loss of Lock counter */
-u16 u16PLL_Loss_of_Lock_Counter;
+u16 mcal_mcu_u16PLL_Loss_of_Lock_Counter;
 
 /* Actual Bus frequency value */
-u32 gu32BusFrequency;
+u32 mcal_mcu_gu32BusFrequency;
 
 /*******************************************************************************/
 /**
@@ -44,11 +44,11 @@ u32 gu32BusFrequency;
 void Mcu_Init(void)
 {                  
     
-    #ifdef CFN_XTAL_SOURCE
+    #ifdef CNF_XTAL_SOURCE
         Mcu_InitClock();   
     #endif
     
-    #ifdef CFN_BUSCLK_SOURCE
+    #ifdef CNF_BUSCLK_SOURCE
         Mcu_DistributePllClock();   
     #endif
 }
@@ -65,9 +65,12 @@ void Mcu_InitClock(void)
     /* Select XTAL as clock source */
     CLKSEL_PLLSEL = 0u;
     /* update global status variable */                                   
-    gu16ClockGlobalStatus = CLOCK_STATUS_XTAL_SELECTED;
+    mcal_mcu_gu16ClockGlobalStatus = CLOCK_STATUS_XTAL_SELECTED;
     /* update bus frequency variable with XTAL frequency value */
-    gu32BusFrequency = ((UINT32)XTAL_FREQ_KHZ*500u);    
+
+    mcal_mcu_gu32BusFrequency = ((u32)CNF_XTAL_FREQ_KHZ*500u);    
+
+  
 }
 
 /*******************************************************************************/
@@ -82,18 +85,18 @@ void Mcu_DistributePllClock(void){
     /* Disable the PLL */
     PLLCTL_PLLON = 0u;
     /* update global status variable */                                   
-    gu16ClockGlobalStatus = CLOCK_STATUS_PLL_OFF;
+    mcal_mcu_gu16ClockGlobalStatus = CLOCK_STATUS_PLL_OFF;
     
     /* Set PLL synthesizer register */
-    SYNR_SYNDIV = SYNR_VALUE;         
+    SYNR_SYNDIV = CNF_SYNR_VALUE;         
     /* Set PLL divider register */  
-    REFDV_REFDIV = REFDV_VALUE;         
+    REFDV_REFDIV = CNF_REFDV_VALUE;         
     /* Configure PLL filter for optimal stability and lock time */
-    REFDV_REFFRQ = REFFRQ_VALUE;        
+    REFDV_REFFRQ = CNF_REFFRQ_VALUE;        
     /* Set Postdiv value,  */
-    POSTDIV_POSTDIV = POSTDIV_VALUE;                
+    POSTDIV_POSTDIV = CNF_POSTDIV_VALUE;                
     /* Configure VCO gain for optimal stability and lock time */
-    SYNR_VCOFRQ = VCOFRQ_VALUE;         
+    SYNR_VCOFRQ = CNF_VCOFRQ_VALUE;         
     /* Clock Monitor Enable. This is required to enter Self Clock Mode */
     PLLCTL_CME = 1u;                     
     /* Self Clock Mode Enable, If CME & SCME are both asserted and the Clock Monitor
@@ -108,12 +111,12 @@ void Mcu_DistributePllClock(void){
     PLLCTL_PLLON = 1u;                   
     
     /* Initialize PLL Loss-of-clock event counter */    
-    u16PLL_Loss_of_Lock_Counter = 0u;            
+    mcal_mcu_u16PLL_Loss_of_Lock_Counter = 0u;            
     /* Wait until the PLL is within the desired frequency */
     while(!CRGFLG_LOCK)
     {}
     /* Initialize Global status variable to default value */                                   
-    gu16ClockGlobalStatus = CLOCK_STATUS_PLL_OK;        
+    mcal_mcu_gu16ClockGlobalStatus = CLOCK_STATUS_PLL_OK;        
     /* Clear IPLL Lock Interrupt Flag */
     CRGFLG_LOCKIF = 1u;                  
     /* Interrupt will be requested whenever LOCKIF(IPLL Lock Interrupt Flag)is set */        
@@ -123,10 +126,10 @@ void Mcu_DistributePllClock(void){
     CLKSEL_PLLSEL = 1u;
     
     /* update global status variable */                                   
-    gu16ClockGlobalStatus = CLOCK_STATUS_PLL_SELECTED;
+    mcal_mcu_gu16ClockGlobalStatus = CLOCK_STATUS_PLL_SELECTED;
     
     /* update bus frequency variable with PLL frequency value */
-    gu32BusFrequency = ACTUAL_BUS_FREQ;
+    mcal_mcu_gu32BusFrequency = ACTUAL_BUS_FREQ;
 
 }
 
@@ -147,11 +150,11 @@ void interrupt vfnPll_Clock_Monitor_Isr(void)
             /* Clear IPLL Lock Interrupt Flag */  
             CRGFLG_LOCKIF = 1u;
             /* Update Loss-of-Lock event counter */
-            u16PLL_Loss_of_Lock_Counter++;
-            if (u16PLL_Loss_of_Lock_Counter >= 5u)
+            mcal_mcu_u16PLL_Loss_of_Lock_Counter++;
+            if (mcal_mcu_u16PLL_Loss_of_Lock_Counter >= 5u)
             {
-                /* Set gu16ClockGlobalStatus to its appropriate status */
-                gu16ClockGlobalStatus = CLOCK_STATUS_PLL_LOCK_ERROR;
+                /* Set mcal_mcu_gu16ClockGlobalStatus to its appropriate status */
+                mcal_mcu_gu16ClockGlobalStatus = CLOCK_STATUS_PLL_LOCK_ERROR;
                 /* Configure all I/O to their default values */
                 
                 /* If we reach Loss-of-Lock 5 consecutive times, get into an infinite loop */
@@ -165,8 +168,8 @@ void interrupt vfnPll_Clock_Monitor_Isr(void)
             {
                 /* Clear Self Clock Mode Interrupt Flag */
                 CRGFLG_SCMIF = 1u;
-                /* Set gu16ClockGlobalStatus to its appropriate status */ 
-                gu16ClockGlobalStatus = CLOCK_STATUS_SCM_ERROR;        
+                /* Set mcal_mcu_gu16ClockGlobalStatus to its appropriate status */ 
+                mcal_mcu_gu16ClockGlobalStatus = CLOCK_STATUS_SCM_ERROR;        
                 /* If we reach SCM condition, get into an infinite loop */
                 for (;;){}                
             }
