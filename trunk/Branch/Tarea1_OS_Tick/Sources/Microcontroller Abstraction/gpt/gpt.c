@@ -20,9 +20,6 @@
 * Definition of  VARIABLEs - 
 *****************************************************************************************************/
 
-/* vfnPIT0_Callback, function to be called upon timeout of PIT channel 0 */
-tCallbackFunction vfnPIT0_Callback;
-
 void Gpt_Channel0_callback(void);
 void Gpt_Channel1_callback(void);
 void Gpt_Channel2_callback(void);
@@ -151,8 +148,14 @@ void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value )
                     /* Clear PTI interrupt flag */
                     PITTF_PTF0             = 1u;
                     
+                    
+                    if(Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[0].Gpt_MicroTimer == GPT_MICROTIMER0){
                     /* Load 8-bit microtimer load register 0 into the 8-bit micro timer down-counter 0 */
-                    PITCFLMT_PFLMT0     = 1u;     
+                        PITCFLMT_PFLMT0     = 1u;
+                    }else{
+                    /* Load 8-bit microtimer load register 1 into the 8-bit micro timer down-counter 1 */  
+                        PITCFLMT_PFLMT1     = 1u;
+                    }
                     
                     /* TimeOut value in microseconds  */
                     PITLD0                 = Value;
@@ -170,8 +173,13 @@ void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value )
                     /* Clear PTI interrupt flag */
                     PITTF_PTF1             = 1u;
                     
+                     if(Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[1].Gpt_MicroTimer == GPT_MICROTIMER0){
                     /* Load 8-bit microtimer load register 0 into the 8-bit micro timer down-counter 0 */
-                    PITCFLMT_PFLMT0     = 1u;
+                        PITCFLMT_PFLMT0     = 1u;
+                    }else{
+                    /* Load 8-bit microtimer load register 1 into the 8-bit micro timer down-counter 1 */  
+                        PITCFLMT_PFLMT1     = 1u;
+                    }
                     
                     /* TimeOut value in microseconds  */
                     PITLD1                 = Value;
@@ -188,8 +196,13 @@ void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value )
                     /* Clear PTI interrupt flag */
                     PITTF_PTF2             = 1u;
   
+                    if(Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[2].Gpt_MicroTimer == GPT_MICROTIMER0){
                     /* Load 8-bit microtimer load register 0 into the 8-bit micro timer down-counter 0 */
-                    PITCFLMT_PFLMT0     = 1u;
+                        PITCFLMT_PFLMT0     = 1u;
+                    }else{
+                    /* Load 8-bit microtimer load register 1 into the 8-bit micro timer down-counter 1 */  
+                        PITCFLMT_PFLMT1     = 1u;
+                    }
                     
                     /* TimeOut value in microseconds  */
                     PITLD2                 = Value;
@@ -205,8 +218,13 @@ void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value )
                     /* Clear PTI interrupt flag */
                     PITTF_PTF3             = 1u;
                        
+                    if(Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[3].Gpt_MicroTimer == GPT_MICROTIMER0){
                     /* Load 8-bit microtimer load register 0 into the 8-bit micro timer down-counter 0 */
-                    PITCFLMT_PFLMT0     = 1u;  
+                        PITCFLMT_PFLMT0     = 1u;
+                    }else{
+                    /* Load 8-bit microtimer load register 1 into the 8-bit micro timer down-counter 1 */  
+                        PITCFLMT_PFLMT1     = 1u;
+                    }  
                     
                     /* TimeOut value in microseconds  */
                     PITLD3                 = Value;
