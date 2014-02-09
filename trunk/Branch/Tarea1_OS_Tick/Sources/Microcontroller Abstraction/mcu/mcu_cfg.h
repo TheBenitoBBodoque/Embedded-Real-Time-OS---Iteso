@@ -37,7 +37,7 @@
 
 /*By default, PLL clock is selected as a source clock, if the user
 want to use XTAL as a source clock, this define need to be removed*/
-#define CFN_BUSCLK_SOURCE
+/*#define CFN_BUSCLK_SOURCE*/
 
 /*If CFN_BUSCLK_SOURCE is not defined, XTAL will be selected
   as a clock source*/

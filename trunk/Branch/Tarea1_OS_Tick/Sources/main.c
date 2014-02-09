@@ -26,6 +26,9 @@ void main(void) {
   Gpt_StartTimer(CHANNEL_1, 10000u);
   Gpt_StartTimer(CHANNEL_2, 20000u);
   Gpt_StartTimer(CHANNEL_3, 30000u);
+  Gpt_DisableNotification(CHANNEL_1);
+  Gpt_StopTimer(CHANNEL_2);
+  Gpt_DisableNotification(CHANNEL_3);
   
   for(;;) {
     _FEED_COP(); /* feeds the dog */

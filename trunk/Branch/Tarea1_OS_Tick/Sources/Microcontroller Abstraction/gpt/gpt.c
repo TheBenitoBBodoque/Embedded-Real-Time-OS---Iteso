@@ -336,8 +336,8 @@ void Gpt_Channel2_callback(void){
 }
 
 void Gpt_Channel3_callback(void){
- DDRA_DDRA2 = 1;
- PORTA_PA2 = ~PORTA_PA2;
+ DDRA_DDRA3 = 1;
+ PORTA_PA3 = ~PORTA_PA3;
 }
 
 /***************************************************************************************************/

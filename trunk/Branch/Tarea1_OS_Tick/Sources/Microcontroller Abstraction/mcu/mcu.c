@@ -67,7 +67,7 @@ void Mcu_InitClock(void)
     /* update global status variable */                                   
     gu16ClockGlobalStatus = CLOCK_STATUS_XTAL_SELECTED;
     /* update bus frequency variable with XTAL frequency value */
-    gu32BusFrequency = ((UINT32)XTAL_FREQ_KHZ*1000u);    
+    gu32BusFrequency = ((UINT32)XTAL_FREQ_KHZ*500u);    
 }
 
 /*******************************************************************************/
