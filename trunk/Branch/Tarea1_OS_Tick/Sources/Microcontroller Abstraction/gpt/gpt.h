@@ -49,14 +49,9 @@ extern void Gpt_Channel3_callback(void);
 #define    PIT_TARGET_FREQ                  2000
 
 /** Periodic Interrupt Timer macros */
-#define    PIT_MICROTIMER_DIV               ( u8 ) ( ( gu32BusFrequency / PIT_MICROTIMER_PERIOD ) - 1 )
+#define    PIT_MICROTIMER_DIV               ( u8 ) ( ( mcal_mcu_gu32BusFrequency / PIT_MICROTIMER_PERIOD ) - 1 )
 #define    PIT_VALUE                        ( ( PIT_MICROTIMER_PERIOD / PIT_TARGET_FREQ ) - 1 )
 
-#define    PIT_MICROTIMER_PERIOD1           200000
-#define    PIT_TARGET_FREQ1                 100000
-
-#define    PIT_MICROTIMER1_DIV              ( u8 ) ( ( gu32BusFrequency / PIT_MICROTIMER_PERIOD1 ) - 1 )
-#define    PIT_VALUE1                       ( ( PIT_MICROTIMER_PERIOD1 / PIT_TARGET_FREQ1 ) - 1 )
 
 /*****************************************************************************************************
 * Declaration of module wide FUNCTIONS
