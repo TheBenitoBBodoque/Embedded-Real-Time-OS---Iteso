@@ -4,8 +4,8 @@
 *   Description: S12XE/S12XS CPU and PLL initialization prototypes and definitions
 *
 *
-*   Revision History:
-*
+*   Revision History: This driver was developed by TEAM 4, some code from 
+*                     Abraham Tezmol was used.
 *                             
 *   Date          #Change       Author
 *   MM-DD-YY      Number:       Initials   Description of change
