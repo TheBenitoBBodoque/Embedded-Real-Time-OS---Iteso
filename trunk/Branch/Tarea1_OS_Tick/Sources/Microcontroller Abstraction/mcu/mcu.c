@@ -1,12 +1,18 @@
-/****************************************************************************************************/
-/**
-\file       mcu.c
-\brief      S12XE/S12XS CPU and PLL initialization
-\author     TEAM
-\version    1.0
-\date       8/Feb/2014
-*/
-/****************************************************************************************************/
+/******************************************************************************
+*   Filename:   mcu.c 
+*
+*   Description: S12XE/S12XS CPU and PLL initialization
+*
+*
+*   Revision History:
+*
+*                             
+*   Date          #Change       Author
+*   MM-DD-YY      Number:       Initials   Description of change
+*   -----------   -----------   --------   ------------------------------------
+*   02-10-14       00            JMR         Initial release
+******************************************************************************/
+
 
 /*****************************************************************************************************
 * Include files
@@ -40,10 +46,11 @@ u32 mcal_mcu_gu32BusFrequency;
 *           the value of the Xtal and the selected PLL frequency.
 *           Some macros are provided in the "System clock related macros" section
 *           but user adjustment is still required.
+*
+*           COMPLIES REQUIREMENT 0.2,0.4,0.5,0.6,0.7 
 */
 void Mcu_Init(void)
-{                  
-    
+{                 
     #ifdef CNF_XTAL_SOURCE
         Mcu_InitClock();   
     #endif
@@ -59,6 +66,8 @@ void Mcu_Init(void)
 * \author   Abraham Tezmol
 * \param    void
 * \return   void
+*
+*           COMPLIES REQUIREMENT 0.2,0.4,0.5,0.6,0.7
 */
 void Mcu_InitClock(void)
 {
@@ -79,6 +88,8 @@ void Mcu_InitClock(void)
 * \author   Abraham Tezmol
 * \param    void
 * \return   void
+*
+*           COMPLIES REQUIREMENT 0.2,0.4,0.5,0.6,0.7
 */
 void Mcu_DistributePllClock(void){
 
@@ -140,6 +151,8 @@ void Mcu_DistributePllClock(void){
 * \param    void
 * \return   void
 * \todo
+*
+*           COMPLIES REQUIREMENT 0.2,0.4,0.5,0.6,0.7
 */
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
 void interrupt vfnPll_Clock_Monitor_Isr(void)

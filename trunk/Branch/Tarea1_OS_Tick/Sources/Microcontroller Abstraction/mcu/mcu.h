@@ -1,15 +1,18 @@
-/****************************************************************************************************/
-/**
+/******************************************************************************
+*   Filename:   mcu.h 
+*
+*   Description: S12XE/S12XS CPU and PLL initialization prototypes and definitions
+*
+*
+*   Revision History:
+*
+*                             
+*   Date          #Change       Author
+*   MM-DD-YY      Number:       Initials   Description of change
+*   -----------   -----------   --------   ------------------------------------
+*   02-10-14       00            JMR         Initial release
+******************************************************************************/
 
-\file       mcu.h
-\brief      S12XE/S12XS CPU and PLL initialization prototypes and definitions
-\author     TEAM , Abraham Tezmol
-\version    1.0
-\date       8/Feb/2014
-*/
-/****************************************************************************************************/
-
-/****************************************************************************************************/
 
 #ifndef __MCU_H
 #define __MCU_H
