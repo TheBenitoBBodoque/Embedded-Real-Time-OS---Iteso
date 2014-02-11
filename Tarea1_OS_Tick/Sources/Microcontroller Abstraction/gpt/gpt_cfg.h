@@ -1,10 +1,10 @@
 /******************************************************************************
 *   Filename:   gpt_cfg.c 
 *
-*   Description: Pwm Configuration types, macros and functions prototypes.
+*   Description: Gpt Configuration types, macros and functions prototypes.
 *
 *
-*   Revision History:
+*   Revision History: This driver was developed by TEAM 4.
 *
 *                             
 *   Date          #Change       Author
@@ -78,12 +78,10 @@ typedef enum
 
 /**
 \struct     Gpt_ChannelConfigType
-\brief      This is the type of data structure containing the initialization data for each PWM Channels.
-            - Gpt_ChannelType     -> Symbolic name of a wpm channel.
-            - Gpt_ValueType       -> Value of the timeout of a gpt channel.
-            - Gpt_InterruptEnable -> To enable or disable of a gpt channel.
-            - Gpt_MicroTimerBase  -> Period of a gpt channel.
-            - Gpt_ChannelEnable   -> Class of a pwm channel.
+\brief      This is the type of data structure containing the initialization data for each GPT Channels.
+            - Gpt_Channel            -> Symbolic name of a gpt channel.
+            - Gpt_MicroTimer         -> Period of a gpt channel.
+            - Gpt_Channel_Callback   -> To register the callback to the channel. 
 */
 typedef struct 
 {
@@ -94,9 +92,9 @@ typedef struct
 
 /**
 \struct     Gpt_ConfigType
-\brief      This is the type of data structure containing the initialization data for the PWM driver.
-            - numPwm_ChannelConfig   -> Number of channels config types.
-            - Gpt_ModuleEnable       -> Defines if the module is enabled/disabled.
+\brief      This is the type of data structure containing the initialization data for the GPT driver.
+            - Gpt_NumOfChannelConfig   -> Number of channels config types.
+            - Gpt_Module_Enable       -> Defines if the module is enabled/disabled.
             - *ptr_Gpt_ChannelConfig -> Pointer to Gpt_ChannelConfig Types.
 */
 typedef struct 
@@ -125,7 +123,7 @@ extern const size_t Gpt_ConfigType_initial_size;
 
 
 /*****************************************************************************************************
-* Declaration of module wide FUNCTIONS
+* Declaration of module wide callback FUNCTIONS
 *****************************************************************************************************/
  extern void Gpt_Channel0_callback(void);
  extern void Gpt_Channel1_callback(void);
