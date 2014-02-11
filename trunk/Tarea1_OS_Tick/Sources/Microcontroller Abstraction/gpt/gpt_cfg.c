@@ -1,10 +1,10 @@
 /******************************************************************************
 *   Filename:   gpt_cfg.c 
 *
-*   Description: PWM configuration file.
+*   Description: GPT configuration file.
 *
 *
-*   Revision History:
+*   Revision History: This driver was developed by TEAM 4.
 *
 *                             
 *   Date          #Change       Author
@@ -64,12 +64,10 @@ const Gpt_ChannelConfigType Gpt_ChannelConfigType_initial[] =
   } 
 };
   
-/** Static configuration for PWM Module 
+/** Static configuration for GPT Module 
 - Size of configuration array
-- Bus Clock Prescale for clock A
-- Bus Clock Prescale for clock B
-- Prescale for clock SA
-- Prescale for clock SB
+- Gpt Module ON/OFF
+- Freeze Enable/Disable
 - Pointer to configuration array element  
 */
 const Gpt_ConfigType Gpt_ConfigType_initial[] = 
