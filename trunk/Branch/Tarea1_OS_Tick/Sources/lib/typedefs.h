@@ -1,12 +1,18 @@
-/****************************************************************************************************/
-/**
-\file       typedefs.h
-\brief      Variable types and common macros
-\author     Abraham Tezmol
-\version    1.0
-\date       31/10/2008
-*/
-/****************************************************************************************************/
+/******************************************************************************
+*   Filename:   typedefs.h
+*
+*   Description: Variable types and common macros
+*
+*
+*   Revision History:
+*
+*                             
+*   Date          #Change       Author
+*   MM-DD-YY      Number:       Initials   Description of change
+*   -----------   -----------   --------   ------------------------------------
+*   02-10-14       00            JMR         Initial release
+******************************************************************************/
+
 
 #ifndef TYPEDEFS_H        /*prevent duplicated includes*/ 
 #define    TYPEDEFS_H    
