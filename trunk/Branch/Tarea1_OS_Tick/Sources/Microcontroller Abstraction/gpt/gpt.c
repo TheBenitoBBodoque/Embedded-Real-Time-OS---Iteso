@@ -1,12 +1,18 @@
-/****************************************************************************************************/
-/**
-\file       gpt.c
-\brief      Periodic Interrupt Timer initialization and low-level functions and prototypes
-\author     TEAM
-\version    1.0
-\date       08/Feb/2014
-*/
-/****************************************************************************************************/
+/******************************************************************************
+*   Filename:   gpt.c 
+*
+*   Description: Periodic Interrupt Timer initialization and low-level functions and prototypes
+*
+*
+*   Revision History:
+*
+*                             
+*   Date          #Change       Author
+*   MM-DD-YY      Number:       Initials   Description of change
+*   -----------   -----------   --------   ------------------------------------
+*   02-10-14       00            JMR         Initial release
+******************************************************************************/
+
 
 /*****************************************************************************************************
 * Include files
@@ -322,7 +328,6 @@ void Gpt_Channel0_callback(void){
 
  DDRA_DDRA0 = 1;
  PORTA_PA0 = ~PORTA_PA0;
-
 }
 
 void Gpt_Channel1_callback(void){

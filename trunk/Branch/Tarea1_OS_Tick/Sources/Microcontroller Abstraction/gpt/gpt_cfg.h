@@ -1,14 +1,18 @@
-                     /****************************************************************************************************/
-/**
-@addtogroup Pwm
-@{
-\file       gpt_cfg.h
-\brief      Pwm Configuration types, macros and functions prototypes.
-\author     TEAM
-\version    1.0
-\date       04/10/2013
-*/
-/****************************************************************************************************/
+/******************************************************************************
+*   Filename:   gpt_cfg.c 
+*
+*   Description: Pwm Configuration types, macros and functions prototypes.
+*
+*
+*   Revision History:
+*
+*                             
+*   Date          #Change       Author
+*   MM-DD-YY      Number:       Initials   Description of change
+*   -----------   -----------   --------   ------------------------------------
+*   02-10-14       00            JMR         Initial release
+******************************************************************************/
+
 
 #ifndef __GPT_CFG_H
 #define __GPT_CFG_H

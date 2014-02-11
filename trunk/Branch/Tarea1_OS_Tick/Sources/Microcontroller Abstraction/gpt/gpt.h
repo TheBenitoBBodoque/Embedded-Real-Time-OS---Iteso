@@ -1,12 +1,18 @@
-/****************************************************************************************************/
-/**
-\file       gpt.h
-\brief      Periodic Interrupt Timer initialization and low-level functions and prototypes
-\author     TEAM
-\version    1.0
-\date       08/Feb/2014
-*/
-/****************************************************************************************************/
+/******************************************************************************
+*   Filename:   gpt.h 
+*
+*   Description: Periodic Interrupt Timer initialization and low-level functions and prototypes
+*
+*
+*   Revision History:
+*
+*                             
+*   Date          #Change       Author
+*   MM-DD-YY      Number:       Initials   Description of change
+*   -----------   -----------   --------   ------------------------------------
+*   02-10-14       00            JMR         Initial release
+******************************************************************************/
+
 #ifndef __GPT_H        /*prevent duplicated includes*/
 #define __GPT_H
 
@@ -56,15 +62,6 @@ extern void Gpt_Channel3_callback(void);
 /*****************************************************************************************************
 * Declaration of module wide FUNCTIONS
 *****************************************************************************************************/
-
-/** PIT Low level initialization */
-void vfnPIT0_Init(tCallbackFunction  Callback);
-
-/** PIT Low level Start procedure */
-void vfnPIT0_Start(void);
-
-/** PIT Low level Stop procedure */
-void vfnPIT_Stop(void);
 
  void Gpt_Init( const Gpt_ConfigType* ConfigPtr );
  void Gpt_StartTimer( Gpt_ChannelType Channel, Gpt_ValueType Value ) ;
