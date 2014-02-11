@@ -4,8 +4,8 @@
 *   Description: S12XE/S12XS CPU and PLL initialization
 *
 *
-*   Revision History:
-*
+*   Revision History: This driver was developed by TEAM 4, some code from 
+*                     Abraham Tezmol was used. 
 *                             
 *   Date          #Change       Author
 *   MM-DD-YY      Number:       Initials   Description of change
@@ -35,20 +35,17 @@ u16 mcal_mcu_u16PLL_Loss_of_Lock_Counter;
 /* Actual Bus frequency value */
 u32 mcal_mcu_gu32BusFrequency;
 
-/*******************************************************************************/
+/****************************************************************************************************/
 /**
-* \brief    PLL initialization.
-* \author   Abraham Tezmol
-* \param    void
+* \brief    Initialized the clock source, it depends of the configuration defined by the user.
+*           CNF_BUSCLK_SOURCE or CNF_XTAL_SOURCE in the mcu_cfg.h file. 
+* \author   Jose Miguel Reyes, Sergio Pineda, Esteban Bernardo
+* \param    None. 
 * \return   void
-* \notes    Refer to the "System configuration definitions" section of the "ser_pll.h" header file.
-*           User shall manually adjust the definitions on this section depending on 
-*           the value of the Xtal and the selected PLL frequency.
-*           Some macros are provided in the "System clock related macros" section
-*           but user adjustment is still required.
-*
-*           COMPLIES REQUIREMENT 0.2,0.4,0.5,0.6,0.7 
+* \details  \b Reentrancy Non Reentrant  
+* \details  \b Sync/Async Synchronous     
 */
+/***************************************************************************************************/
 void Mcu_Init(void)
 {                 
     #ifdef CNF_XTAL_SOURCE
@@ -60,15 +57,16 @@ void Mcu_Init(void)
     #endif
 }
 
-/*******************************************************************************/
+/****************************************************************************************************/
 /**
-* \brief    Select XTAL as clock source.
-* \author   Abraham Tezmol
-* \param    void
+* \brief    Selects XTAL as clock source.
+* \author   Jose Miguel Reyes, Sergio Pineda, Esteban Bernardo
+* \param    None. 
 * \return   void
-*
-*           COMPLIES REQUIREMENT 0.2,0.4,0.5,0.6,0.7
+* \details  \b Reentrancy Non Reentrant  
+* \details  \b Sync/Async Synchronous     
 */
+/***************************************************************************************************/
 void Mcu_InitClock(void)
 {
     /* Select XTAL as clock source */
@@ -82,15 +80,16 @@ void Mcu_InitClock(void)
   
 }
 
-/*******************************************************************************/
+/****************************************************************************************************/
 /**
-* \brief    Distribute Pll as clock source.
-* \author   Abraham Tezmol
-* \param    void
+* \brief    Initialize and distribute the PLL as clock source.
+* \author   Jose Miguel Reyes, Sergio Pineda, Esteban Bernardo
+* \param    None. 
 * \return   void
-*
-*           COMPLIES REQUIREMENT 0.2,0.4,0.5,0.6,0.7
+* \details  \b Reentrancy Non Reentrant  
+* \details  \b Sync/Async Synchronous     
 */
+/***************************************************************************************************/
 void Mcu_DistributePllClock(void){
 
     /* Disable the PLL */
