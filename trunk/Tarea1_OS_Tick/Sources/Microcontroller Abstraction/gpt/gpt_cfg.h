@@ -11,6 +11,7 @@
 *   MM-DD-YY      Number:       Initials   Description of change
 *   -----------   -----------   --------   ------------------------------------
 *   02-10-14       00            JMR         Initial release
+*   02-11-14       01            SPA         Fix notification enable and disable.
 ******************************************************************************/
 
 
@@ -76,6 +77,14 @@ typedef enum
     GPT_FRZ_ENABLE
 } Gpt_Freeze;
 
+/** Definition type for the enable/disable notification*/
+typedef enum
+{
+    GPT_NOTIFICATION_DISABLE = 0,
+    GPT_NOTIFICATION_ENABLE
+} Gpt_Notification_type;
+
+
 /**
 \struct     Gpt_ChannelConfigType
 \brief      This is the type of data structure containing the initialization data for each GPT Channels.
@@ -111,6 +120,7 @@ typedef struct
 
 extern const Gpt_ConfigType Gpt_ConfigType_initial[];
 extern const size_t Gpt_ConfigType_initial_size;
+extern Gpt_Notification_type Gpt_Notification[];
 /*****************************************************************************************************
 * Definition of module wide MACROs / #DEFINE-CONSTANTs 
 *****************************************************************************************************/
@@ -125,10 +135,12 @@ extern const size_t Gpt_ConfigType_initial_size;
 /*****************************************************************************************************
 * Declaration of module wide callback FUNCTIONS
 *****************************************************************************************************/
+
  extern void Gpt_Channel0_callback(void);
  extern void Gpt_Channel1_callback(void);
  extern void Gpt_Channel2_callback(void);
  extern void Gpt_Channel3_callback(void);
+
  
 /**************************************************************************************************/
 

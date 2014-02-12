@@ -11,6 +11,7 @@
 *   MM-DD-YY      Number:       Initials   Description of change
 *   -----------   -----------   --------   ------------------------------------
 *   02-10-14       00            JMR         Initial release
+*   02-11-14       01            SPA         Fix notification enable and disable.
 ******************************************************************************/
 
 
@@ -28,6 +29,18 @@
 /*****************************************************************************************************
 * Definition of module wide (CONST-) CONSTANTs 
 *****************************************************************************************************/
+
+
+Gpt_Notification_type Gpt_Notification[MAX_NUMBER_OF_CHANNELS] = 
+{
+  GPT_NOTIFICATION_DISABLE,
+  GPT_NOTIFICATION_DISABLE,
+  GPT_NOTIFICATION_DISABLE,
+  GPT_NOTIFICATION_DISABLE
+};
+  
+
+
 /** Static configuration array for GPT Channels Specific Parameters 
 - Channel
 - Timeout in microseconds (uS)
