@@ -185,7 +185,7 @@ void (* near const vectors[])(void) @ 0xFF10 =
 /****************************************************************************************************/
 /**
 * \brief    Dummy ISR, if reached, processing will enter an empty routine
-* \author   Abraham Tezmol
+* \author   Anonymous
 * \param    void
 * \return   void
 */

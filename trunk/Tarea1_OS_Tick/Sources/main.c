@@ -25,7 +25,7 @@
 /******************************************************************************
 *   Local Macro Definitions
 ******************************************************************************/ 
-
+#define Init_Interrupt_Vector()  IVBR = 0xFFu
 /******************************************************************************
 *   Local Type Definitions
 ******************************************************************************/
@@ -60,7 +60,7 @@ void main(void)
   /*Disable interrupts to start the MCU configuration*/  
   DisableInterrupts;
   /* Intilialize the interupt vector base address for default location */
-  IVBR = 0xFFu;
+  Init_Interrupt_Vector();
     
   Mcu_Init();
   /** Port A, Channel 0 */

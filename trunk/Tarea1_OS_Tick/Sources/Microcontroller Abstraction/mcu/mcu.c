@@ -4,8 +4,7 @@
 *   Description: S12XE/S12XS CPU and PLL initialization
 *
 *
-*   Revision History: This driver was developed by TEAM 4, some code from 
-*                     Abraham Tezmol was used. 
+*   Revision History: This driver was developed by TEAM 4
 *                             
 *   Date          #Change       Author
 *   MM-DD-YY      Number:       Initials   Description of change
@@ -146,7 +145,7 @@ void Mcu_DistributePllClock(void){
 /*******************************************************************************/
 /**
 * \brief    Clock monitor Interrup Service routine.
-* \author   Abraham Tezmol
+* \author   Anonymous
 * \param    void
 * \return   void
 * \todo
