@@ -11,6 +11,7 @@
 *   MM-DD-YY      Number:       Initials   Description of change
 *   -----------   -----------   --------   ------------------------------------
 *   02-10-14       00            JMR         Initial release
+*   02-11-14       01            SPA         Fix notification enable and disable.
 ******************************************************************************/
 
 
@@ -164,7 +165,7 @@ void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value )
                     }
                     
                     /* TimeOut value in microseconds  */
-                    PITLD0                 = Value;
+                    PITLD0                 = (Value-1);
                     
                     /* Load 16-bit timer load register 0 into the 16-bit timer down-counter 0 */
                     PITFLT_PFLT0        = 1u;
@@ -188,7 +189,7 @@ void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value )
                     }
                     
                     /* TimeOut value in microseconds  */
-                    PITLD1                 = Value;
+                    PITLD1                 = (Value-1);
 
                     /* Load 16-bit timer load register 0 into the 16-bit timer down-counter 0 */
                     PITFLT_PFLT1        = 1u;
@@ -211,7 +212,7 @@ void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value )
                     }
                     
                     /* TimeOut value in microseconds  */
-                    PITLD2                 = Value;
+                    PITLD2                 = (Value-1);
                     /* Load 16-bit timer load register 0 into the 16-bit timer down-counter 0 */
                     PITFLT_PFLT2        = 1u;
                     /* Enables PIT channel 0 */
@@ -233,7 +234,7 @@ void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value )
                     }  
                     
                     /* TimeOut value in microseconds  */
-                    PITLD3                 = Value;
+                    PITLD3                 = (Value-1);
                     
                     /* Enables PIT channel 0 */
                     PITCE_PCE3             = 1u;                        
@@ -298,23 +299,24 @@ void Gpt_EnableNotification( Gpt_ChannelType Channel ) {
             switch(Channel) 
             {  
                 case CHANNEL_0:                    
-                    /* Enables PIT interrupt channel 0 */
-                    PITINTE_PINTE0         = 1u;                       
+                    /* Enables PIT notification channel 0 */
+                    Gpt_Notification[0]          = GPT_NOTIFICATION_ENABLE ;                      
                     break;                            
                 case CHANNEL_1:
                     
-                    /* Enables PIT interrupt channel 1 */
-                    PITINTE_PINTE1         = 1u;                                                   
+                    /* Enables PIT notification channel 1 */
+                    Gpt_Notification[1]         = GPT_NOTIFICATION_ENABLE;                                                 
                     break;       
                 case CHANNEL_2:
                     
-                    /* Enables PIT interrupt channel 2 */
-                    PITINTE_PINTE2         = 1u;                        
+                    /* Enables PIT notification channel 2 */
+                    Gpt_Notification[2]         = GPT_NOTIFICATION_ENABLE;                       
                     break;        
                 case CHANNEL_3:
-                
-                    /* Enables PIT interrupt channel 3 */
-                    PITINTE_PINTE3         = 1u;                                                  
+                    /* Enables PIT notification channel 3 */
+                    Gpt_Notification[3]         = GPT_NOTIFICATION_ENABLE;
+                    break;
+                default:
                     break;
             }
 
@@ -334,23 +336,24 @@ void Gpt_DisableNotification( Gpt_ChannelType Channel ) {
             switch(Channel) 
             {  
                 case CHANNEL_0:                    
-                    /* Enables PIT interrupt channel 0 */
-                    PITINTE_PINTE0         = 0u;                       
+                    /* Enables PIT notification channel 0 */
+                    Gpt_Notification[0]          = GPT_NOTIFICATION_DISABLE ;                      
                     break;                            
                 case CHANNEL_1:
                     
-                    /* Enables PIT interrupt channel 1 */
-                    PITINTE_PINTE1         = 0u;                                                   
+                    /* Enables PIT notification channel 1 */
+                    Gpt_Notification[1]         = GPT_NOTIFICATION_DISABLE;                                                 
                     break;       
                 case CHANNEL_2:
                     
-                    /* Enables PIT interrupt channel 2 */
-                    PITINTE_PINTE2         = 0u;                        
+                    /* Enables PIT notification channel 2 */
+                    Gpt_Notification[2]         = GPT_NOTIFICATION_DISABLE;                       
                     break;        
                 case CHANNEL_3:
-                
-                    /* Enables PIT interrupt channel 3 */
-                    PITINTE_PINTE3         = 0u;                                                  
+                    /* Enables PIT notification channel 3 */
+                    Gpt_Notification[3]         = GPT_NOTIFICATION_DISABLE;
+                    break;
+                default:
                     break;
             }
 
@@ -433,7 +436,7 @@ void interrupt  vfnPIT_Channel0_Isr( void  )
     if( PITTF_PTF0 == 1u )
     {
         /*call callback function, if initialized*/
-        if( Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[0].Gpt_Channel_Callback != NULL )
+        if((Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[0].Gpt_Channel_Callback != NULL ) && (Gpt_Notification[0] == GPT_NOTIFICATION_ENABLE))
         {
             Gpt_Channel0_callback();
         }
@@ -448,7 +451,7 @@ void interrupt  vfnPIT_Channel1_Isr( void  )
     if( PITTF_PTF1 == 1u )
     {
         /*call callback function, if initialized*/
-        if(Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[1].Gpt_Channel_Callback != NULL )
+        if((Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[1].Gpt_Channel_Callback != NULL ) && (Gpt_Notification[1] == GPT_NOTIFICATION_ENABLE))
         {
             Gpt_Channel1_callback();
         }
@@ -463,7 +466,7 @@ void interrupt  vfnPIT_Channel2_Isr( void  )
     if( PITTF_PTF2 == 1u )
     {
         /*call callback function, if initialized*/
-        if( Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[2].Gpt_Channel_Callback != NULL )
+        if((Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[2].Gpt_Channel_Callback != NULL ) && (Gpt_Notification[2] == GPT_NOTIFICATION_ENABLE))
         {
             Gpt_Channel2_callback();
         }
@@ -478,7 +481,7 @@ void interrupt  vfnPIT_Channel3_Isr( void  )
     if( PITTF_PTF3 == 1u )
     {
         /*call callback function, if initialized*/
-        if( Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[3].Gpt_Channel_Callback != NULL )
+        if((Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[3].Gpt_Channel_Callback != NULL ) && (Gpt_Notification[3] == GPT_NOTIFICATION_ENABLE))
         {
             Gpt_Channel3_callback();
         }
