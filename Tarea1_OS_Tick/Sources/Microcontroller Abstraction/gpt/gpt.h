@@ -4,9 +4,8 @@
 *   Description: Periodic Interrupt Timer initialization and low-level functions and prototypes
 *
 *
-*   Revision History: This driver was developed by TEAM 4, some code from 
-*                     Abraham Tezmol was used.
-*
+*   Revision History: This driver was developed by TEAM 4.
+*                    
 *                             
 *   Date          #Change       Author
 *   MM-DD-YY      Number:       Initials   Description of change
