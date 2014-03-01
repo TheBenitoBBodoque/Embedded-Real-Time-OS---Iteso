@@ -33,7 +33,7 @@
 /******************************************************************************
 *   Local Function Declarations
 ******************************************************************************/ 
-void pin_toggle(void);
+
 /******************************************************************************
 *   Global Variable Definitions
 ******************************************************************************/
@@ -65,19 +65,12 @@ void main(void)
   Mcu_Init();
   /** Port A, Channel 0 */
   
-  //vfnPIT0_Init(pin_toggle);
   Gpt_Init(&Gpt_ConfigType_initial[0]);
   
   EnableInterrupts;
-  
-  ///vfnPIT0_Start();
+
   Gpt_StartTimer(CHANNEL_0, 500u);
-  Gpt_StartTimer(CHANNEL_1, 10000u);
-  Gpt_StartTimer(CHANNEL_2, 20000u);
-  Gpt_StartTimer(CHANNEL_3, 30000u);
-  Gpt_DisableNotification(CHANNEL_1);
-  Gpt_StopTimer(CHANNEL_2);
-  Gpt_DisableNotification(CHANNEL_3);
+  Gpt_EnableNotification(CHANNEL_0);
   
   for(;;) 
   {
@@ -85,10 +78,4 @@ void main(void)
   } 
   /* loop forever */
   /* please make sure that you never leave main */
-}
-
-void pin_toggle(void){
-
- DDRA_DDRA0 = 1;
- PORTA_PA0 = ~PORTA_PA0;
 }
