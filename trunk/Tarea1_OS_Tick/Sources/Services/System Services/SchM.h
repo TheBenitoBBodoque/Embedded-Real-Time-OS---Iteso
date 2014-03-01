@@ -33,5 +33,7 @@
 /******************************************************************************
 *   Global Function Prototypes  
 ******************************************************************************/
+/* vfnPIT0_Callback, function to be called upon timeout of PIT channel 0 */
+extern void SchM_OsTick(void);
 
 #endif /*__SCHM_H*/

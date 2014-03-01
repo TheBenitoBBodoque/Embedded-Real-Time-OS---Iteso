@@ -27,7 +27,8 @@
   #include  <mc9s12xep100.h>  
 /** Variable types and common definitions */
   #include    "typedefs.h"
-
+/* Scheduler OS Tick */ 
+  #include    "SchM.h"
 /** Used Modules */
 /** Clock definitions and prototypes*/
   #include    "mcu.h"
@@ -40,8 +41,6 @@
 * Definition of  VARIABLEs - 
 *****************************************************************************************************/
 
-/* vfnPIT0_Callback, function to be called upon timeout of PIT channel 0 */
-extern void SchM_OsTick(void);
 
 /*****************************************************************************************************
 * Definition of module wide MACROS / #DEFINE-CONSTANTS 
