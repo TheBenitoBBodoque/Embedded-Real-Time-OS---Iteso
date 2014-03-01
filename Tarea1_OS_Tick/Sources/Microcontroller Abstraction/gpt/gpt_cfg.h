@@ -37,45 +37,45 @@
 *****************************************************************************************************/
 
 /** Definition of the timeout of a GPT channel. Range: 0-65535*/
-typedef u16 Gpt_ValueType;
+typedef u16 Pit_ValueType;
 
 /** Numeric identifier of a GPT channel */
-typedef u8  Gpt_ChannelType; 
+typedef u8  Pit_ChannelType; 
 
 /** Definition type for enabling/disabling the interrupt*/
 typedef enum 
 {
-    GPT_INT_DISABLE = 0,
-    GPT_INT_ENABLE
-} Gpt_InterruptEnable;
+    PIT_INT_DISABLE = 0,
+    PIT_INT_ENABLE
+} Pit_InterruptEnable;
 
 /** Definition type for the microtimer base selection of a GPT channel*/
 typedef enum 
 {
-    GPT_MICROTIMER0 = 0,
-    GPT_MICROTIMER1
-} Gpt_MicroTimerBase;
+    PIT_MICROTIMER0 = 0,
+    PIT_MICROTIMER1
+} Pit_MicroTimerBase;
 
 /** Definition type for the enable/disable for a GPT channel*/
 typedef enum 
 {
-    GPT_CHANNEL_DISABLE = 0,
-    GPT_CHANNEL_ENABLE
-} Gpt_ChannelEnable;
+    PIT_CHANNEL_DISABLE = 0,
+    PIT_CHANNEL_ENABLE
+} Pit_ChannelEnable;
 
-/** Definition type for the enable/disable for a GPT module*/
+/** Definition type for the enable/disable for a PIT module*/
 typedef enum 
 {
-    GPT_OFF = 0,
-    GPT_ON
-} Gpt_ModuleEnable;
+    PIT_OFF = 0,
+    PIT_ON
+} Pit_ModuleEnable;
 
-/** Definition type for the enable/disable for a GPT module*/
+/** Definition type for the enable/disable for a PIT module*/
 typedef enum 
 {
-    GPT_FRZ_DISABLE = 0,
-    GPT_FRZ_ENABLE
-} Gpt_Freeze;
+    PIT_FRZ_DISABLE = 0,
+    PIT_FRZ_ENABLE
+} Pit_Freeze;
 
 /** Definition type for the enable/disable notification*/
 typedef enum
@@ -88,16 +88,16 @@ typedef enum
 /**
 \struct     Gpt_ChannelConfigType
 \brief      This is the type of data structure containing the initialization data for each GPT Channels.
-            - Gpt_Channel            -> Symbolic name of a gpt channel.
-            - Gpt_MicroTimer         -> Period of a gpt channel.
-            - Gpt_Channel_Callback   -> To register the callback to the channel. 
+            - Pit_Channel            -> Symbolic name of a pit channel.
+            - Pit_MicroTimer         -> Period of a pit channel.
+            - Pit_Channel_Callback   -> To register the callback to the channel. 
 */
 typedef struct 
 {
-    Gpt_ChannelType       Gpt_Channel;
-    Gpt_MicroTimerBase    Gpt_MicroTimer;
-    tCallbackFunction     Gpt_Channel_Callback;
-} Gpt_ChannelConfigType;
+    Pit_ChannelType       Pit_Channel;
+    Pit_MicroTimerBase    Pit_MicroTimer;
+    tCallbackFunction     Pit_Channel_Callback;
+} Pit_ChannelConfigType;
 
 /**
 \struct     Gpt_ConfigType
@@ -108,10 +108,10 @@ typedef struct
 */
 typedef struct 
 {
-    Gpt_ChannelType              Gpt_NumOfChannelConfig;
-    Gpt_ModuleEnable             Gpt_Module_Enable;
-    Gpt_Freeze                   Gpt_Freeze_Enable;  
-    const Gpt_ChannelConfigType *ptr_Gpt_ChannelConfig;  
+    Pit_ChannelType              Pit_NumOfChannelConfig;
+    Pit_ModuleEnable             Pit_Module_Enable;
+    Pit_Freeze                   Pit_Freeze_Enable;  
+    const Pit_ChannelConfigType *ptr_Pit_ChannelConfig;  
 } Gpt_ConfigType;  
 
 /*****************************************************************************************************
@@ -119,7 +119,6 @@ typedef struct
 *****************************************************************************************************/
 
 extern const Gpt_ConfigType Gpt_ConfigType_initial[];
-extern const size_t Gpt_ConfigType_initial_size;
 extern Gpt_Notification_type Gpt_Notification[];
 /*****************************************************************************************************
 * Definition of module wide MACROs / #DEFINE-CONSTANTs 
@@ -136,10 +135,10 @@ extern Gpt_Notification_type Gpt_Notification[];
 * Declaration of module wide callback FUNCTIONS
 *****************************************************************************************************/
 
- extern void Gpt_Channel0_callback(void);
- extern void Gpt_Channel1_callback(void);
- extern void Gpt_Channel2_callback(void);
- extern void Gpt_Channel3_callback(void);
+ extern void Pit_Channel0_callback(void);
+ extern void Pit_Channel1_callback(void);
+ extern void Pit_Channel2_callback(void);
+ extern void Pit_Channel3_callback(void);
 
  
 /**************************************************************************************************/

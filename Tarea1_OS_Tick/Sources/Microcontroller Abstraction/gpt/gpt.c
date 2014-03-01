@@ -27,10 +27,10 @@
 * Definition of  VARIABLEs - 
 *****************************************************************************************************/
 
-void Gpt_Channel0_callback(void);
-void Gpt_Channel1_callback(void);
-void Gpt_Channel2_callback(void);
-void Gpt_Channel3_callback(void);
+void Pit_Channel0_callback(void);
+void Pit_Channel1_callback(void);
+void Pit_Channel2_callback(void);
+void Pit_Channel3_callback(void);
 
 /*****************************************************************************************************
 * Definition of module wide (CONST-) CONSTANTs 
@@ -59,26 +59,26 @@ void Gpt_Init(const Gpt_ConfigType *ConfigPtr)
     /* GPT Module Configuration */
     
     /* PIT counter freeze while in Freeze mode */
-    PITCFLMT_PITFRZ = ConfigPtr->Gpt_Freeze_Enable;
+    PITCFLMT_PITFRZ = ConfigPtr->Pit_Freeze_Enable;
     
     /* Enable/Disable Periodic Interrupt Timer Module*/
-    PITCFLMT_PITE =  ConfigPtr->Gpt_Module_Enable;  
+    PITCFLMT_PITE =  ConfigPtr->Pit_Module_Enable;  
 
     /* Configuration of GPT Channel Registers*/                      
-    for(i=0;i<ConfigPtr->Gpt_NumOfChannelConfig;i++) 
+    for(i=0;i<ConfigPtr->Pit_NumOfChannelConfig;i++) 
     {
             // 16 bits- Resolution 
-            switch(ConfigPtr->ptr_Gpt_ChannelConfig[i].Gpt_Channel) 
+            switch(ConfigPtr->ptr_Pit_ChannelConfig[i].Pit_Channel) 
             {  
                 case CHANNEL_0:
                     
                     /* 16-bit timer 0 counts with micro time base selected (time base 0 or time base 1) */
-                    PITMUX_PMUX0           = ConfigPtr->ptr_Gpt_ChannelConfig[i].Gpt_MicroTimer;
+                    PITMUX_PMUX0           = ConfigPtr->ptr_Pit_ChannelConfig[i].Pit_MicroTimer;
                     
                     /* Precalculated PIT microtimer (8-bit time base divider) Configured to update the values in 
                     microseconds */
                     
-                    if(ConfigPtr->ptr_Gpt_ChannelConfig[i].Gpt_MicroTimer == GPT_MICROTIMER0){
+                    if(ConfigPtr->ptr_Pit_ChannelConfig[i].Pit_MicroTimer == PIT_MICROTIMER0){
                         PITMTLD0               = PIT_MICROTIMER_DIV;
                     }else{  
                         PITMTLD1               = PIT_MICROTIMER_DIV;
@@ -88,12 +88,12 @@ void Gpt_Init(const Gpt_ConfigType *ConfigPtr)
                 case CHANNEL_1:
 
                     /* 16-bit timer 0 counts with micro time base selected (time base 0 or time base 1) */
-                    PITMUX_PMUX1           = ConfigPtr->ptr_Gpt_ChannelConfig[i].Gpt_MicroTimer;
+                    PITMUX_PMUX1           = ConfigPtr->ptr_Pit_ChannelConfig[i].Pit_MicroTimer;
                     
                     /* Precalculated PIT microtimer (8-bit time base divider) Configured to update the values in 
                     microseconds */
                     
-                    if(ConfigPtr->ptr_Gpt_ChannelConfig[i].Gpt_MicroTimer == GPT_MICROTIMER0){
+                    if(ConfigPtr->ptr_Pit_ChannelConfig[i].Pit_MicroTimer == PIT_MICROTIMER0){
                         PITMTLD0               = PIT_MICROTIMER_DIV;
                     }else{  
                         PITMTLD1               = PIT_MICROTIMER_DIV;
@@ -103,12 +103,12 @@ void Gpt_Init(const Gpt_ConfigType *ConfigPtr)
                 case CHANNEL_2:
                     
                     /* 16-bit timer 0 counts with micro time base selected (time base 0 or time base 1) */
-                    PITMUX_PMUX2           = ConfigPtr->ptr_Gpt_ChannelConfig[i].Gpt_MicroTimer;
+                    PITMUX_PMUX2           = ConfigPtr->ptr_Pit_ChannelConfig[i].Pit_MicroTimer;
                     
                     /* Precalculated PIT microtimer (8-bit time base divider) Configured to update the values in 
                     microseconds */
                     
-                    if(ConfigPtr->ptr_Gpt_ChannelConfig[i].Gpt_MicroTimer == GPT_MICROTIMER0){
+                    if(ConfigPtr->ptr_Pit_ChannelConfig[i].Pit_MicroTimer == PIT_MICROTIMER0){
                         PITMTLD0               = PIT_MICROTIMER_DIV;
                     }else{  
                         PITMTLD1               = PIT_MICROTIMER_DIV;
@@ -118,12 +118,12 @@ void Gpt_Init(const Gpt_ConfigType *ConfigPtr)
                 case CHANNEL_3:
                     
                     /* 16-bit timer 0 counts with micro time base selected (time base 0 or time base 1) */
-                    PITMUX_PMUX3           = ConfigPtr->ptr_Gpt_ChannelConfig[i].Gpt_MicroTimer;
+                    PITMUX_PMUX3           = ConfigPtr->ptr_Pit_ChannelConfig[i].Pit_MicroTimer;
                              
                     /* Precalculated PIT microtimer (8-bit time base divider) Configured to update the values in 
                     microseconds */
                     
-                    if(ConfigPtr->ptr_Gpt_ChannelConfig[i].Gpt_MicroTimer == GPT_MICROTIMER0){
+                    if(ConfigPtr->ptr_Pit_ChannelConfig[i].Pit_MicroTimer == PIT_MICROTIMER0){
                         PITMTLD0               = PIT_MICROTIMER_DIV;
                     }else{  
                         PITMTLD1               = PIT_MICROTIMER_DIV;
@@ -146,7 +146,7 @@ void Gpt_Init(const Gpt_ConfigType *ConfigPtr)
 * \details  \b Sync/Async Synchronous     
 */ 
 /***************************************************************************************************/
-void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value )   
+void Gpt_StartTimer(Pit_ChannelType Channel, Pit_ValueType Value )   
 { 
     // 16 bits- Resolution 
             switch(Channel) 
@@ -156,7 +156,7 @@ void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value )
                     PITTF_PTF0             = 1u;
                     
                     
-                    if(Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[0].Gpt_MicroTimer == GPT_MICROTIMER0){
+                    if(Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[0].Pit_MicroTimer == PIT_MICROTIMER0){
                     /* Load 8-bit microtimer load register 0 into the 8-bit micro timer down-counter 0 */
                         PITCFLMT_PFLMT0     = 1u;
                     }else{
@@ -180,7 +180,7 @@ void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value )
                     /* Clear PTI interrupt flag */
                     PITTF_PTF1             = 1u;
                     
-                     if(Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[1].Gpt_MicroTimer == GPT_MICROTIMER0){
+                     if(Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[1].Pit_MicroTimer == PIT_MICROTIMER0){
                     /* Load 8-bit microtimer load register 0 into the 8-bit micro timer down-counter 0 */
                         PITCFLMT_PFLMT0     = 1u;
                     }else{
@@ -203,7 +203,7 @@ void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value )
                     /* Clear PTI interrupt flag */
                     PITTF_PTF2             = 1u;
   
-                    if(Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[2].Gpt_MicroTimer == GPT_MICROTIMER0){
+                    if(Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[2].Pit_MicroTimer == PIT_MICROTIMER0){
                     /* Load 8-bit microtimer load register 0 into the 8-bit micro timer down-counter 0 */
                         PITCFLMT_PFLMT0     = 1u;
                     }else{
@@ -225,7 +225,7 @@ void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value )
                     /* Clear PTI interrupt flag */
                     PITTF_PTF3             = 1u;
                        
-                    if(Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[3].Gpt_MicroTimer == GPT_MICROTIMER0){
+                    if(Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[3].Pit_MicroTimer == PIT_MICROTIMER0){
                     /* Load 8-bit microtimer load register 0 into the 8-bit micro timer down-counter 0 */
                         PITCFLMT_PFLMT0     = 1u;
                     }else{
@@ -257,7 +257,7 @@ void Gpt_StartTimer(Gpt_ChannelType Channel, Gpt_ValueType Value )
 */
 /***************************************************************************************************/
 
-void Gpt_StopTimer(Gpt_ChannelType Channel) {
+void Gpt_StopTimer(Pit_ChannelType Channel) {
     // 16 bits- Resolution 
             switch(Channel) 
             {  
@@ -295,7 +295,7 @@ void Gpt_StopTimer(Gpt_ChannelType Channel) {
 */
 /***************************************************************************************************/
 
-void Gpt_EnableNotification( Gpt_ChannelType Channel ) { 
+void Gpt_EnableNotification( Pit_ChannelType Channel ) { 
             switch(Channel) 
             {  
                 case CHANNEL_0:                    
@@ -332,7 +332,7 @@ void Gpt_EnableNotification( Gpt_ChannelType Channel ) {
 * \details  \b Sync/Async Synchronous     
 */  
 /***************************************************************************************************/
-void Gpt_DisableNotification( Gpt_ChannelType Channel ) { 
+void Gpt_DisableNotification( Pit_ChannelType Channel ) { 
             switch(Channel) 
             {  
                 case CHANNEL_0:                    
@@ -369,7 +369,7 @@ void Gpt_DisableNotification( Gpt_ChannelType Channel ) {
 * \details  \b Sync/Async Synchronous     
 */ 
 /***************************************************************************************************/
-void Gpt_Channel0_callback(void){
+void Pit_Channel0_callback(void){
 
  DDRA_DDRA0 = 1;
  PORTA_PA0 = ~PORTA_PA0;
@@ -385,9 +385,9 @@ void Gpt_Channel0_callback(void){
 * \details  \b Sync/Async Synchronous     
 */  
 /***************************************************************************************************/
-void Gpt_Channel1_callback(void){
- DDRA_DDRA1 = 1;
- PORTA_PA1 = ~PORTA_PA1;
+void Pit_Channel1_callback(void){
+ DDRA_DDRA2 = 1;
+ PORTA_PA2 = ~PORTA_PA2;
 }
 
 /***************************************************************************************************/
@@ -400,7 +400,7 @@ void Gpt_Channel1_callback(void){
 * \details  \b Sync/Async Synchronous     
 */ 
 /***************************************************************************************************/
-void Gpt_Channel2_callback(void){
+void Pit_Channel2_callback(void){
  DDRA_DDRA2 = 1;
  PORTA_PA2 = ~PORTA_PA2;
 }
@@ -415,7 +415,7 @@ void Gpt_Channel2_callback(void){
 * \details  \b Sync/Async Synchronous     
 */ 
 /***************************************************************************************************/
-void Gpt_Channel3_callback(void){
+void Pit_Channel3_callback(void){
  DDRA_DDRA3 = 1;
  PORTA_PA3 = ~PORTA_PA3;
 }
@@ -436,9 +436,9 @@ void interrupt  vfnPIT_Channel0_Isr( void  )
     if( PITTF_PTF0 == 1u )
     {
         /*call callback function, if initialized*/
-        if((Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[0].Gpt_Channel_Callback != NULL ) && (Gpt_Notification[0] == GPT_NOTIFICATION_ENABLE))
+        if((Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[0].Pit_Channel_Callback != NULL ) && (Gpt_Notification[0] == GPT_NOTIFICATION_ENABLE))
         {
-            Gpt_Channel0_callback();
+            Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[0].Pit_Channel_Callback();
         }
     }
     /* Clear the real time interrupt flag */
@@ -451,9 +451,9 @@ void interrupt  vfnPIT_Channel1_Isr( void  )
     if( PITTF_PTF1 == 1u )
     {
         /*call callback function, if initialized*/
-        if((Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[1].Gpt_Channel_Callback != NULL ) && (Gpt_Notification[1] == GPT_NOTIFICATION_ENABLE))
+        if((Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[1].Pit_Channel_Callback != NULL ) && (Gpt_Notification[1] == GPT_NOTIFICATION_ENABLE))
         {
-            Gpt_Channel1_callback();
+            Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[1].Pit_Channel_Callback();
         }
     }
     /* Clear the real time interrupt flag */
@@ -466,9 +466,9 @@ void interrupt  vfnPIT_Channel2_Isr( void  )
     if( PITTF_PTF2 == 1u )
     {
         /*call callback function, if initialized*/
-        if((Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[2].Gpt_Channel_Callback != NULL ) && (Gpt_Notification[2] == GPT_NOTIFICATION_ENABLE))
+        if((Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[2].Pit_Channel_Callback != NULL ) && (Gpt_Notification[2] == GPT_NOTIFICATION_ENABLE))
         {
-            Gpt_Channel2_callback();
+            Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[2].Pit_Channel_Callback();
         }
     }
     /* Clear the real time interrupt flag */
@@ -481,9 +481,9 @@ void interrupt  vfnPIT_Channel3_Isr( void  )
     if( PITTF_PTF3 == 1u )
     {
         /*call callback function, if initialized*/
-        if((Gpt_ConfigType_initial->ptr_Gpt_ChannelConfig[3].Gpt_Channel_Callback != NULL ) && (Gpt_Notification[3] == GPT_NOTIFICATION_ENABLE))
+        if((Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[3].Pit_Channel_Callback != NULL ) && (Gpt_Notification[3] == GPT_NOTIFICATION_ENABLE))
         {
-            Gpt_Channel3_callback();
+            Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[3].Pit_Channel_Callback();
         }
     }
     /* Clear the real time interrupt flag */
