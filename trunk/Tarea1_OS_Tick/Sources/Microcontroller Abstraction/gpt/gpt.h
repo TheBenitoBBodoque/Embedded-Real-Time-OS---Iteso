@@ -41,10 +41,10 @@
 *****************************************************************************************************/
 
 /* vfnPIT0_Callback, function to be called upon timeout of PIT channel 0 */
-extern void Gpt_Channel0_callback(void);
-extern void Gpt_Channel1_callback(void);
-extern void Gpt_Channel2_callback(void);
-extern void Gpt_Channel3_callback(void);
+extern void Pit_Channel0_callback(void);
+extern void Pit_Channel1_callback(void);
+extern void Pit_Channel2_callback(void);
+extern void Pit_Channel3_callback(void);
 
 /*****************************************************************************************************
 * Definition of module wide MACROS / #DEFINE-CONSTANTS 
@@ -64,10 +64,10 @@ extern void Gpt_Channel3_callback(void);
 *****************************************************************************************************/
 
  void Gpt_Init( const Gpt_ConfigType* ConfigPtr );
- void Gpt_StartTimer( Gpt_ChannelType Channel, Gpt_ValueType Value ) ;
- void Gpt_StopTimer( Gpt_ChannelType Channel ) ;
- void Gpt_EnableNotification( Gpt_ChannelType Channel ) ;
- void Gpt_DisableNotification( Gpt_ChannelType Channel ) ;
+ void Gpt_StartTimer( Pit_ChannelType Channel, Pit_ValueType Value ) ;
+ void Gpt_StopTimer( Pit_ChannelType Channel ) ;
+ void Gpt_EnableNotification( Pit_ChannelType Channel ) ;
+ void Gpt_DisableNotification( Pit_ChannelType Channel ) ;
 
 /** PIT Channel 0 ISR --> Main CPU  */
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
