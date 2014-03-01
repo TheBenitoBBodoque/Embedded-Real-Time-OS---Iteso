@@ -55,26 +55,8 @@ const Pit_ChannelConfigType Gpt_ChannelConfigType_initial[] =
   {
    CHANNEL_0,
    PIT_MICROTIMER0,
-   Pit_Channel0_callback,    
-  },
-  // Channel 1
-  {
-   CHANNEL_1,
-   PIT_MICROTIMER0,
-   Pit_Channel1_callback,    
-  },
-  // Channel 2  
-  {
-   CHANNEL_2,
-   PIT_MICROTIMER0,
-   Pit_Channel2_callback,    
-  },
-  // Channel 3  
-  {
-   CHANNEL_3,
-   PIT_MICROTIMER0,
-   Pit_Channel3_callback,    
-  } 
+   SchM_OsTick,    
+  }
 };
   
 /** Static configuration for GPT Module 

@@ -41,10 +41,7 @@
 *****************************************************************************************************/
 
 /* vfnPIT0_Callback, function to be called upon timeout of PIT channel 0 */
-extern void Pit_Channel0_callback(void);
-extern void Pit_Channel1_callback(void);
-extern void Pit_Channel2_callback(void);
-extern void Pit_Channel3_callback(void);
+extern void SchM_OsTick(void);
 
 /*****************************************************************************************************
 * Definition of module wide MACROS / #DEFINE-CONSTANTS 

@@ -135,10 +135,8 @@ extern Gpt_Notification_type Gpt_Notification[];
 * Declaration of module wide callback FUNCTIONS
 *****************************************************************************************************/
 
- extern void Pit_Channel0_callback(void);
+ extern void SchM_OsTick(void);
  extern void Pit_Channel1_callback(void);
- extern void Pit_Channel2_callback(void);
- extern void Pit_Channel3_callback(void);
 
  
 /**************************************************************************************************/
