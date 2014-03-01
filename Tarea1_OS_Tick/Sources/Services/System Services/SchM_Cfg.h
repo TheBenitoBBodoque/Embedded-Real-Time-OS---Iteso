@@ -1,5 +1,5 @@
-#ifndef GLOBAL_SERVICES_H_
-#define GLOBAL_SERVICES_H_
+#ifndef __SCHM_CFG_H
+#define __SCHM_CFG_H
 /******************************************************************************
 *   Filename:   SchM_Cfg.h
 *
@@ -11,7 +11,7 @@
 *   Date          CP#           Author     
 *   MM-DD-YY      XXXXX:1       Initials   Description of change
 *   -----------   -----------   --------   ------------------------------------
-*   03-01-14                     SPA        Initial release
+*   03-01-14       02            SPA        OS Task Initial Release
 ******************************************************************************/
 
 
@@ -32,4 +32,4 @@
 *   Global Function Prototypes  
 ******************************************************************************/
 
-#endif /*GLOBAL_SERVICES_H_*/
+#endif /*__SCHM_CFG_H*/
