@@ -19,6 +19,8 @@
 #include <hidef.h>      /* common defines and macros */
 #include "derivative.h"      /* derivative-specific definitions */
 
+#include "SchM.h"
+
 #include "mcu.h"
 #include "gpt.h"
 
@@ -74,7 +76,10 @@ void main(void)
   
   for(;;) 
   {
-    _FEED_COP(); /* feeds the dog */
+    /* Call the scheduler */
+    SchM_SchedulerCore();
+    /* feeds the dog */
+    _FEED_COP(); 
   } 
   /* loop forever */
   /* please make sure that you never leave main */

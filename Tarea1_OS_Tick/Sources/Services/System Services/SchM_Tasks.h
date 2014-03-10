@@ -39,5 +39,6 @@ void SchM_Task_8ms(void);
 void SchM_Task_16ms(void);
 void SchM_Task_32ms(void);
 void SchM_Task_64ms(void);
+void SchM_Background(void);
 
 #endif /*__SCHM_TASKS_H*/

@@ -17,7 +17,6 @@
 ******************************************************************************/ 
 #include <mc9s12xep100.h>
 #include "SchM_Cfg.h"
-#include "SchM_Tasks.h"
 /******************************************************************************
 *   Local Macro Definitions
 ******************************************************************************/ 
@@ -35,31 +34,19 @@
 ******************************************************************************/
 const SchM_Task_type SchM_TaskInitial[]=
 {
-  {
-    TASK_1MS,
-    0,
-    0,
-    SchM_Task_1ms,
-  },
-  {
-    TASK_4MS,
-    4,
-    0,
-    SchM_Task_4ms,
-  },
-  {
-    TASK_8MS,
-    8,
-    0,
-    SchM_Task_8ms,
-  }
+  {TASK_1MS,MASK_1MS, OFFSET_00,SchM_Task_1ms},
+  {TASK_1MS,MASK_4MS, OFFSET_01,SchM_Task_4ms},
+  {TASK_1MS,MASK_8MS, OFFSET_03,SchM_Task_8ms},
+  {TASK_1MS,MASK_16MS,OFFSET_05,SchM_Task_16ms},
+  {TASK_1MS,MASK_32MS,OFFSET_07,SchM_Task_32ms},
+  {TASK_1MS,MASK_64MS,OFFSET_11,SchM_Task_64ms}  
 };
 
 const SchM_TaskConfigType SchM_TaskConfigInitial[]=
 {
   {
     sizeof(SchM_TaskInitial)/sizeof(SchM_TaskInitial[0]), 
-    SchM_TaskInitial
+    &SchM_TaskInitial[0U]
   }
 };
 /******************************************************************************
