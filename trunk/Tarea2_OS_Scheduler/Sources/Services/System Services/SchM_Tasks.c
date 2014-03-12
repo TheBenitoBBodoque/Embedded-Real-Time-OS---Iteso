@@ -73,7 +73,6 @@ void SchM_Task_4ms(void)
   for (index=0;index<100;index++){
   }
   PORTA_PA1= 0;
-
 }
 
 /*****************************************************************************************************                                                                        
@@ -102,12 +101,9 @@ void SchM_Task_8ms(void)
 void SchM_Task_16ms(void)
 {
   u8 index;
-  
-  PORTA_PA3= 1;
-   
+  PORTA_PA3= 1;   
   for (index=0;index<100;index++){
   }
-  
   PORTA_PA3= 0;
 }
 

@@ -47,14 +47,15 @@
 ******************************************************************************/ 
 
 /*****************************************************************************************************                                                                        
-*   Function: SchM_Init(void)
+*   Function: SchM_Init(SchM_TaskConfigType *SchM_Config)
 *
 *   Description: Scheduler Initialization
 *
 *   Caveats:
 *****************************************************************************************************/
-void SchM_Init(void)
+void SchM_Init(SchM_TaskConfigType *SchM_Config)
 {	
+
 	/*Initialize timer configuration for the OS tick*/
 	Gpt_Init(&Gpt_ConfigType_initial[0]);
 	
