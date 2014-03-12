@@ -37,7 +37,7 @@
 ******************************************************************************/
 /* vfnPIT0_Callback, function to be called upon timeout of PIT channel 0 */
 extern void SchM_OsTick(void);
-extern void SchM_Init(void);
+extern void SchM_Init(SchM_TaskConfigType *SchM_Config);
 extern void SchM_DeInit(void);
 extern void SchM_Start(void);
 extern void SchM_Background(void);
