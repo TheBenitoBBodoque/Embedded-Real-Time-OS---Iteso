@@ -30,7 +30,7 @@
 #define MASK_8MS   ((u16)(0x000F)) /* 0000 1111 */
 #define MASK_16MS  ((u16)(0x001F)) /* 0001 1111 */
 #define MASK_32MS  ((u16)(0x003F)) /* 0011 1111 */
-#define MASK_64MS  ((u16)(0x004F)) /* 0111 1111 */
+#define MASK_64MS  ((u16)(0x007F)) /* 0111 1111 */
 
 /* Task mask offset */
 #define OFFSET_00  ((u16)(0))
