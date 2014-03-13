@@ -53,7 +53,7 @@
 *
 *   Caveats:
 *****************************************************************************************************/
-void SchM_Init(SchM_TaskConfigType *SchM_Config)
+void SchM_Init(const SchM_TaskConfigType *SchM_Config)
 {	
 
 	/*Initialize timer configuration for the OS tick*/
@@ -133,14 +133,14 @@ void SchM_Background(void)
      if(SchM_OSTickEnabled)
      {
       PORTB_PB3= 1;
-         while (Task_Index < SchM_TaskConfigInitial[0U].SchM_TaskNumberConfig)
+         for(Task_Index=0;Task_Index < SchM_TaskConfigInitial[0U].SchM_TaskNumberConfig;Task_Index++)
          {
            if((SchM_OSTickCounter & SchM_TaskConfigInitial->ptr_SchM_Task[Task_Index].Mask) == 
                SchM_TaskConfigInitial->ptr_SchM_Task[Task_Index].Offset)
            {
              SchM_TaskConfigInitial->ptr_SchM_Task[Task_Index].SchM_TaskCallback();
            }
-           Task_Index++;
+           
          }
          /*Wait for the next OS Tick to enable it*/
          SchM_OSTickEnabled = SCHM_OSTICK_DISABLED;
