@@ -51,10 +51,10 @@
 *****************************************************************************************************/
 void SchM_Task_1ms(void)
 {
-  u8 index;
+  u16 index;
   PORTA_PA0= 1;
   
-  for (index=0;index<100;index++){
+  for (index=0;index<500;index++){
   }
   PORTA_PA0= 0;
 }
@@ -68,9 +68,9 @@ void SchM_Task_1ms(void)
 *****************************************************************************************************/
 void SchM_Task_4ms(void)
 {
-  u8 index;
+  u16 index;
   PORTA_PA1= 1;
-  for (index=0;index<100;index++){
+  for (index=0;index<600;index++){
   }
   PORTA_PA1= 0;
 }
@@ -84,7 +84,7 @@ void SchM_Task_4ms(void)
 *****************************************************************************************************/
 void SchM_Task_8ms(void)
 {
-  u8 index;
+  u16 index;
   PORTA_PA2= 1;
   for (index=0;index<100;index++){
   }
@@ -100,9 +100,9 @@ void SchM_Task_8ms(void)
 *****************************************************************************************************/
 void SchM_Task_16ms(void)
 {
-  u8 index;
+  u16 index;
   PORTA_PA3= 1;   
-  for (index=0;index<100;index++){
+  for (index=0;index<300;index++){
   }
   PORTA_PA3= 0;
 }
@@ -116,9 +116,9 @@ void SchM_Task_16ms(void)
 *****************************************************************************************************/
 void SchM_Task_32ms(void)
 {
-  u8 index;
+  u16 index;
   PORTB_PB0= 1;
-  for (index=0;index<100;index++){
+  for (index=0;index<1000;index++){
   }
   PORTB_PB0= 0;
 }
@@ -132,9 +132,9 @@ void SchM_Task_32ms(void)
 *****************************************************************************************************/
 void SchM_Task_64ms(void)
 {
-  u8 index;
+  u16 index;
   PORTB_PB1= 1;
-  for (index=0;index<100;index++){
+  for (index=0;index<700;index++){
   }
   PORTB_PB1= 0;
 }
