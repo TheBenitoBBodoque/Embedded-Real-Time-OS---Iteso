@@ -225,6 +225,9 @@ PLACEMENT /* here all predefined and user segments are placed into the SEGMENTS 
 
       XGATE_STK_L       INTO  RAM_XGATE_STK_L;
       XGATE_STK_H       INTO  RAM_XGATE_STK_H;
+      
+                              /* Memory segment reserved to Dynamic Memory Allocation */
+      HEAP              INTO  RAM_F0, RAM_F1, RAM_F2, RAM_F3;
 
     //.vectors          INTO  OSVECTORS; /* OSEK vector table */
 END
