@@ -21,8 +21,6 @@
 /******************************************************************************
 *   Macro Definitions  
 ******************************************************************************/
-typedef u16 SchM_TaskOffsetType;
-typedef u16 SchM_TaskMaskType;
 
 #ifndef TASK
 #define TASK(taskID) void taskID(void)
@@ -33,18 +31,29 @@ typedef u16 SchM_TaskMaskType;
 /******************************************************************************
 *   Type Definitions
 ******************************************************************************/
+/* Identifies a task state */
+typedef u8 TaskStateType;
+
 /* Identifies a task, commonly associated with the TaskID */
 typedef u16 TaskType;
 
-/* Identifies a task state */
-typedef u8 TaskStateType;
+/* Reference to a variable of type TaskOffsetType */
+typedef u16 TaskOffsetType;
+
+/* Reference to a variable of type TaskMaskType */
+typedef u16 TaskMaskType;
+
+/* Reference to a variable of type TaskStackSize */
+typedef u16 TaskStackSize;
+
+/* Reference to a variable of type TaskRelDeadline */
+typedef u16 TaskRelDeadline;
 
 /* Reference to a variable of type TaskType */
 typedef TaskType* TaskRefType;
 
 /* Reference to a variable of type TaskStateType */
 typedef TaskStateType* TaskStateRefType;
-
 
 typedef enum
 {
@@ -54,17 +63,69 @@ typedef enum
    TASK_16MS,
    TASK_32MS,
    TASK_64MS
-}SchM_TaskID;
+}TaskID;
+
+typedef enum
+{
+   PRIORITY_0 = 0,
+   PRIORITY_1,
+   PRIORITY_2,
+   PRIORITY_3,
+   PRIORITY_4,
+   PRIORITY_5
+}TaskPriority;
+
+typedef enum
+{
+   E_OK = 0,
+   E_OS_ACCESS,
+   E_OS_CALLEVEL,
+   E_OS_ID,
+   E_OS_LIMIT,
+   E_OS_NOFUNC,
+   E_OS_RESOURCE,
+   E_OS_STATE,
+   E_OS_VALUE
+}Status_Type;
+
+typedef enum 
+{
+   SUSPENDED = 0,
+   READY,
+   RUNNING
+}TaskStates;
 
 typedef struct
 {
-  SchM_TaskID         TaskID;
-  SchM_TaskMaskType   Mask;
-  SchM_TaskOffsetType Offset;
-  void(*SchM_TaskCallback)(void) ;
-}SchM_Task_type;
+  u16 StartAddress;
+  u16 EndAddress;
+}StackInformation;
 
+typedef struct
+{
+  u16 Relative;
+  u16 Absolute;
+}TaskDeadline;
 
+typedef struct
+{
+  TaskID              Task_ID;
+  TaskPriority        Task_Priority;
+  TaskStates          Task_State;
+  StackInformation    Stack_Information;
+  TaskDeadline        Task_Deadline;
+}Task_Control_Block;
+
+typedef struct
+{
+  TaskID              Task_ID;
+  TaskPriority        Task_Priority;
+  TaskMaskType        Mask;
+  TaskOffsetType      Offset;
+  TaskStackSize       Size;
+  TaskRelDeadline     RelDeadline;
+  void(*TaskCallback)(void);
+}Task_Descriptor;
 
 
 

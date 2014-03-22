@@ -51,7 +51,7 @@
 *
 *   Caveats:
 *****************************************************************************************************/
-TaskStateType ActivateTask(TaskType taskID){
+Status_Type ActivateTask(TaskType taskID){
 
 }
 
@@ -65,7 +65,7 @@ TaskStateType ActivateTask(TaskType taskID){
 *   Caveats:
 *****************************************************************************************************/
 
-TaskStateType TerminateTask (void){
+Status_Type TerminateTask (void){
 
 }
 
@@ -79,7 +79,7 @@ TaskStateType TerminateTask (void){
 *   Caveats:
 *****************************************************************************************************/
 
-TaskStateType GetTaskID(TaskRefType taskIDRef){
+Status_Type GetTaskID(TaskRefType taskIDRef){
 
 }
 
@@ -92,6 +92,6 @@ TaskStateType GetTaskID(TaskRefType taskIDRef){
 *   Caveats:
 *****************************************************************************************************/
 
-TaskStateType GetTaskState(TaskType taskID, TaskStateRefType stateRef){
+Status_Type GetTaskState(TaskType taskID, TaskStateRefType stateRef){
 
 }

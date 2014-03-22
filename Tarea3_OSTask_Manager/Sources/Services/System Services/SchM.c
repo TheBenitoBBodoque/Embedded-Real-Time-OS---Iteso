@@ -53,7 +53,7 @@
 *
 *   Caveats:
 *****************************************************************************************************/
-void SchM_Init(const SchM_TaskConfigType *SchM_Config)
+void SchM_Init(const TaskConfigType *SchM_Config)
 {	
 
 	/*Initialize timer configuration for the OS tick*/
@@ -104,12 +104,21 @@ void SchM_Start(void)
 *****************************************************************************************************/
 void SchM_OsTick(void)
 {
+  u8 Task_Index = 0;
 
   SchM_OSTickCounter ++;
   
   if(!SchM_OSTickEnabled)
   {
     SchM_OSTickEnabled = SCHM_OSTICK_ENABLED;
+    for(Task_Index=0;Task_Index < TaskConfigInitial[0U].TaskNumberConfig;Task_Index++)
+    {
+       if((SchM_OSTickCounter & TaskConfigInitial->ptr_Task[Task_Index].Mask) == 
+           TaskConfigInitial->ptr_Task[Task_Index].Offset)
+       {
+         TaskConfigInitial->ptr_Task[Task_Index].TaskCallback();
+       }
+    }
   }
   else
   {
@@ -127,23 +136,16 @@ void SchM_OsTick(void)
 *****************************************************************************************************/
 void SchM_Background(void)
 {
-   u8 Task_Index = 0;
+   
    if(SchM_SchedulerEnabled)
    {
      if(SchM_OSTickEnabled)
      {
       PORTB_PB3= 1;
-         for(Task_Index=0;Task_Index < SchM_TaskConfigInitial[0U].SchM_TaskNumberConfig;Task_Index++)
-         {
-           if((SchM_OSTickCounter & SchM_TaskConfigInitial->ptr_SchM_Task[Task_Index].Mask) == 
-               SchM_TaskConfigInitial->ptr_SchM_Task[Task_Index].Offset)
-           {
-             SchM_TaskConfigInitial->ptr_SchM_Task[Task_Index].SchM_TaskCallback();
-           }
            
-         }
-         /*Wait for the next OS Tick to enable it*/
-         SchM_OSTickEnabled = SCHM_OSTICK_DISABLED;
+        
+      /*Wait for the next OS Tick to enable it*/
+      SchM_OSTickEnabled = SCHM_OSTICK_DISABLED;
       PORTB_PB3= 0;
      }
      else
