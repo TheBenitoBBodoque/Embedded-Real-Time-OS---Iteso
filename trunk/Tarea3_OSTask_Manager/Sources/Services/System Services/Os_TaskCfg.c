@@ -33,21 +33,21 @@
 /******************************************************************************
 *   Global Variable Definitions
 ******************************************************************************/
-const SchM_Task_type SchM_TaskInitial[]=
+const Task_Descriptor TaskInitial[]=
 {
-  {TASK_1MS,MASK_1MS, OFFSET_00,Task_1ms},
-  {TASK_4MS,MASK_4MS, OFFSET_01,Task_4ms},
-  {TASK_8MS,MASK_8MS, OFFSET_03,Task_8ms},
-  {TASK_16MS,MASK_16MS,OFFSET_05,Task_16ms},
-  {TASK_32MS,MASK_32MS,OFFSET_07,Task_32ms},
-  {TASK_64MS,MASK_64MS,OFFSET_11,Task_64ms}  
+  {TASK_1MS, PRIORITY_0, MASK_1MS, OFFSET_00,0,0,Task_1ms},
+  {TASK_4MS, PRIORITY_0, MASK_4MS, OFFSET_01,0,0,Task_4ms},
+  {TASK_8MS, PRIORITY_0, MASK_8MS, OFFSET_03,0,0,Task_8ms},
+  {TASK_16MS,PRIORITY_0,MASK_16MS,OFFSET_05,0,0,Task_16ms},
+  {TASK_32MS,PRIORITY_0,MASK_32MS,OFFSET_07,0,0,Task_32ms},
+  {TASK_64MS,PRIORITY_0,MASK_64MS,OFFSET_11,0,0,Task_64ms}  
 };
 
-const SchM_TaskConfigType SchM_TaskConfigInitial[]=
+const TaskConfigType TaskConfigInitial[]=
 {
   {
-    sizeof(SchM_TaskInitial)/sizeof(SchM_TaskInitial[0]), 
-    &SchM_TaskInitial[0U]
+    sizeof(TaskInitial)/sizeof(TaskInitial[0]), 
+    &TaskInitial[0U]
   }
 };
 /******************************************************************************

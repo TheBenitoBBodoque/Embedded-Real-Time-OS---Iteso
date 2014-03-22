@@ -51,14 +51,14 @@
 ******************************************************************************/
 typedef struct
 {
-   SchM_TaskID SchM_TaskNumberConfig;
-   const SchM_Task_type *ptr_SchM_Task;  
-}SchM_TaskConfigType;
+   TaskID TaskNumberConfig;
+   const Task_Descriptor *ptr_Task;  
+}TaskConfigType;
 
 /******************************************************************************
 *   External Variables
 ******************************************************************************/
-extern const SchM_TaskConfigType SchM_TaskConfigInitial[]; 
+extern const TaskConfigType TaskConfigInitial[]; 
 /******************************************************************************
 *   Global Function Prototypes  
 ******************************************************************************/

@@ -32,9 +32,9 @@
 *   Global Function Prototypes  
 ******************************************************************************/
 
-extern TaskStateType ActivateTask(TaskType taskID);
-extern TaskStateType TerminateTask (void);
-extern TaskStateType GetTaskID(TaskRefType taskIDRef);
-extern TaskStateType GetTaskState(TaskType taskID, TaskStateRefType stateRef);
+extern Status_Type ActivateTask(TaskType taskID);
+extern Status_Type TerminateTask (void);
+extern Status_Type GetTaskID(TaskRefType taskIDRef);
+extern Status_Type GetTaskState(TaskType taskID, TaskStateRefType stateRef);
 
 #endif /*__OS_TASKM_H_*/
