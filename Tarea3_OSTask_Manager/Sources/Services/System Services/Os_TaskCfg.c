@@ -50,6 +50,14 @@ const TaskConfigType TaskConfigInitial[]=
     &TaskInitial[0U]
   }
 };
+
+
+
+
+u8 DispacherArray[MAX_PRIORITY][CNF_MAXTASKQUEUE];
+
+ 
+ 
 /******************************************************************************
 *   Static Variable Definitions
 ******************************************************************************/

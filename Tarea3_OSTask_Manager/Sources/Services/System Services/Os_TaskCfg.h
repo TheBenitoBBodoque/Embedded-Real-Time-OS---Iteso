@@ -45,7 +45,7 @@
 #define SCHM_OSTICK_DISABLED    (0u)
 #define SCHEDULER_DISABLED      (0u)
 
-
+#define CNF_MAXTASKQUEUE 5
 /******************************************************************************
 *   Type Definitions
 ******************************************************************************/
