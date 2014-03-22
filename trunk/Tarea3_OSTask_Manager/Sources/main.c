@@ -69,7 +69,7 @@ void main(void)
   
   EnableInterrupts;
   
-  SchM_Init(SchM_TaskConfigInitial);
+  SchM_Init(TaskConfigInitial);
   SchM_Start();
   
   for(;;) 
