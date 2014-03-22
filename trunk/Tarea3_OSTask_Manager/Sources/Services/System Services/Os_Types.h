@@ -57,7 +57,7 @@ typedef TaskStateType* TaskStateRefType;
 
 typedef enum
 {
-   TASK_1MS = 0,
+   TASK_1MS = 1,
    TASK_4MS,
    TASK_8MS,
    TASK_16MS,
@@ -72,7 +72,8 @@ typedef enum
    PRIORITY_2,
    PRIORITY_3,
    PRIORITY_4,
-   PRIORITY_5
+   PRIORITY_5,
+   MAX_PRIORITY
 }TaskPriority;
 
 typedef enum
