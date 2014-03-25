@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "C:\Work\Tarea2_OS_Scheduler\bin\Project.abs"
+PROGRAM "C:\Maestria\SistemasOperativos\01 - Practica\trunk\Tarea3_OSTask_Manager\bin\Project.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -21,8 +21,9 @@ mcu.c.o                                 Model: BANKED,        Lang: ANSI-C
 gpt.c.o                                 Model: BANKED,        Lang: ANSI-C
 gpt_cfg.c.o                             Model: BANKED,        Lang: ANSI-C
 SchM.c.o                                Model: BANKED,        Lang: ANSI-C
-SchM_Cfg.c.o                            Model: BANKED,        Lang: ANSI-C
-SchM_Tasks.c.o                          Model: BANKED,        Lang: ANSI-C
+Os_Task.c.o                             Model: BANKED,        Lang: ANSI-C
+Os_TaskCfg.c.o                          Model: BANKED,        Lang: ANSI-C
+Os_TaskM.c.o                            Model: BANKED,        Lang: ANSI-C
 
 *********************************************************************************************
 STARTUP SECTION
@@ -31,8 +32,8 @@ Entry point: 0xC000 (_Startup)
 _startupData is allocated at 0xC00F and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0x2100     20
-  _Copy    *toCopyDownBeg 0xC224
+  _Range   pZeroOut       0x2100     82
+  _Copy    *toCopyDownBeg 0xC248
 } _startupData;
 
 *********************************************************************************************
@@ -41,10 +42,10 @@ Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                             15     R     0xC000     0xC00E   ROM_C000
 .startData                        81     R     0xC00F     0xC05F   ROM_C000
-.rodata                           71     R     0xC060     0xC0A6   ROM_C000
-NON_BANKED                       381     R     0xC0A7     0xC223   ROM_C000
-.copy                              2     R     0xC224     0xC225   ROM_C000
-.text                            862     R   0xFE8000   0xFE835D   PAGE_FE
+.rodata                          107     R     0xC060     0xC0CA   ROM_C000
+NON_BANKED                       381     R     0xC0CB     0xC247   ROM_C000
+.copy                              2     R     0xC248     0xC249   ROM_C000
+.text                           1176     R   0xFE8000   0xFE8497   PAGE_FE
 .stack                           256   R/W     0x2000     0x20FF   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
@@ -786,12 +787,12 @@ NON_BANKED                       381     R     0xC0A7     0xC223   ROM_C000
 .abs_section_3f2                   2   N/I      0x3F2      0x3F3   .absSeg737
 .abs_section_ff10                238     R     0xFF10     0xFFFD   .absSeg738
 .bss                              11   R/W     0x2100     0x210A   RAM
-.common                            8   R/W     0x210C     0x2113   RAM
+.common                           70   R/W     0x210C     0x2151   RAM
 .vectSeg739_vect                   2     R     0xFFFE     0xFFFF   .vectSeg739
 
 Summary of section sizes per section type:
-READ_ONLY (R):         674 (dec:     1652)
-READ_WRITE (R/W):      113 (dec:      275)
+READ_ONLY (R):         7D2 (dec:     2002)
+READ_WRITE (R/W):      151 (dec:      337)
 NO_INIT (N/I):         383 (dec:      899)
 
 *********************************************************************************************
@@ -1559,14 +1560,14 @@ MODULE:                 -- Start12.c.o --
      __SEG_END_SSTACK                          2100       0       0       1               
 MODULE:                 -- rtshc12.c.o (ansixbi.lib) --
 - PROCEDURES:
-     _LMULU16x32                               C0A7       F      15       1   NON_BANKED  
-     _lDivMod                                  C0B6      B9     185       1   NON_BANKED  
-     _LDIVU                                    C16F       E      14       2   NON_BANKED  
-     _CASE_CHECKED_BYTE                        C17D      14      20       3   NON_BANKED  
+     _LMULU16x32                               C0CB       F      15       1   NON_BANKED  
+     _lDivMod                                  C0DA      B9     185       1   NON_BANKED  
+     _LDIVU                                    C193       E      14       2   NON_BANKED  
+     _CASE_CHECKED_BYTE                        C1A1      14      20       3   NON_BANKED  
 - VARIABLES:
 MODULE:                 -- int_vectors.c.o --
 - PROCEDURES:
-     vfnDummy_D_Isr                            C191       1       1     114   NON_BANKED  
+     vfnDummy_D_Isr                            C1B5       1       1     114   NON_BANKED  
 - VARIABLES:
      vectors                                   FF10      EE     238       0   .abs_section_ff10
 MODULE:                 -- mcu.c.o --
@@ -1582,10 +1583,10 @@ MODULE:                 -- gpt.c.o --
      Gpt_Init                                FE80E2      D1     209       3   .text       
      Gpt_StartTimer                          FE81B3      B2     178       2   .text       
      Gpt_EnableNotification                  FE8265      2A      42       2   .text       
-     vfnPIT_Channel0_Isr                       C192      24      36       1   NON_BANKED  
-     vfnPIT_Channel1_Isr                       C1B6      24      36       1   NON_BANKED  
-     vfnPIT_Channel2_Isr                       C1DA      24      36       1   NON_BANKED  
-     vfnPIT_Channel3_Isr                       C1FE      26      38       1   NON_BANKED  
+     vfnPIT_Channel0_Isr                       C1B6      24      36       1   NON_BANKED  
+     vfnPIT_Channel1_Isr                       C1DA      24      36       1   NON_BANKED  
+     vfnPIT_Channel2_Isr                       C1FE      24      36       1   NON_BANKED  
+     vfnPIT_Channel3_Isr                       C222      26      38       1   NON_BANKED  
 - VARIABLES:
 MODULE:                 -- gpt_cfg.c.o --
 - PROCEDURES:
@@ -1596,27 +1597,35 @@ MODULE:                 -- gpt_cfg.c.o --
 MODULE:                 -- SchM.c.o --
 - PROCEDURES:
      SchM_Init                               FE828F      13      19       2   .text       
-     SchM_Start                              FE82A2      10      16       2   .text       
-     SchM_OsTick                             FE82B2      14      20       2   .text       
-     SchM_Background                         FE82C6      3E      62       2   .text       
+     SchM_Start                              FE82A2      38      56       2   .text       
+     SchM_OsTick                             FE82DA      3E      62       2   .text       
+     SchM_Background                         FE8318      18      24       2   .text       
 - VARIABLES:
      SchM_OSTickEnabled                        2108       1       1       5   .bss        
      SchM_OSTickCounter                        2109       1       1       3   .bss        
      SchM_SchedulerEnabled                     210A       1       1       2   .bss        
-MODULE:                 -- SchM_Cfg.c.o --
+MODULE:                 -- Os_Task.c.o --
+- PROCEDURES:
+     Task_1ms                                FE8330      13      19       2   .text       
+     Task_4ms                                FE8343      13      19       2   .text       
+     Task_8ms                                FE8356      13      19       2   .text       
+     Task_16ms                               FE8369      13      19       2   .text       
+     Task_32ms                               FE837C      13      19       2   .text       
+     Task_64ms                               FE838F      13      19       2   .text       
+- VARIABLES:
+MODULE:                 -- Os_TaskCfg.c.o --
 - PROCEDURES:
 - VARIABLES:
-     SchM_TaskInitial                          C06D      36      54       1   .rodata     
-     SchM_TaskConfigInitial                    C0A3       4       4       3   .rodata     
-MODULE:                 -- SchM_Tasks.c.o --
+     TaskInitial                               C06D      5A      90       1   .rodata     
+     TaskConfigInitial                         C0C7       4       4       6   .rodata     
+     DispacherArray                            2114      3C      60       7   .common     
+MODULE:                 -- Os_TaskM.c.o --
 - PROCEDURES:
-     SchM_Task_1ms                           FE8304       F      15       2   .text       
-     SchM_Task_4ms                           FE8313       F      15       2   .text       
-     SchM_Task_8ms                           FE8322       F      15       2   .text       
-     SchM_Task_16ms                          FE8331       F      15       2   .text       
-     SchM_Task_32ms                          FE8340       F      15       2   .text       
-     SchM_Task_64ms                          FE834F       F      15       2   .text       
+     ActivateTask                            FE83A2      61      97       2   .text       
+     TerminateTask                           FE8403      5A      90      12   .text       
+     Dispatcher                              FE845D      3B      59       2   .text       
 - VARIABLES:
+     TaskExecuted_ID                           2150       2       2       2   .common     
 
 *********************************************************************************************
 MODULE STATISTIC
@@ -1630,9 +1639,10 @@ MODULE STATISTIC
   mcu.c.o                                      8    123      0
   gpt.c.o                                      0    575      0
   gpt_cfg.c.o                                  8      0     13
-  SchM.c.o                                     3    117      0
-  SchM_Cfg.c.o                                 0      0     58
-  SchM_Tasks.c.o                               0     90      0
+  SchM.c.o                                     3    161      0
+  Os_Task.c.o                                  0    114      0
+  Os_TaskCfg.c.o                              60      0     94
+  Os_TaskM.c.o                                 2    246      0
   other                                      256     83      2
 
 *********************************************************************************************
@@ -1641,15 +1651,15 @@ SECTION USE IN OBJECT-ALLOCATION SECTION
 SECTION: ".text"
   main Init Mcu_Init Mcu_DistributePllClock Gpt_Init Gpt_StartTimer 
   Gpt_EnableNotification SchM_Init SchM_Start SchM_OsTick SchM_Background 
-  SchM_Task_1ms SchM_Task_4ms SchM_Task_8ms SchM_Task_16ms SchM_Task_32ms 
-  SchM_Task_64ms 
+  Task_1ms Task_4ms Task_8ms Task_16ms Task_32ms Task_64ms ActivateTask 
+  TerminateTask Dispatcher 
 SECTION: ".bss"
   Gpt_Notification SchM_OSTickEnabled SchM_OSTickCounter SchM_SchedulerEnabled 
 SECTION: ".init"
   _Startup 
 SECTION: ".rodata"
-  Gpt_ChannelConfigType_initial Gpt_ConfigType_initial SchM_TaskInitial 
-  SchM_TaskConfigInitial 
+  Gpt_ChannelConfigType_initial Gpt_ConfigType_initial TaskInitial 
+  TaskConfigInitial 
 SECTION: "NON_BANKED"
   _LMULU16x32 _lDivMod _LDIVU _CASE_CHECKED_BYTE vfnDummy_D_Isr 
   vfnPIT_Channel0_Isr vfnPIT_Channel1_Isr vfnPIT_Channel2_Isr 
@@ -3132,7 +3142,7 @@ SECTION: ".abs_section_3f2"
   _TIM_PACNT 
 SECTION: ".common"
   mcal_mcu_gu16ClockGlobalStatus mcal_mcu_u16PLL_Loss_of_Lock_Counter 
-  mcal_mcu_gu32BusFrequency 
+  mcal_mcu_gu32BusFrequency DispacherArray TaskExecuted_ID 
 SECTION: ".abs_section_ff10"
   vectors 
 
@@ -3885,20 +3895,22 @@ OBJECT LIST SORTED BY ADDRESS
      mcal_mcu_gu16ClockGlobalStatus            210C       2       2       2   .common     
      mcal_mcu_u16PLL_Loss_of_Lock_Counter       210E       2       2       1   .common     
      mcal_mcu_gu32BusFrequency                 2110       4       4       4   .common     
+     DispacherArray                            2114      3C      60       7   .common     
+     TaskExecuted_ID                           2150       2       2       2   .common     
      _Startup                                  C000       F      15       1   .init       
      Gpt_ChannelConfigType_initial             C060       6       6       1   .rodata     
      Gpt_ConfigType_initial                    C066       7       7      13   .rodata     
-     SchM_TaskInitial                          C06D      36      54       1   .rodata     
-     SchM_TaskConfigInitial                    C0A3       4       4       3   .rodata     
-     _LMULU16x32                               C0A7       F      15       1   NON_BANKED  
-     _lDivMod                                  C0B6      B9     185       1   NON_BANKED  
-     _LDIVU                                    C16F       E      14       2   NON_BANKED  
-     _CASE_CHECKED_BYTE                        C17D      14      20       3   NON_BANKED  
-     vfnDummy_D_Isr                            C191       1       1     114   NON_BANKED  
-     vfnPIT_Channel0_Isr                       C192      24      36       1   NON_BANKED  
-     vfnPIT_Channel1_Isr                       C1B6      24      36       1   NON_BANKED  
-     vfnPIT_Channel2_Isr                       C1DA      24      36       1   NON_BANKED  
-     vfnPIT_Channel3_Isr                       C1FE      26      38       1   NON_BANKED  
+     TaskInitial                               C06D      5A      90       1   .rodata     
+     TaskConfigInitial                         C0C7       4       4       6   .rodata     
+     _LMULU16x32                               C0CB       F      15       1   NON_BANKED  
+     _lDivMod                                  C0DA      B9     185       1   NON_BANKED  
+     _LDIVU                                    C193       E      14       2   NON_BANKED  
+     _CASE_CHECKED_BYTE                        C1A1      14      20       3   NON_BANKED  
+     vfnDummy_D_Isr                            C1B5       1       1     114   NON_BANKED  
+     vfnPIT_Channel0_Isr                       C1B6      24      36       1   NON_BANKED  
+     vfnPIT_Channel1_Isr                       C1DA      24      36       1   NON_BANKED  
+     vfnPIT_Channel2_Isr                       C1FE      24      36       1   NON_BANKED  
+     vfnPIT_Channel3_Isr                       C222      26      38       1   NON_BANKED  
      vectors                                   FF10      EE     238       0   .abs_section_ff10
      main                                    FE8000      2B      43       2   .text       
      Init                                    FE802B      3C      60       2   .text       
@@ -3908,15 +3920,18 @@ OBJECT LIST SORTED BY ADDRESS
      Gpt_StartTimer                          FE81B3      B2     178       2   .text       
      Gpt_EnableNotification                  FE8265      2A      42       2   .text       
      SchM_Init                               FE828F      13      19       2   .text       
-     SchM_Start                              FE82A2      10      16       2   .text       
-     SchM_OsTick                             FE82B2      14      20       2   .text       
-     SchM_Background                         FE82C6      3E      62       2   .text       
-     SchM_Task_1ms                           FE8304       F      15       2   .text       
-     SchM_Task_4ms                           FE8313       F      15       2   .text       
-     SchM_Task_8ms                           FE8322       F      15       2   .text       
-     SchM_Task_16ms                          FE8331       F      15       2   .text       
-     SchM_Task_32ms                          FE8340       F      15       2   .text       
-     SchM_Task_64ms                          FE834F       F      15       2   .text       
+     SchM_Start                              FE82A2      38      56       2   .text       
+     SchM_OsTick                             FE82DA      3E      62       2   .text       
+     SchM_Background                         FE8318      18      24       2   .text       
+     Task_1ms                                FE8330      13      19       2   .text       
+     Task_4ms                                FE8343      13      19       2   .text       
+     Task_8ms                                FE8356      13      19       2   .text       
+     Task_16ms                               FE8369      13      19       2   .text       
+     Task_32ms                               FE837C      13      19       2   .text       
+     Task_64ms                               FE838F      13      19       2   .text       
+     ActivateTask                            FE83A2      61      97       2   .text       
+     TerminateTask                           FE8403      5A      90      12   .text       
+     Dispatcher                              FE845D      3B      59       2   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -3934,6 +3949,8 @@ gpt.c.o:
   Gpt_StopTimer Gpt_DisableNotification 
 SchM.c.o:
   SchM_DeInit 
+Os_TaskM.c.o:
+  GetTaskID GetTaskState 
 NOT USED VARIABLES
 rtshc12.c.o (ansixbi.lib):
   _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
@@ -3941,7 +3958,7 @@ rtshc12.c.o (ansixbi.lib):
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC224 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC248 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -3951,9 +3968,9 @@ OBJECT-DEPENDENCIES SECTION
 _Startup                  USES __SEG_END_SSTACK Init main 
 Gpt_ChannelConfigType_initial USES SchM_OsTick 
 Gpt_ConfigType_initial    USES Gpt_ChannelConfigType_initial 
-SchM_TaskInitial          USES SchM_Task_1ms SchM_Task_4ms SchM_Task_8ms 
-                                SchM_Task_16ms SchM_Task_32ms SchM_Task_64ms 
-SchM_TaskConfigInitial    USES SchM_TaskInitial 
+TaskInitial               USES Task_1ms Task_4ms Task_8ms Task_16ms Task_32ms 
+                                Task_64ms 
+TaskConfigInitial         USES TaskInitial 
 _LDIVU                    USES _lDivMod 
 vfnPIT_Channel0_Isr       USES _PITTF Gpt_ConfigType_initial Gpt_Notification 
 vfnPIT_Channel1_Isr       USES _PITTF Gpt_ConfigType_initial Gpt_Notification 
@@ -3962,7 +3979,7 @@ vfnPIT_Channel3_Isr       USES _PITTF Gpt_ConfigType_initial Gpt_Notification
 vectors                   USES vfnDummy_D_Isr vfnPIT_Channel3_Isr 
                                 vfnPIT_Channel2_Isr vfnPIT_Channel1_Isr vfnPIT_Channel0_Isr 
                                 _Startup 
-main                      USES _IVBR Mcu_Init _DDRAB SchM_TaskConfigInitial 
+main                      USES _IVBR Mcu_Init _DDRAB TaskConfigInitial 
                                 SchM_Init SchM_Start SchM_Background 
 Init                      USES _startupData 
 Mcu_Init                  USES Mcu_DistributePllClock 
@@ -3979,15 +3996,22 @@ Gpt_EnableNotification    USES _CASE_CHECKED_BYTE Gpt_Notification
 SchM_Init                 USES Gpt_ConfigType_initial Gpt_Init 
                                 SchM_OSTickEnabled SchM_SchedulerEnabled SchM_OSTickCounter 
 SchM_Start                USES Gpt_StartTimer Gpt_EnableNotification 
-SchM_OsTick               USES SchM_OSTickCounter SchM_OSTickEnabled _PORTAB 
+                                DispacherArray 
+SchM_OsTick               USES SchM_OSTickCounter SchM_OSTickEnabled 
+                                TaskConfigInitial ActivateTask _PORTAB 
 SchM_Background           USES SchM_SchedulerEnabled SchM_OSTickEnabled 
-                                _PORTAB SchM_TaskConfigInitial SchM_OSTickCounter 
-SchM_Task_1ms             USES _PORTAB 
-SchM_Task_4ms             USES _PORTAB 
-SchM_Task_8ms             USES _PORTAB 
-SchM_Task_16ms            USES _PORTAB 
-SchM_Task_32ms            USES _PORTAB 
-SchM_Task_64ms            USES _PORTAB 
+                                _PORTAB Dispatcher 
+Task_1ms                  USES _PORTAB TerminateTask 
+Task_4ms                  USES _PORTAB TerminateTask 
+Task_8ms                  USES _PORTAB TerminateTask 
+Task_16ms                 USES _PORTAB TerminateTask 
+Task_32ms                 USES _PORTAB TerminateTask 
+Task_64ms                 USES _PORTAB TerminateTask 
+ActivateTask              USES TaskConfigInitial DispacherArray 
+TerminateTask             USES DispacherArray TaskExecuted_ID 
+                                TaskConfigInitial 
+Dispatcher                USES DispacherArray TaskExecuted_ID 
+                                TaskConfigInitial 
 
 *********************************************************************************************
 DEPENDENCY TREE
@@ -4006,22 +4030,36 @@ DEPENDENCY TREE
  |  |        | 
  |  |        +- _lDivMod            
  |  |             
- |  +- SchM_TaskConfigInitial
+ |  +- TaskConfigInitial   
  |  |  | 
- |  |  +- SchM_TaskInitial    
+ |  |  +- TaskInitial         
  |  |     | 
- |  |     +- SchM_Task_1ms       
- |  |     |    
- |  |     +- SchM_Task_4ms       
- |  |     |    
- |  |     +- SchM_Task_8ms       
- |  |     |    
- |  |     +- SchM_Task_16ms      
- |  |     |    
- |  |     +- SchM_Task_32ms      
- |  |     |    
- |  |     +- SchM_Task_64ms      
- |  |          
+ |  |     +- Task_1ms             (recursive dependency)
+ |  |     |  | 
+ |  |     |  +- TerminateTask        (recursive dependency)
+ |  |     |     | 
+ |  |     |     +- TaskConfigInitial    (see above)
+ |  |     |        
+ |  |     +- Task_4ms            
+ |  |     |  | 
+ |  |     |  +- TerminateTask        (see above) (recursive dependency)
+ |  |     |     
+ |  |     +- Task_8ms            
+ |  |     |  | 
+ |  |     |  +- TerminateTask        (see above) (recursive dependency)
+ |  |     |     
+ |  |     +- Task_16ms           
+ |  |     |  | 
+ |  |     |  +- TerminateTask        (see above) (recursive dependency)
+ |  |     |     
+ |  |     +- Task_32ms           
+ |  |     |  | 
+ |  |     |  +- TerminateTask        (see above) (recursive dependency)
+ |  |     |     
+ |  |     +- Task_64ms           
+ |  |        | 
+ |  |        +- TerminateTask        (see above) (recursive dependency)
+ |  |           
  |  +- SchM_Init           
  |  |  | 
  |  |  +- Gpt_ConfigType_initial
@@ -4029,7 +4067,13 @@ DEPENDENCY TREE
  |  |  |  +- Gpt_ChannelConfigType_initial
  |  |  |     | 
  |  |  |     +- SchM_OsTick         
- |  |  |          
+ |  |  |        | 
+ |  |  |        +- TaskConfigInitial    (see above)
+ |  |  |        |  
+ |  |  |        +- ActivateTask        
+ |  |  |           | 
+ |  |  |           +- TaskConfigInitial    (see above)
+ |  |  |              
  |  |  +- Gpt_Init            
  |  |     | 
  |  |     +- _CASE_CHECKED_BYTE  
@@ -4050,8 +4094,10 @@ DEPENDENCY TREE
  |  |        
  |  +- SchM_Background     
  |     | 
- |     +- SchM_TaskConfigInitial (see above)
- |        
+ |     +- Dispatcher          
+ |        | 
+ |        +- TaskConfigInitial    (see above)
+ |           
  +- _Startup            
     | 
     +- Init                
@@ -4087,5 +4133,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 8
-Total size of all blocks to be downloaded: 1652
+Total size of all blocks to be downloaded: 2002
 

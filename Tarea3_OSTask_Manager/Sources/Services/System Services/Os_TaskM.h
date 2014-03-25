@@ -36,5 +36,6 @@ extern Status_Type ActivateTask(TaskType taskID);
 extern Status_Type TerminateTask (void);
 extern Status_Type GetTaskID(TaskRefType taskIDRef);
 extern Status_Type GetTaskState(TaskType taskID, TaskStateRefType stateRef);
+extern void Dispatcher(void);
 
 #endif /*__OS_TASKM_H_*/

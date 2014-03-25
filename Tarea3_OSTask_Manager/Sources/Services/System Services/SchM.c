@@ -89,10 +89,21 @@ void SchM_DeInit(void)
 *****************************************************************************************************/
 void SchM_Start(void)
 {
+    u8 index_a; 
+    u8 index_b;
     /*Start the timer for the OS tick*/
     Gpt_StartTimer(CHANNEL_0, 500u);
     /*Enable notification*/
     Gpt_EnableNotification(CHANNEL_0);
+    /* Initialize Dispacher Array Vector */
+    for(index_a=0U;index_a < MAX_PRIORITY;index_a++)
+    {
+      for(index_b=0U;index_b < CNF_MAXTASKQUEUE;index_b++)
+      {
+         DispacherArray[index_a][index_b] = 0xFFFF;            
+      }
+    }
+
 }
 
 /*****************************************************************************************************                                                                        
@@ -116,7 +127,8 @@ void SchM_OsTick(void)
        if((SchM_OSTickCounter & TaskConfigInitial->ptr_Task[Task_Index].Mask) == 
            TaskConfigInitial->ptr_Task[Task_Index].Offset)
        {
-         TaskConfigInitial->ptr_Task[Task_Index].TaskCallback();
+         ActivateTask(((TaskType)TaskConfigInitial->ptr_Task[Task_Index].Task_ID)); 
+
        }
     }
   }
@@ -143,17 +155,22 @@ void SchM_Background(void)
      {
       PORTB_PB3= 1;
            
-        
+      Dispatcher();  
       /*Wait for the next OS Tick to enable it*/
       SchM_OSTickEnabled = SCHM_OSTICK_DISABLED;
       PORTB_PB3= 0;
+
+
+        
      }
      else
      {
         /*For future purposes*/
      }
    } 
-   else{
+   else
+   {
      /*Scheduler is not enabled*/
    }
 }
+
