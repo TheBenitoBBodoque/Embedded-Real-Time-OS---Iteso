@@ -45,7 +45,7 @@
 #define SCHM_OSTICK_DISABLED    (0u)
 #define SCHEDULER_DISABLED      (0u)
 
-#define CNF_MAXTASKQUEUE 5
+#define CNF_MAXTASKQUEUE ((u16)(5))
 /******************************************************************************
 *   Type Definitions
 ******************************************************************************/
@@ -58,7 +58,8 @@ typedef struct
 /******************************************************************************
 *   External Variables
 ******************************************************************************/
-extern const TaskConfigType TaskConfigInitial[]; 
+extern const TaskConfigType TaskConfigInitial[];
+extern u16 DispacherArray[MAX_PRIORITY][CNF_MAXTASKQUEUE]; 
 /******************************************************************************
 *   Global Function Prototypes  
 ******************************************************************************/

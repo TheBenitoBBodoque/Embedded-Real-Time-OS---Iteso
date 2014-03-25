@@ -57,7 +57,7 @@ typedef TaskStateType* TaskStateRefType;
 
 typedef enum
 {
-   TASK_1MS = 1,
+   TASK_1MS = 0,
    TASK_4MS,
    TASK_8MS,
    TASK_16MS,
