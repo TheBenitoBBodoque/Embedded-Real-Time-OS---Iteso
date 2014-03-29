@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "C:\Users\Miguel\Desktop\DISOAE Repository\Tarea3_OSTask_Manager\bin\Project.abs"
+PROGRAM "C:\Maestria\SistemasOperativos\01 - Practica\trunk\Tarea3_OSTask_Manager\bin\Project.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -47,7 +47,7 @@ Section Name                    Size  Type     From       To       Segment
 .rodata                          107     R     0xC060     0xC0CA   ROM_C000
 NON_BANKED                       389     R     0xC0CB     0xC24F   ROM_C000
 .copy                              2     R     0xC250     0xC251   ROM_C000
-.text                           1486     R   0xFE8000   0xFE85CD   PAGE_FE
+.text                           1489     R   0xFE8000   0xFE85D0   PAGE_FE
 .stack                           256   R/W     0x2000     0x20FF   RAM
 HEAP                               1   R/W   0xF01000   0xF01000   RAM_F0
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
@@ -794,7 +794,7 @@ HEAP                               1   R/W   0xF01000   0xF01000   RAM_F0
 .vectSeg739_vect                   2     R     0xFFFE     0xFFFF   .vectSeg739
 
 Summary of section sizes per section type:
-READ_ONLY (R):         910 (dec:     2320)
+READ_ONLY (R):         913 (dec:     2323)
 READ_WRITE (R/W):      162 (dec:      354)
 NO_INIT (N/I):         383 (dec:      899)
 
@@ -1627,14 +1627,14 @@ MODULE:                 -- Os_TaskCfg.c.o --
 MODULE:                 -- Os_TaskM.c.o --
 - PROCEDURES:
      ActivateTask                            FE83FF      73     115       2   .text       
-     TerminateTask                           FE8472      6F     111      12   .text       
-     Dispatcher                              FE84E1      51      81       2   .text       
+     TerminateTask                           FE8472      72     114      12   .text       
+     Dispatcher                              FE84E4      51      81       2   .text       
 - VARIABLES:
-     TaskExecuted_ID                           2154       2       2       4   .common     
+     TaskExecuted_ID                           2154       2       2       5   .common     
 MODULE:                 -- mem.c.o --
 - PROCEDURES:
-     Mem_Init                                FE8532      4F      79       2   .text       
-     Mem_Alloc                               FE8581      4D      77       2   .text       
+     Mem_Init                                FE8535      4F      79       2   .text       
+     Mem_Alloc                               FE8584      4D      77       2   .text       
 - VARIABLES:
      mcal_mem_InitMem                        F01000       1       1       2   HEAP        
      mcal_mem_MemHandler                       2156       A      10      22   .common     
@@ -1655,7 +1655,7 @@ MODULE STATISTIC
   SchM.c.o                                     3    266      0
   Os_Task.c.o                                  0    114      0
   Os_TaskCfg.c.o                              63      0     94
-  Os_TaskM.c.o                                 2    307      0
+  Os_TaskM.c.o                                 2    310      0
   mem.c.o                                     13    156      0
   other                                      256     83      2
 
@@ -3914,7 +3914,7 @@ OBJECT LIST SORTED BY ADDRESS
      mcal_mcu_gu32BusFrequency                 2110       4       4       4   .common     
      DispacherArray                            2114      3C      60       7   .common     
      TaskControlBlock                          2150       3       3      10   .common     
-     TaskExecuted_ID                           2154       2       2       4   .common     
+     TaskExecuted_ID                           2154       2       2       5   .common     
      mcal_mem_MemHandler                       2156       A      10      22   .common     
      mcal_mem_TotalMemSizeBytes                2160       2       2       3   .common     
      _Startup                                  C000       F      15       1   .init       
@@ -3952,10 +3952,10 @@ OBJECT LIST SORTED BY ADDRESS
      Task_32ms                               FE83D9      13      19       2   .text       
      Task_64ms                               FE83EC      13      19       2   .text       
      ActivateTask                            FE83FF      73     115       2   .text       
-     TerminateTask                           FE8472      6F     111      12   .text       
-     Dispatcher                              FE84E1      51      81       2   .text       
-     Mem_Init                                FE8532      4F      79       2   .text       
-     Mem_Alloc                               FE8581      4D      77       2   .text       
+     TerminateTask                           FE8472      72     114      12   .text       
+     Dispatcher                              FE84E4      51      81       2   .text       
+     Mem_Init                                FE8535      4F      79       2   .text       
+     Mem_Alloc                               FE8584      4D      77       2   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -4172,5 +4172,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 8
-Total size of all blocks to be downloaded: 2320
+Total size of all blocks to be downloaded: 2323
 

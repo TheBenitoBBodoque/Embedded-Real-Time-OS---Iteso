@@ -1,14 +1,16 @@
-/****************************************************************************************************/
-/**
-@addtogroup Memory
-@{
-\file       mem.h
-\brief      Memory manipulation functions.
-\author     Alejandro Guerena, Jose Miguel Reyes, Sergio Pineda
-\version    1.0
-\date       23/10/2013
-*/
-/****************************************************************************************************/
+/******************************************************************************
+*   Filename:   mem.h 
+*
+*   Description: S12XE/S12XS CPU and PLL initialization
+*
+*
+*   Revision History: This driver was developed by TEAM 4
+*                             
+*   Date          #Change       Author
+*   MM-DD-YY      Number:       Initials   Description of change
+*   -----------   -----------   --------   ------------------------------------
+*   03-29-14       11            JMR        Fix Issues found in OS Dispatcher and OSEK functions
+******************************************************************************/
 
 #ifndef __MEM_H
 #define __MEM_H
