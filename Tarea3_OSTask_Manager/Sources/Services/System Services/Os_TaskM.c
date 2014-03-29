@@ -68,8 +68,8 @@ Status_Type ActivateTask(TaskType taskID)
       }
     }
   }
-  TaskControlBlock[taskID].Task_ID = READY;
-  if(Processing_Done == TRUE)
+  TaskControlBlock[taskID].Task_State = READY;
+  if(Processing_Done == FALSE)
   {
      Status = E_OS_LIMIT;
   }   
@@ -88,14 +88,15 @@ Status_Type ActivateTask(TaskType taskID)
 Status_Type TerminateTask (void)
 {
   Status_Type Status = E_OK;
-  u16 IndexQueue;
-  TaskControlBlock[TaskExecuted_ID].Task_ID = SUSPENDED;
-  for(IndexQueue;IndexQueue > CNF_MAXTASKQUEUE;++IndexQueue)
+  u16 IndexQueue=0;
+  
+  TaskControlBlock[TaskExecuted_ID].Task_State = SUSPENDED;
+  for(IndexQueue;IndexQueue < CNF_MAXTASKQUEUE;IndexQueue++)
   {
-     DispacherArray[TaskConfigInitial->ptr_Task[TaskExecuted_ID].Task_Priority][IndexQueue - 1] =
-     DispacherArray[TaskConfigInitial->ptr_Task[TaskExecuted_ID].Task_Priority][IndexQueue];
+     DispacherArray[TaskConfigInitial->ptr_Task[TaskExecuted_ID].Task_Priority][IndexQueue] =
+     DispacherArray[TaskConfigInitial->ptr_Task[TaskExecuted_ID].Task_Priority][IndexQueue+1];
   }
-  DispacherArray[TaskConfigInitial->ptr_Task[TaskExecuted_ID].Task_Priority][++IndexQueue] = 0xFFFF;
+  DispacherArray[TaskConfigInitial->ptr_Task[TaskExecuted_ID].Task_Priority][IndexQueue-1] = 0xFFFF;
   return Status;
 }
 
@@ -147,10 +148,11 @@ void Dispatcher(void)
      if(DispacherArray[IndexPriority][0U] != 0xFFFF)
      {
          TaskExecuted_ID = DispacherArray[IndexPriority][0U];
-         TaskControlBlock[TaskExecuted_ID].Task_ID = RUNNING; 
+         TaskControlBlock[TaskExecuted_ID].Task_State = RUNNING;
+          
          TaskConfigInitial->ptr_Task[TaskExecuted_ID].TaskCallback();
          NoTaskExecuted = FALSE;
      }
   }
-  while((IndexPriority != 0U)||(NoTaskExecuted));
+  while((IndexPriority != 0U)&&(NoTaskExecuted));
 }
