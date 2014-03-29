@@ -23,9 +23,9 @@
 *****************************************************************************************************/
 
 /* RAM memory variables for page/bank manipulation*/
-//#pragma DATA_SEG __RPAGE_SEG HEAP
+#pragma DATA_SEG __RPAGE_SEG HEAP
 u8	mcal_mem_InitMem;
-//#pragma DATA_SEG DEFAULT
+#pragma DATA_SEG DEFAULT
 
 MemHandlerType mcal_mem_MemHandler;
 Mem_SizeType   mcal_mem_TotalMemSizeBytes;
@@ -135,10 +135,10 @@ void Test_Memory(void)
     //Mem_Uint32PtrType var32bits;   
 
     /* Allocate n bytes */
-    var8bits   = (u8 *) Mem_Alloc(8192);
-    var8bits2  = (u8 *) Mem_Alloc(8190);
-    var8bits3  = (u8 *) Mem_Alloc(2);
-    var8bits4  = (u8 *) Mem_Alloc(1); 
+    var8bits   = (u8 * __far) Mem_Alloc(8192);
+    var8bits2  = (u8 * __far) Mem_Alloc(8190);
+    var8bits3  = (u8 * __far) Mem_Alloc(2);
+    var8bits4  = (u8 * __far) Mem_Alloc(1); 
     
     /* Write information to allocated memory */
     for(i=0;i<8;i++) 
