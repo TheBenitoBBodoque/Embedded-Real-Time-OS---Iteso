@@ -61,7 +61,7 @@ typedef struct
 ******************************************************************************/
 extern const TaskConfigType TaskConfigInitial[];
 extern u16 DispacherArray[MAX_PRIORITY][CNF_MAXTASKQUEUE];
-extern Task_Control_Block *TaskControlBlock; 
+extern Task_Control_Block *__far TaskControlBlock; 
 /******************************************************************************
 *   Global Function Prototypes  
 ******************************************************************************/
