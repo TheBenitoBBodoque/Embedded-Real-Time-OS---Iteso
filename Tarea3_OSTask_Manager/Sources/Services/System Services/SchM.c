@@ -10,6 +10,7 @@
 *   MM-DD-YY      Number:       Initials   Description of change
 *   -----------   -----------   --------   ------------------------------------
 *   03-01-14       02            SPA        OS Task Initial Release
+*   03-29-14       10            SPA        OS Dispatcher and OSEK functions
 ******************************************************************************/
 
 /******************************************************************************
@@ -18,6 +19,7 @@
 #include <mc9s12xep100.h>
 #include "SchM.h"
 #include "gpt.h"
+#include "mem.h"
 
 /******************************************************************************
 *   Local Macro Definitions
@@ -89,8 +91,9 @@ void SchM_DeInit(void)
 *****************************************************************************************************/
 void SchM_Start(void)
 {
-    u8 index_a; 
-    u8 index_b;
+    u16 index_a; 
+    u16 index_b;
+    u16 index_ControlBlock;
     /*Start the timer for the OS tick*/
     Gpt_StartTimer(CHANNEL_0, 500u);
     /*Enable notification*/
@@ -103,6 +106,20 @@ void SchM_Start(void)
          DispacherArray[index_a][index_b] = 0xFFFF;            
       }
     }
+    
+    TaskControlBlock = ((Task_Control_Block*)Mem_Alloc((MAX_NUM_TASK*sizeof(TaskControlBlock))));
+    for(index_ControlBlock=0U;index_ControlBlock < MAX_NUM_TASK;index_ControlBlock++)
+    {
+      TaskControlBlock[index_ControlBlock].Task_ID                        = TaskConfigInitial->ptr_Task[index_ControlBlock].Task_ID;
+      TaskControlBlock[index_ControlBlock].Task_Priority                  = TaskConfigInitial->ptr_Task[index_ControlBlock].Task_Priority;
+      TaskControlBlock[index_ControlBlock].Task_State                     = SUSPENDED;
+      TaskControlBlock[index_ControlBlock].Stack_Information.StartAddress = 0U;
+      TaskControlBlock[index_ControlBlock].Stack_Information.EndAddress   = 0U;
+      TaskControlBlock[index_ControlBlock].Task_Deadline.Relative         = 0U;
+      TaskControlBlock[index_ControlBlock].Task_Deadline.Absolute         = 0U; 
+    }
+    
+    
 
 }
 
@@ -116,9 +133,8 @@ void SchM_Start(void)
 void SchM_OsTick(void)
 {
   u8 Task_Index = 0;
-
-  SchM_OSTickCounter ++;
   
+  SchM_OSTickCounter ++;
   if(!SchM_OSTickEnabled)
   {
     SchM_OSTickEnabled = SCHM_OSTICK_ENABLED;
@@ -127,8 +143,7 @@ void SchM_OsTick(void)
        if((SchM_OSTickCounter & TaskConfigInitial->ptr_Task[Task_Index].Mask) == 
            TaskConfigInitial->ptr_Task[Task_Index].Offset)
        {
-         ActivateTask(((TaskType)TaskConfigInitial->ptr_Task[Task_Index].Task_ID)); 
-
+         ActivateTask(((TaskType)TaskConfigInitial->ptr_Task[Task_Index].Task_ID));
        }
     }
   }

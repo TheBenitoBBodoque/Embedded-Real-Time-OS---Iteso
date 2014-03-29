@@ -12,6 +12,7 @@
 *   MM-DD-YY      XXXXX:1       Initials   Description of change
 *   -----------   -----------   --------   ------------------------------------
 *   03-01-14       02            SPA        OS Task Initial Release
+*   03-29-14       10            SPA        OS Dispatcher and OSEK functions
 ******************************************************************************/
 
 /******************************************************************************
@@ -62,7 +63,8 @@ typedef enum
    TASK_8MS,
    TASK_16MS,
    TASK_32MS,
-   TASK_64MS
+   TASK_64MS,
+   MAX_NUM_TASK
 }TaskID;
 
 typedef enum
@@ -73,7 +75,7 @@ typedef enum
    PRIORITY_3,
    PRIORITY_4,
    PRIORITY_5,
-   MAX_PRIORITY
+   MAX_PRIORITY = PRIORITY_5
 }TaskPriority;
 
 typedef enum

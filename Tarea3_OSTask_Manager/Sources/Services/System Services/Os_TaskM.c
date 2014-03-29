@@ -9,7 +9,7 @@
 *   Date          #Change       Author     
 *   MM-DD-YY      Number:       Initials   Description of change
 *   -----------   -----------   --------   ------------------------------------
-*   
+*   03-29-14       10            SPA        OS Dispatcher and OSEK functions
 ******************************************************************************/
 
 /******************************************************************************
@@ -53,7 +53,7 @@ u16 TaskExecuted_ID;
 *****************************************************************************************************/
 Status_Type ActivateTask(TaskType taskID)
 { 
-  u8 index = 0;
+  u16 index = 0;
   Status_Type Status = E_OK;
   u8 Processing_Done = FALSE;
   for(index = 0; index < CNF_MAXTASKQUEUE; index++)
@@ -63,17 +63,16 @@ Status_Type ActivateTask(TaskType taskID)
       if(DispacherArray[TaskConfigInitial->ptr_Task[taskID].Task_Priority][index] == 0xFFFF)
       {
          DispacherArray[TaskConfigInitial->ptr_Task[taskID].Task_Priority][index] = taskID;
+
          Processing_Done = TRUE;
-      }
-      else
-      {
-        if(index == CNF_MAXTASKQUEUE)
-        {
-           Status = E_OS_LIMIT;
-        }
       }
     }
   }
+  TaskControlBlock[taskID].Task_ID = READY;
+  if(Processing_Done == TRUE)
+  {
+     Status = E_OS_LIMIT;
+  }   
   return Status;
 }
 
@@ -90,7 +89,7 @@ Status_Type TerminateTask (void)
 {
   Status_Type Status = E_OK;
   u16 IndexQueue;
-
+  TaskControlBlock[TaskExecuted_ID].Task_ID = SUSPENDED;
   for(IndexQueue;IndexQueue > CNF_MAXTASKQUEUE;++IndexQueue)
   {
      DispacherArray[TaskConfigInitial->ptr_Task[TaskExecuted_ID].Task_Priority][IndexQueue - 1] =
@@ -147,7 +146,8 @@ void Dispatcher(void)
      IndexPriority--;
      if(DispacherArray[IndexPriority][0U] != 0xFFFF)
      {
-         TaskExecuted_ID = DispacherArray[IndexPriority][0U]; 
+         TaskExecuted_ID = DispacherArray[IndexPriority][0U];
+         TaskControlBlock[TaskExecuted_ID].Task_ID = RUNNING; 
          TaskConfigInitial->ptr_Task[TaskExecuted_ID].TaskCallback();
          NoTaskExecuted = FALSE;
      }
