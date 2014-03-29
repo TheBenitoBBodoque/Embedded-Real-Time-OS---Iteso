@@ -10,7 +10,7 @@
 *   MM-DD-YY      Number:       Initials   Description of change
 *   -----------   -----------   --------   ------------------------------------
 *   03-01-14       02            SPA        OS Task Initial Release
-*   03-29-14       10            SPA        OS Dispatcher and OSEK functions
+*   03-29-14       11            JMR        Fix Issues found in OS Dispatcher and OSEK functions
 ******************************************************************************/
 
 /******************************************************************************

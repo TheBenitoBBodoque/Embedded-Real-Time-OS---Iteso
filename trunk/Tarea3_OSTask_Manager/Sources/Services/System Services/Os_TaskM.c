@@ -10,6 +10,8 @@
 *   MM-DD-YY      Number:       Initials   Description of change
 *   -----------   -----------   --------   ------------------------------------
 *   03-29-14       10            SPA        OS Dispatcher and OSEK functions
+*   03-29-14       11            JMR        Fix Issues found in OS Dispatcher and OSEK functions
+*   03-29-14       12            EBA        Fix more issues
 ******************************************************************************/
 
 /******************************************************************************
@@ -97,6 +99,7 @@ Status_Type TerminateTask (void)
      DispacherArray[TaskConfigInitial->ptr_Task[TaskExecuted_ID].Task_Priority][IndexQueue+1];
   }
   DispacherArray[TaskConfigInitial->ptr_Task[TaskExecuted_ID].Task_Priority][IndexQueue-1] = 0xFFFF;
+  TaskExecuted_ID = 0xFFFF;
   return Status;
 }
 
@@ -113,6 +116,7 @@ Status_Type TerminateTask (void)
 Status_Type GetTaskID(TaskRefType taskIDRef)
 {
   Status_Type Status = E_OK;
+  *taskIDRef = TaskExecuted_ID;
   return Status;
 }
 
@@ -128,6 +132,7 @@ Status_Type GetTaskID(TaskRefType taskIDRef)
 Status_Type GetTaskState(TaskType taskID, TaskStateRefType stateRef)
 {
      Status_Type Status = E_OK;
+     *stateRef = TaskControlBlock[taskID].Task_State;
      return Status;
 }
 
