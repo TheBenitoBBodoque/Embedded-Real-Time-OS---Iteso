@@ -52,12 +52,13 @@
 TASK (Task_1ms)
 {
   u16 index;
+  Status_Type Error_Result = E_OK;
   PORTA_PA0= 1;
   
   for (index=0;index<500;index++){
   }
   PORTA_PA0= 0;
-  TerminateTask();
+  Error_Result=TerminateTask();
 }
 
 /*****************************************************************************************************                                                                        
@@ -70,11 +71,12 @@ TASK (Task_1ms)
 TASK (Task_4ms)
 {
   u16 index;
+  Status_Type Error_Result = E_OK;
   PORTA_PA1= 1;
   for (index=0;index<600;index++){
   }
   PORTA_PA1= 0;
-  TerminateTask();
+  Error_Result=TerminateTask();
 }
 
 /*****************************************************************************************************                                                                        
@@ -87,11 +89,12 @@ TASK (Task_4ms)
 TASK (Task_8ms)
 {
   u16 index;
+  Status_Type Error_Result = E_OK;
   PORTA_PA2= 1;
   for (index=0;index<100;index++){
   }
   PORTA_PA2= 0;
-  TerminateTask();
+  Error_Result=TerminateTask();
 }
 
 /*****************************************************************************************************                                                                        
@@ -104,6 +107,7 @@ TASK (Task_8ms)
 TASK (Task_16ms)
 {
   u16 index;
+  Status_Type Error_Result = E_OK;
   PORTA_PA3= 1;   
   for (index=0;index<300;index++){
   }
@@ -121,11 +125,12 @@ TASK (Task_16ms)
 TASK (Task_32ms)
 {
   u16 index;
+  Status_Type Error_Result = E_OK;
   PORTB_PB0= 1;
   for (index=0;index<1000;index++){
   }
   PORTB_PB0= 0;
-  TerminateTask();
+  Error_Result=TerminateTask();
 }
 
 /*****************************************************************************************************                                                                        
@@ -138,11 +143,12 @@ TASK (Task_32ms)
 TASK (Task_64ms)
 {
   u16 index;
+  Status_Type Error_Result = E_OK;
   PORTB_PB1= 1;
   for (index=0;index<700;index++){
   }
   PORTB_PB1= 0;
-  TerminateTask();
+  Error_Result=TerminateTask();
 }
 
 

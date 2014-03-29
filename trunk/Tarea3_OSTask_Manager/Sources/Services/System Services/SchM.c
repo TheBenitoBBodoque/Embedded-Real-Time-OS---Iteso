@@ -62,6 +62,9 @@ void SchM_Init(const TaskConfigType *SchM_Config)
 	/*Initialize timer configuration for the OS tick*/
 	Gpt_Init(&Gpt_ConfigType_initial[0]);
 	
+	/*Initialize memory driver for TCB allocation*/
+	Mem_Init();
+	
   /* Initialize Ostick and Scheduler flags */
 	SchM_OSTickEnabled = SCHM_OSTICK_DISABLED;
 	SchM_SchedulerEnabled =  SCHEDULER_ENABLED;
@@ -123,6 +126,7 @@ void SchM_Start(void)
     while(1)
     {
       SchM_Background();
+      _FEED_COP();
     }
 
 }
@@ -138,7 +142,7 @@ void SchM_OsTick(void)
 {
   u8 Task_Index = 0;
   Status_Type StatusErrorResult = E_OK;
-  SchM_OSTickCounter ++;
+  
   if(!SchM_OSTickEnabled)
   {
     SchM_OSTickEnabled = SCHM_OSTICK_ENABLED;
@@ -155,7 +159,8 @@ void SchM_OsTick(void)
   {
     /* ERROR: Ostick flag was not disabled  */ 
   }
-  _FEED_COP();
+
+  SchM_OSTickCounter ++;
   PORTB_PB2= ~PORTB_PB2;
 }
 
