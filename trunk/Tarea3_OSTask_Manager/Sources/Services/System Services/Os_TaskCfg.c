@@ -54,7 +54,7 @@ const TaskConfigType TaskConfigInitial[]=
 
 u16 DispacherArray[MAX_PRIORITY][CNF_MAXTASKQUEUE];
 
-Task_Control_Block *TaskControlBlock; 
+Task_Control_Block *__far TaskControlBlock; 
  
 /******************************************************************************
 *   Static Variable Definitions

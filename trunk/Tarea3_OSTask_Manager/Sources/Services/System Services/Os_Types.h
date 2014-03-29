@@ -75,7 +75,7 @@ typedef enum
    PRIORITY_3,
    PRIORITY_4,
    PRIORITY_5,
-   MAX_PRIORITY = PRIORITY_5
+   MAX_PRIORITY
 }TaskPriority;
 
 typedef enum

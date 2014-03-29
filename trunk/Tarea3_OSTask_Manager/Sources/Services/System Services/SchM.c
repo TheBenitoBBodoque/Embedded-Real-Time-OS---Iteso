@@ -15,7 +15,8 @@
 
 /******************************************************************************
 *   Include Files
-******************************************************************************/ 
+******************************************************************************/
+#include <hidef.h> 
 #include <mc9s12xep100.h>
 #include "SchM.h"
 #include "gpt.h"
@@ -107,7 +108,7 @@ void SchM_Start(void)
       }
     }
     
-    TaskControlBlock = ((Task_Control_Block*)Mem_Alloc((MAX_NUM_TASK*sizeof(TaskControlBlock))));
+    TaskControlBlock = ((Task_Control_Block *__far)Mem_Alloc((MAX_NUM_TASK*sizeof(Task_Control_Block))));
     for(index_ControlBlock=0U;index_ControlBlock < MAX_NUM_TASK;index_ControlBlock++)
     {
       TaskControlBlock[index_ControlBlock].Task_ID                        = TaskConfigInitial->ptr_Task[index_ControlBlock].Task_ID;
@@ -119,7 +120,10 @@ void SchM_Start(void)
       TaskControlBlock[index_ControlBlock].Task_Deadline.Absolute         = 0U; 
     }
     
-    
+    while(1)
+    {
+      SchM_Background();
+    }
 
 }
 
@@ -133,7 +137,7 @@ void SchM_Start(void)
 void SchM_OsTick(void)
 {
   u8 Task_Index = 0;
-  
+  Status_Type StatusErrorResult = E_OK;
   SchM_OSTickCounter ++;
   if(!SchM_OSTickEnabled)
   {
@@ -143,14 +147,15 @@ void SchM_OsTick(void)
        if((SchM_OSTickCounter & TaskConfigInitial->ptr_Task[Task_Index].Mask) == 
            TaskConfigInitial->ptr_Task[Task_Index].Offset)
        {
-         ActivateTask(((TaskType)TaskConfigInitial->ptr_Task[Task_Index].Task_ID));
+         StatusErrorResult = ActivateTask(((TaskType)TaskConfigInitial->ptr_Task[Task_Index].Task_ID));
        }
     }
   }
   else
   {
-    /* ERROR: Ostick flag was not disabled */ 
+    /* ERROR: Ostick flag was not disabled  */ 
   }
+  _FEED_COP();
   PORTB_PB2= ~PORTB_PB2;
 }
 
@@ -174,9 +179,6 @@ void SchM_Background(void)
       /*Wait for the next OS Tick to enable it*/
       SchM_OSTickEnabled = SCHM_OSTICK_DISABLED;
       PORTB_PB3= 0;
-
-
-        
      }
      else
      {

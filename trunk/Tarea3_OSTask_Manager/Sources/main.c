@@ -70,15 +70,6 @@ void main(void)
   EnableInterrupts;
   
   SchM_Init(TaskConfigInitial);
+  /* Loop Forever and ever */
   SchM_Start();
-  
-  for(;;) 
-  {
-    /* Call the scheduler */
-    SchM_Background();
-    /* feeds the dog */
-    _FEED_COP(); 
-  } 
-  /* loop forever */
-  /* please make sure that you never leave main */
 }
