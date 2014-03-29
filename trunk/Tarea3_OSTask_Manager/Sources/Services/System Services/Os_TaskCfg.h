@@ -12,6 +12,7 @@
 *   MM-DD-YY      XXXXX:1       Initials   Description of change
 *   -----------   -----------   --------   ------------------------------------
 *   03-01-14       02            SPA        OS Task Initial Release
+*   03-29-14       10            SPA        OS Dispatcher and OSEK functions
 ******************************************************************************/
 
 /******************************************************************************
@@ -59,7 +60,8 @@ typedef struct
 *   External Variables
 ******************************************************************************/
 extern const TaskConfigType TaskConfigInitial[];
-extern u16 DispacherArray[MAX_PRIORITY][CNF_MAXTASKQUEUE]; 
+extern u16 DispacherArray[MAX_PRIORITY][CNF_MAXTASKQUEUE];
+extern Task_Control_Block *TaskControlBlock; 
 /******************************************************************************
 *   Global Function Prototypes  
 ******************************************************************************/

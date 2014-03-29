@@ -10,6 +10,7 @@
 *   MM-DD-YY      XXXXX:1       Initials   Description of change
 *   -----------   -----------   --------   ------------------------------------
 *   03-01-14       02            SPA        OS Task Initial Release
+*   03-29-14       10            SPA        OS Dispatcher and OSEK functions
 ******************************************************************************/
 
 /******************************************************************************
@@ -53,7 +54,7 @@ const TaskConfigType TaskConfigInitial[]=
 
 u16 DispacherArray[MAX_PRIORITY][CNF_MAXTASKQUEUE];
 
- 
+Task_Control_Block *TaskControlBlock; 
  
 /******************************************************************************
 *   Static Variable Definitions
