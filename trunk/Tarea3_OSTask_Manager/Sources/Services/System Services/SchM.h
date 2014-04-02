@@ -44,6 +44,7 @@ extern void SchM_Init(const TaskConfigType *SchM_Config);
 extern void SchM_DeInit(void);
 extern void SchM_Start(void);
 extern void SchM_Background(void);
+extern void Dispatcher(void);
 
 
 #endif /*__SCHM_H*/
