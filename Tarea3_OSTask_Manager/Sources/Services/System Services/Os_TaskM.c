@@ -135,29 +135,3 @@ Status_Type GetTaskState(TaskType taskID, TaskStateRefType stateRef)
      *stateRef = TaskControlBlock[taskID].Task_State;
      return Status;
 }
-
-/*****************************************************************************************************                                                                        
-*   Function: Dispatcher
-*
-*   Description: Only run on Background task
-*
-*   Caveats: Non Reentrant
-*****************************************************************************************************/
-void Dispatcher(void)
-{
-  u16 IndexPriority = MAX_PRIORITY;
-  u16 NoTaskExecuted = TRUE;
-  do
-  {  
-     IndexPriority--;
-     if(DispacherArray[IndexPriority][0U] != 0xFFFF)
-     {
-         TaskExecuted_ID = DispacherArray[IndexPriority][0U];
-         TaskControlBlock[TaskExecuted_ID].Task_State = RUNNING;
-          
-         TaskConfigInitial->ptr_Task[TaskExecuted_ID].TaskCallback();
-         NoTaskExecuted = FALSE;
-     }
-  }
-  while((IndexPriority != 0U)&&(NoTaskExecuted));
-}
