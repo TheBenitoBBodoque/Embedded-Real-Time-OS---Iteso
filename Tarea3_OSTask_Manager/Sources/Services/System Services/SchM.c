@@ -224,13 +224,14 @@ void Dispatcher(void)
        }
     }
     while((IndexPriority != 0U)&&(NoTaskExecuted));
-    if((IndexPriority == 0U) && (!NoTaskExecuted))
+    if((IndexPriority == 0U) && (NoTaskExecuted))
     {
        DispatcherDone = TRUE;
     }
     else
     {
        IndexPriority = MAX_PRIORITY;
+       NoTaskExecuted = TRUE;
     }
   }
 }
