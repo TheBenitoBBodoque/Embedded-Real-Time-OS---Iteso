@@ -196,3 +196,42 @@ void SchM_Background(void)
    }
 }
 
+/*****************************************************************************************************                                                                        
+*   Function: Dispatcher
+*
+*   Description: Only run on Background task
+*
+*   Caveats: Non Reentrant
+*****************************************************************************************************/
+void Dispatcher(void)
+{
+  u16 IndexPriority = MAX_PRIORITY;
+  u16 NoTaskExecuted = TRUE;
+  u16 DispatcherDone = FALSE;
+  while(!DispatcherDone)
+  {
+
+    do
+    {  
+       IndexPriority--;
+       if(DispacherArray[IndexPriority][0U] != 0xFFFF)
+       {
+           TaskExecuted_ID = DispacherArray[IndexPriority][0U];
+           TaskControlBlock[TaskExecuted_ID].Task_State = RUNNING;
+            
+           TaskConfigInitial->ptr_Task[TaskExecuted_ID].TaskCallback();
+           NoTaskExecuted = FALSE;
+       }
+    }
+    while((IndexPriority != 0U)&&(NoTaskExecuted));
+    if((IndexPriority == 0U) && (!NoTaskExecuted))
+    {
+       DispatcherDone = TRUE;
+    }
+    else
+    {
+       IndexPriority = MAX_PRIORITY;
+    }
+  }
+}
+
