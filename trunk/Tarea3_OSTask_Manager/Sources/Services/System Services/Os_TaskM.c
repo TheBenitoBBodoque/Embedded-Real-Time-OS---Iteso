@@ -132,6 +132,13 @@ Status_Type GetTaskID(TaskRefType taskIDRef)
 Status_Type GetTaskState(TaskType taskID, TaskStateRefType stateRef)
 {
      Status_Type Status = E_OK;
-     *stateRef = TaskControlBlock[taskID].Task_State;
+     if(MAX_NUM_TASK > taskID)
+     {
+        *stateRef = TaskControlBlock[taskID].Task_State;
+     }
+     else
+     {
+        Status = E_OS_ID;
+     }
      return Status;
 }
