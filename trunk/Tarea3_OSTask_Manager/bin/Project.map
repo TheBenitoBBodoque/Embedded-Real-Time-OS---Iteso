@@ -47,7 +47,7 @@ Section Name                    Size  Type     From       To       Segment
 .rodata                          107     R     0xC060     0xC0CA   ROM_C000
 NON_BANKED                       389     R     0xC0CB     0xC24F   ROM_C000
 .copy                              2     R     0xC250     0xC251   ROM_C000
-.text                           1511     R   0xFE8000   0xFE85E6   PAGE_FE
+.text                           1522     R   0xFE8000   0xFE85F1   PAGE_FE
 .stack                           256   R/W     0x2000     0x20FF   RAM
 HEAP                               1   R/W   0xF01000   0xF01000   RAM_F0
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
@@ -794,7 +794,7 @@ HEAP                               1   R/W   0xF01000   0xF01000   RAM_F0
 .vectSeg739_vect                   2     R     0xFFFE     0xFFFF   .vectSeg739
 
 Summary of section sizes per section type:
-READ_ONLY (R):         929 (dec:     2345)
+READ_ONLY (R):         934 (dec:     2356)
 READ_WRITE (R/W):      162 (dec:      354)
 NO_INIT (N/I):         383 (dec:      899)
 
@@ -1627,14 +1627,14 @@ MODULE:                 -- Os_TaskCfg.c.o --
      TaskControlBlock                          2150       3       3      10   .common     
 MODULE:                 -- Os_TaskM.c.o --
 - PROCEDURES:
-     ActivateTask                            FE8466      73     115       2   .text       
-     TerminateTask                           FE84D9      72     114      12   .text       
+     ActivateTask                            FE8466      7E     126       2   .text       
+     TerminateTask                           FE84E4      72     114      12   .text       
 - VARIABLES:
      TaskExecuted_ID                           2154       2       2       5   .common     
 MODULE:                 -- mem.c.o --
 - PROCEDURES:
-     Mem_Init                                FE854B      4F      79       2   .text       
-     Mem_Alloc                               FE859A      4D      77       2   .text       
+     Mem_Init                                FE8556      4F      79       2   .text       
+     Mem_Alloc                               FE85A5      4D      77       2   .text       
 - VARIABLES:
      mcal_mem_InitMem                        F01000       1       1       2   HEAP        
      mcal_mem_MemHandler                       2156       A      10      22   .common     
@@ -1655,7 +1655,7 @@ MODULE STATISTIC
   SchM.c.o                                     3    369      0
   Os_Task.c.o                                  0    114      0
   Os_TaskCfg.c.o                              63      0     94
-  Os_TaskM.c.o                                 2    229      0
+  Os_TaskM.c.o                                 2    240      0
   mem.c.o                                     13    156      0
   other                                      256     83      2
 
@@ -3952,10 +3952,10 @@ OBJECT LIST SORTED BY ADDRESS
      Task_16ms                               FE842D      13      19       2   .text       
      Task_32ms                               FE8440      13      19       2   .text       
      Task_64ms                               FE8453      13      19       2   .text       
-     ActivateTask                            FE8466      73     115       2   .text       
-     TerminateTask                           FE84D9      72     114      12   .text       
-     Mem_Init                                FE854B      4F      79       2   .text       
-     Mem_Alloc                               FE859A      4D      77       2   .text       
+     ActivateTask                            FE8466      7E     126       2   .text       
+     TerminateTask                           FE84E4      72     114      12   .text       
+     Mem_Init                                FE8556      4F      79       2   .text       
+     Mem_Alloc                               FE85A5      4D      77       2   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -4172,5 +4172,5 @@ STATISTIC SECTION
 ExeFile:
 --------
 Number of blocks to be downloaded: 8
-Total size of all blocks to be downloaded: 2345
+Total size of all blocks to be downloaded: 2356
 
