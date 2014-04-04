@@ -58,23 +58,30 @@ Status_Type ActivateTask(TaskType taskID)
   u16 index = 0;
   Status_Type Status = E_OK;
   u8 Processing_Done = FALSE;
-  for(index = 0; index < CNF_MAXTASKQUEUE; index++)
+  if(MAX_NUM_TASK > taskID)
   {
-    if(Processing_Done == FALSE)
+    for(index = 0; index < CNF_MAXTASKQUEUE; index++)
     {
-      if(DispacherArray[TaskConfigInitial->ptr_Task[taskID].Task_Priority][index] == 0xFFFF)
+      if(Processing_Done == FALSE)
       {
-         DispacherArray[TaskConfigInitial->ptr_Task[taskID].Task_Priority][index] = taskID;
+        if(DispacherArray[TaskConfigInitial->ptr_Task[taskID].Task_Priority][index] == 0xFFFF)
+        {
+           DispacherArray[TaskConfigInitial->ptr_Task[taskID].Task_Priority][index] = taskID;
 
-         Processing_Done = TRUE;
+           Processing_Done = TRUE;
+        }
       }
     }
+    TaskControlBlock[taskID].Task_State = READY;
+    if(Processing_Done == FALSE)
+    {
+       Status = E_OS_LIMIT;
+    }
   }
-  TaskControlBlock[taskID].Task_State = READY;
-  if(Processing_Done == FALSE)
+  else
   {
-     Status = E_OS_LIMIT;
-  }   
+     Status = E_OS_ID;
+  }
   return Status;
 }
 
