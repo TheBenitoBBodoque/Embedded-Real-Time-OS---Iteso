@@ -113,11 +113,36 @@ typedef struct
 
 typedef struct
 {
+  u16   CCR_TaskContext_u16;
+  u16     D_TaskContext_u16;
+  u16     X_TaskContext_u16;
+  u16     Y_TaskContext_u16;
+  u16    PC_TaskContext_u16;
+  u16 PPAGE_TaskContext_u16;
+  u16    SP_TaskContext_u16;
+}TaskContextSave;
+
+typedef enum
+{
+    TASK_NOPREEMPTED = 0,
+    TASK_PREEMPTED
+}TaskInterrupted;
+
+typedef struct
+{
+    TaskContextSave BackgroundContextSave;
+    TaskInterrupted BackgroundInterrupted;
+}Background_Control_Block;
+
+typedef struct
+{
   TaskID              Task_ID;
   TaskPriority        Task_Priority;
   TaskStates          Task_State;
   StackInformation    Stack_Information;
   TaskDeadline        Task_Deadline;
+  TaskContextSave     Task_ContextSave;
+  TaskInterrupted     Task_Interrupted;
 }Task_Control_Block;
 
 typedef struct
@@ -131,8 +156,15 @@ typedef struct
   void(*TaskCallback)(void);
 }Task_Descriptor;
 
-
-
+typedef struct
+{       
+    u8      UartID;
+    u8      MaxData;
+    u8      MinData;
+    u8      MeanData;
+    u8      EndData;
+    u8      CReturn;    
+}Task_Performance;
 /******************************************************************************
 *   External Variables
 ******************************************************************************/

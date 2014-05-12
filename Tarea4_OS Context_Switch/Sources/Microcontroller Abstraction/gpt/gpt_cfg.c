@@ -56,6 +56,24 @@ const Pit_ChannelConfigType Gpt_ChannelConfigType_initial[] =
    CHANNEL_0,
    PIT_MICROTIMER0,
    SchM_OsTick,    
+  },
+  // Channel 1
+  {
+   CHANNEL_1,
+   PIT_MICROTIMER1,
+   Timed_Task1,    
+  },
+    // Channel 2
+  {
+   CHANNEL_2,
+   PIT_MICROTIMER1,
+   Timed_Task2,    
+  },
+    // Channel 3
+  {
+   CHANNEL_3,
+   PIT_MICROTIMER1,
+   NULL,    
   }
 };
   

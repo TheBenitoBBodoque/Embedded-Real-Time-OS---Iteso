@@ -136,6 +136,8 @@ extern Gpt_Notification_type Gpt_Notification[];
 *****************************************************************************************************/
 
  extern void SchM_OsTick(void);
+ extern void Timed_Task1(void);
+ extern void Timed_Task2(void);
 
  
 /**************************************************************************************************/

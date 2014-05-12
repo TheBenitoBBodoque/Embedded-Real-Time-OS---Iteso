@@ -22,6 +22,8 @@
 #include "mcu.h"
 #include "gpt.h"
 #include "SchM.h"
+#include "int_vectors.h"
+
 
 /******************************************************************************
 *   Local Macro Definitions
@@ -59,15 +61,17 @@
 void main(void) 
 {
   /*Disable interrupts to start the MCU configuration*/  
-  DisableInterrupts;
+  DisableAllInterrupts();
   /* Intilialize the interupt vector base address for default location */
   Init_Interrupt_Vector();
     
   Mcu_Init();
-  DDRA =0x0F;
-  DDRB =0x0F;
+  DDRA =0xFF;
+  DDRB =0xFF;
+  	/* SCI Initialization */
+  //vfnSCI_Init(&SCI_config[0]);
   
-  EnableInterrupts;
+  EnableAllInterrupts();
   
   SchM_Init(TaskConfigInitial);
   /* Loop Forever and ever */

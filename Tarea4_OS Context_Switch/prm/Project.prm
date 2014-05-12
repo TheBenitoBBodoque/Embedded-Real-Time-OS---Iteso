@@ -221,13 +221,13 @@ PLACEMENT /* here all predefined and user segments are placed into the SEGMENTS 
       PAGED_RAM               /* paged data accessed by CPU12 only */
                         INTO  /* when using banked addressing for variable data, make sure to specify
                                  the option -D__FAR_DATA on the compiler command line */
-                              RAM_FD, RAM_FC, RAM_F7, RAM_F6, RAM_F5, RAM_F4, RAM_F3, RAM_F2, RAM_F1, RAM_F0 /*, RAM_FB, RAM_FA, RAM_F9 */;
+                              RAM_FD, RAM_FC, RAM_F7, RAM_F6, RAM_F5, RAM_F4; /*, RAM_F3, RAM_F2, RAM_F1, RAM_F0 , RAM_FB, RAM_FA, RAM_F9 */
 
       XGATE_STK_L       INTO  RAM_XGATE_STK_L;
       XGATE_STK_H       INTO  RAM_XGATE_STK_H;
       
                               /* Memory segment reserved to Dynamic Memory Allocation */
-      HEAP              INTO  RAM_F0, RAM_F1, RAM_F2, RAM_F3;
+      HEAP          INTO  RAM_F3, RAM_F2, RAM_F1, RAM_F0;
 
     //.vectors          INTO  OSVECTORS; /* OSEK vector table */
 END

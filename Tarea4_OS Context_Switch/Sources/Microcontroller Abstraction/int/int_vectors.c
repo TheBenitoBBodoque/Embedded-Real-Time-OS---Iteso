@@ -17,9 +17,22 @@
 /*****************************************************************************************************
 * Include files
 *****************************************************************************************************/
-
+#include <hidef.h>      /* common defines and macros */
 /** Own modules */
 #include    "int_vectors.h"
+
+/*****************************************************************************************************
+* Definition of  VARIABLEs - 
+*****************************************************************************************************/
+
+volatile u8 gInterrupt_nested_flag=0;
+UINT16     CCR_ContextSaving_u16;
+UINT16       D_ContextSaving_u16;
+UINT16      IX_ContextSaving_u16;
+UINT16      IY_ContextSaving_u16;
+UINT16      PC_ContextSaving_u16;
+UINT8     PPAGE_ContextSaving_u8;
+UINT16      SP_ContextSaving_u16;
 
 /*****************************************************************************************************
 * Declaration of module wide TYPES
@@ -170,7 +183,7 @@ void (* near const vectors[])(void) @ 0xFF10 =
   vfnDummy_D_Isr,          /* 0x78  0xFFF0 ivVrti            */
   vfnDummy_D_Isr,          /* 0x79  0xFFF2 ivVirq            */
   vfnDummy_D_Isr,          /* 0x7A  0xFFF4 ivVxirq           */
-  vfnDummy_D_Isr,          /* 0x7B  0xFFF6 ivVswi            */
+  vfnSoftware_Isr,          /* 0x7B  0xFFF6 ivVswi            */
   vfnDummy_D_Isr,          /* 0x7C  0xFFF8 ivVtrap           */
   _Startup,                /* 0xFFFA  ivVcop                 */
   vfnDummy_D_Isr   /* vfnPll_Clock_Monitor_Isr 0xFFFC  ivVclkmon              */
@@ -181,7 +194,37 @@ void (* near const vectors[])(void) @ 0xFF10 =
 /*****************************************************************************************************
 * Code of module wide FUNCTIONS
 *****************************************************************************************************/
+/*****************************************************************************************************                                                                        
+*   Function: DisableAllInterrupts
+*
+*   Description: To disable MCU interrupts.
+*
+*   Caveats: Non Reentrant
+*****************************************************************************************************/
+void DisableAllInterrupts(void){
+ 
+ if(gInterrupt_nested_flag==0) {
+    DisableInterrupts;
+ } 
+ gInterrupt_nested_flag++;
+}
 
+/*****************************************************************************************************                                                                        
+*   Function: EnableAllInterrupts
+*
+*   Description: To enable MCU interrupts. DisableAllInterrupts() should be called before calling this
+*                function.
+*
+*   Caveats: Non Reentrant
+*****************************************************************************************************/
+void EnableAllInterrupts(void){
+ 
+ gInterrupt_nested_flag--;
+ 
+ if(gInterrupt_nested_flag==0){
+    EnableInterrupts;
+ }
+}
 /****************************************************************************************************/
 /**
 * \brief    Dummy ISR, if reached, processing will enter an empty routine
@@ -193,4 +236,54 @@ void (* near const vectors[])(void) @ 0xFF10 =
 void interrupt  vfnDummy_D_Isr( void  )
 {
 }
+
+void interrupt vfnSoftware_Isr(void){
+    __asm
+    {
+          PULD                            ; (CCR) Pull stack into the CPU Register D
+          STD     CCR_ContextSaving_u16   ; Store the CPU Register D value in fixed memory
+          PULD                            ; (D || BA) Pull the stack into the CPU Register D
+          STD     D_ContextSaving_u16     ; Store the CPU Register D value in fixed memory
+          PULD                            ; (IX) Pull the stack into the CPU Register D
+          STD     IY_ContextSaving_u16    ; Store the CPU Register D value in fixed memory
+          PULD                            ; (IY) Pull the stack into the CPU Register D
+          STD     IX_ContextSaving_u16    ; Store the CPU Register D value in fixed memory
+          PULD                            ; (PC) Pull the stack into the CPU Register D
+          STD     PC_ContextSaving_u16    ; Store the CPU Register D value in fixed memory
+          PULA                            ; (P_PAGE) Pull the stack into the CPU Register D
+          STAA    PPAGE_ContextSaving_u8  ; Store the CPU Register A value in fixed memory
+
+          STS     SP_ContextSaving_u16    ; (SP) Store Stack Pointer in fixed memory
+    }
+
+    if(TaskExecuted_ID == 0xFFFF)
+    {
+        BackgroundControlBlock.BackgroundContextSave.CCR_TaskContext_u16 = CCR_ContextSaving_u16;
+        BackgroundControlBlock.BackgroundContextSave.D_TaskContext_u16 = D_ContextSaving_u16;
+        BackgroundControlBlock.BackgroundContextSave.X_TaskContext_u16 = IX_ContextSaving_u16;
+        BackgroundControlBlock.BackgroundContextSave.Y_TaskContext_u16 = IY_ContextSaving_u16;
+        BackgroundControlBlock.BackgroundContextSave.PC_TaskContext_u16 = PC_ContextSaving_u16;
+        BackgroundControlBlock.BackgroundContextSave.PPAGE_TaskContext_u16 = PPAGE_ContextSaving_u8;
+        BackgroundControlBlock.BackgroundContextSave.SP_TaskContext_u16 = SP_ContextSaving_u16;
+        BackgroundControlBlock.BackgroundInterrupted = TASK_PREEMPTED;
+    }
+    else
+    {
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.CCR_TaskContext_u16     = CCR_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.D_TaskContext_u16       = D_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.X_TaskContext_u16       = IX_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.Y_TaskContext_u16       = IY_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.PC_TaskContext_u16      = PC_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.PPAGE_TaskContext_u16   = PPAGE_ContextSaving_u8;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.SP_TaskContext_u16      = SP_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_Interrupted                         = TASK_PREEMPTED;
+    }
+   
+          __asm
+    {
+         MOVW @Dispatcher, 2, -sp;
+         RTS
+    }
+}
+
 #pragma CODE_SEG DEFAULT
