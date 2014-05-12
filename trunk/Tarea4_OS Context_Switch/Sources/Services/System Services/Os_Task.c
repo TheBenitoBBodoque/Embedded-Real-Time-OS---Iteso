@@ -34,7 +34,13 @@
 /******************************************************************************
 *   Global Variable Definitions
 ******************************************************************************/
+ /*JEBA Test */
+static Task_Performance OS_TaskPerformance[5];
 
+static u8 UartIndx;
+
+static u8 initbuffer=0;
+u8 gRotaBit_counter;
 /******************************************************************************
 *   Static Variable Definitions
 ******************************************************************************/
@@ -54,11 +60,11 @@ TASK (Task_1ms)
 {
   u16 index;
   Status_Type Error_Result = E_OK;
-  PORTA_PA0= 1;
+  PORTB_PB0= 1;
   
-  for (index=0;index<500;index++){
-  }
-  PORTA_PA0= 0;
+  //for (index=0;index<500;index++){
+  // }
+  PORTB_PB0= 0;
   Error_Result=TerminateTask();
 }
 
@@ -73,10 +79,22 @@ TASK (Task_4ms)
 {
   u16 index;
   Status_Type Error_Result = E_OK;
-  PORTA_PA1= 1;
-  for (index=0;index<600;index++){
-  }
-  PORTA_PA1= 0;
+  PORTB_PB1= 1;
+ /* if(!initbuffer)
+  {
+    
+    for (index=0;index<5;index++)
+    {
+        OS_TaskPerformance[index].UartID = 'J';
+        OS_TaskPerformance[index].MaxData = 'E';
+        OS_TaskPerformance[index].MinData = 'B';
+        OS_TaskPerformance[index].MeanData = 'A';
+        OS_TaskPerformance[index].EndData = '1';
+        OS_TaskPerformance[index].CReturn = '\n';
+    }  
+    initbuffer=0x01;
+  } */
+  PORTB_PB1= 0;
   Error_Result=TerminateTask();
 }
 
@@ -91,10 +109,10 @@ TASK (Task_8ms)
 {
   u16 index;
   Status_Type Error_Result = E_OK;
-  PORTA_PA2= 1;
-  for (index=0;index<100;index++){
-  }
-  PORTA_PA2= 0;
+  PORTB_PB2= 1;
+  //for (index=0;index<100;index++){
+  //}
+  PORTB_PB2= 0;
   Error_Result=TerminateTask();
 }
 
@@ -109,11 +127,11 @@ TASK (Task_16ms)
 {
   u16 index;
   Status_Type Error_Result = E_OK;
-  PORTA_PA3= 1;   
-  for (index=0;index<300;index++){
-  }
-  PORTA_PA3= 0;
-  TerminateTask();
+  PORTB_PB3= 1;   
+  //for (index=0;index<300;index++){
+  //}
+  PORTB_PB3= 0;
+ Error_Result=TerminateTask();
 }
 
 /*****************************************************************************************************                                                                        
@@ -127,10 +145,10 @@ TASK (Task_32ms)
 {
   u16 index;
   Status_Type Error_Result = E_OK;
-  PORTB_PB0= 1;
-  for (index=0;index<1000;index++){
-  }
-  PORTB_PB0= 0;
+  PORTB_PB4= ~PORTB_PB4;
+  //for (index=0;index<1000;index++){
+  //}
+  //PORTB_PB4= 0;
   Error_Result=TerminateTask();
 }
 
@@ -145,10 +163,58 @@ TASK (Task_64ms)
 {
   u16 index;
   Status_Type Error_Result = E_OK;
-  PORTB_PB1= 1;
-  for (index=0;index<700;index++){
+  PORTB_PB5= ~PORTB_PB5;
+  //for (index=0;index<700;index++){
+  //}
+  //PORTB_PB5= 0;
+  Error_Result=TerminateTask();
+}
+
+/*****************************************************************************************************                                                                        
+*   Function: Timed_Task1
+*
+*   Description: Timer event periodic task callback function 100ms
+*
+*   Caveats: Non Reentrant
+*****************************************************************************************************/
+TASK (Timed_Task1){
+  PORTB_PB6= 1;
+  
+  PORTA_PA4= ~PORTA_PA4;
+  if(gRotaBit_counter==4){
+     gRotaBit_counter=0;
   }
-  PORTB_PB1= 0;
+  gRotaBit_counter++;
+  PORTB_PB6= 0;
+}
+
+/*****************************************************************************************************                                                                        
+*   Function: Timed_Task2
+*
+*   Description: Timer event periodic task callback function 200ms
+*
+*   Caveats: Non Reentrant
+*****************************************************************************************************/
+TASK (Timed_Task2){
+ u16 index;
+ 
+ Status_Type Error_Result = E_OK;
+ 
+  PORTA_PA5= ~PORTA_PA5;
+  
+  PORTB_PB7= 1;
+  
+  if(UartIndx < 4)
+  {    
+      UartIndx++;
+  }else
+  {
+      UartIndx=0;
+      vfnSCI_WriteBufferTx(SCI_CH0, &OS_TaskPerformance[0],sizeof(OS_TaskPerformance));
+  }
+  //for (index=0;index<700;index++){
+  //}
+  PORTB_PB7= 0;
   Error_Result=TerminateTask();
 }
 

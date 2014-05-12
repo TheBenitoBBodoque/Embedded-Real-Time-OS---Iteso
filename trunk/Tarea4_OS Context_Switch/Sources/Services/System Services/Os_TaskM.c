@@ -19,6 +19,7 @@
 ******************************************************************************/ 
 #include "typedefs.h"
 #include "Os_TaskM.h"
+#include "SchM.h"
 /******************************************************************************
 *   Local Macro Definitions
 ******************************************************************************/ 
@@ -34,7 +35,8 @@
 /******************************************************************************
 *   Global Variable Definitions
 ******************************************************************************/
-u16 TaskExecuted_ID;
+u16 TaskExecuted_ID = 0xFFFF;
+extern u8 gInterruptFlag;
 /******************************************************************************
 *   Static Variable Definitions
 ******************************************************************************/
@@ -77,6 +79,9 @@ Status_Type ActivateTask(TaskType taskID)
     {
        Status = E_OS_LIMIT;
     }
+    if(gInterruptFlag==0){
+      __asm SWI;
+    }
   }
   else
   {
@@ -107,6 +112,7 @@ Status_Type TerminateTask (void)
   }
   DispacherArray[TaskConfigInitial->ptr_Task[TaskExecuted_ID].Task_Priority][IndexQueue-1] = 0xFFFF;
   TaskExecuted_ID = 0xFFFF;
+  Dispatcher();
   return Status;
 }
 
@@ -122,8 +128,23 @@ Status_Type TerminateTask (void)
 
 Status_Type GetTaskID(TaskRefType taskIDRef)
 {
+  u16 index_ControlBlock;
+  u8  TaskIsRunning;
   Status_Type Status = E_OK;
-  *taskIDRef = TaskExecuted_ID;
+  
+  for(index_ControlBlock=0U;index_ControlBlock < MAX_NUM_TASK;index_ControlBlock++)
+  {
+    if(TaskControlBlock[index_ControlBlock].Task_State == RUNNING){
+          *taskIDRef = index_ControlBlock;
+          TaskIsRunning=1;
+          break;
+    }else{
+          TaskIsRunning=0;
+    }
+  }
+  if(!TaskIsRunning){ 
+    *taskIDRef = 0xFFFF;
+  }
   return Status;
 }
 

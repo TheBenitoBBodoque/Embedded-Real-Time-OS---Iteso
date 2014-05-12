@@ -43,7 +43,7 @@ const Task_Descriptor TaskInitial[]=
   {TASK_8MS, PRIORITY_2, MASK_8MS, OFFSET_03,0,0,Task_8ms},
   {TASK_16MS,PRIORITY_3,MASK_16MS, OFFSET_05,0,0,Task_16ms},
   {TASK_32MS,PRIORITY_0,MASK_32MS, OFFSET_07,0,0,Task_32ms},
-  {TASK_64MS,PRIORITY_0,MASK_64MS, OFFSET_11,0,0,Task_64ms}  
+  {TASK_64MS,PRIORITY_0,MASK_64MS, OFFSET_11,0,0,Task_64ms}
 };
 
 const TaskConfigType TaskConfigInitial[]=
@@ -56,7 +56,9 @@ const TaskConfigType TaskConfigInitial[]=
 
 u16 DispacherArray[MAX_PRIORITY][CNF_MAXTASKQUEUE];
 
-Task_Control_Block *__far TaskControlBlock; 
+Task_Control_Block *__far TaskControlBlock;
+
+Background_Control_Block BackgroundControlBlock;
  
 /******************************************************************************
 *   Static Variable Definitions

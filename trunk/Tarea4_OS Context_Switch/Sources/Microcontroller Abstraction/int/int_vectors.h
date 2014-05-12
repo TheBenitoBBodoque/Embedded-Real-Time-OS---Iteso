@@ -34,10 +34,12 @@
 #include    "gpt.h"
 /** PLL definitions and prototypes*/
 #include    "mcu.h"
+#include    "serial.h"
 
 /*****************************************************************************************************
 * Definition of module wide VARIABLES
 *****************************************************************************************************/
+extern volatile u8 gInterrupt_nested_flag;
 
 /*****************************************************************************************************
 * Declaration of module wide TYPES
@@ -53,8 +55,11 @@
 *****************************************************************************************************/
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
 void interrupt  vfnDummy_D_Isr( void  );
+void interrupt vfnSoftware_Isr(void);
 #pragma CODE_SEG DEFAULT
 
-
+#define SERIAL_COMM_CHANNEL0
+extern void DisableAllInterrupts(void);
+extern void EnableAllInterrupts(void);
 #endif /*__INT_VECTORS_H */ 
 /****************************************************************************************************/ 
