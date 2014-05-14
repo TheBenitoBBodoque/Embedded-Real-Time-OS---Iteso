@@ -21,6 +21,7 @@
 
 /** Own headers */
 /* Periodic Interrupt Timer routines prototypes */
+#include <hidef.h> 
 #include    "gpt.h"
 #include    "int_vectors.h"
 /******************************************************************************
@@ -51,8 +52,7 @@ extern UINT16      IY_ContextSaving_u16;
 extern UINT16      PC_ContextSaving_u16;
 extern UINT8     PPAGE_ContextSaving_u8;
 extern UINT16      SP_ContextSaving_u16;
-TaskRefType TaskRunning;
-u16 task;
+
 /******************************************************************************
 *   Static Variable Definitions
 ******************************************************************************/
@@ -394,9 +394,10 @@ void Gpt_DisableNotification( Pit_ChannelType Channel ) {
 
 void interrupt  vfnPIT_Channel0_Isr( void  )
 {
-   DisableAllInterrupts(); 
+   //DisableAllInterrupts(); 
     __asm
     {
+          SEI
           PULD                            ; (CCR) Pull stack into the CPU Register D
           STD     CCR_ContextSaving_u16   ; Store the CPU Register D value in fixed memory
           PULD                            ; (D || BA) Pull the stack into the CPU Register D
@@ -411,75 +412,13 @@ void interrupt  vfnPIT_Channel0_Isr( void  )
           STAA    PPAGE_ContextSaving_u8  ; Store the CPU Register A value in fixed memory
 
           STS     SP_ContextSaving_u16    ; (SP) Store Stack Pointer in fixed memory
+          CLI
+    } 
+    __asm{
+    
     }
+    //PORTB_PB0= ~PORTB_PB0;
     gInterruptFlag=1;
-    (void)GetTaskID(TaskRunning);
-     task = *TaskRunning;
-    if(task == 0xFFFF)
-    {
-        BackgroundControlBlock.BackgroundContextSave.CCR_TaskContext_u16 = CCR_ContextSaving_u16;
-        BackgroundControlBlock.BackgroundContextSave.D_TaskContext_u16 = D_ContextSaving_u16;
-        BackgroundControlBlock.BackgroundContextSave.X_TaskContext_u16 = IX_ContextSaving_u16;
-        BackgroundControlBlock.BackgroundContextSave.Y_TaskContext_u16 = IY_ContextSaving_u16;
-        BackgroundControlBlock.BackgroundContextSave.PC_TaskContext_u16 = PC_ContextSaving_u16;
-        BackgroundControlBlock.BackgroundContextSave.PPAGE_TaskContext_u16 = PPAGE_ContextSaving_u8;
-        BackgroundControlBlock.BackgroundContextSave.SP_TaskContext_u16 = SP_ContextSaving_u16;
-        BackgroundControlBlock.BackgroundInterrupted = TASK_PREEMPTED;
-    }
-    else
-    {
-        TaskControlBlock[task].Task_ContextSave.CCR_TaskContext_u16     = CCR_ContextSaving_u16;
-        TaskControlBlock[task].Task_ContextSave.D_TaskContext_u16       = D_ContextSaving_u16;
-        TaskControlBlock[task].Task_ContextSave.X_TaskContext_u16       = IX_ContextSaving_u16;
-        TaskControlBlock[task].Task_ContextSave.Y_TaskContext_u16       = IY_ContextSaving_u16;
-        TaskControlBlock[task].Task_ContextSave.PC_TaskContext_u16      = PC_ContextSaving_u16;
-        TaskControlBlock[task].Task_ContextSave.PPAGE_TaskContext_u16   = PPAGE_ContextSaving_u8;
-        TaskControlBlock[task].Task_ContextSave.SP_TaskContext_u16      = SP_ContextSaving_u16;
-        TaskControlBlock[task].Task_Interrupted                         = TASK_PREEMPTED;
-    }
-    EnableAllInterrupts();
-    /* Verify that Real Time Interrupt caused the interrupt */
-    if( PITTF_PTF0 == 1u )
-    {
-        /*call callback function, if initialized*/
-        if((Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[0].Pit_Channel_Callback != NULL ) && (Gpt_Notification[0] == GPT_NOTIFICATION_ENABLE))
-        {
-            Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[0].Pit_Channel_Callback();
-        }
-    }
-    /* Clear the real time interrupt flag */
-    PITTF_PTF0 = 1u;
-    /* Call Dispatcher at the end of the interruption */
-     __asm
-    {
-         MOVW @Dispatcher, 2, -sp;
-         RTS
-    }
-}
-
-void interrupt  vfnPIT_Channel1_Isr( void  )
-{  
-    DisableAllInterrupts();
-       __asm
-    {
-          PULD                            ; (CCR) Pull stack into the CPU Register D
-          STD     CCR_ContextSaving_u16   ; Store the CPU Register D value in fixed memory
-          PULD                            ; (D || BA) Pull the stack into the CPU Register D
-          STD     D_ContextSaving_u16     ; Store the CPU Register D value in fixed memory
-          PULD                            ; (IX) Pull the stack into the CPU Register D
-          STD     IY_ContextSaving_u16    ; Store the CPU Register D value in fixed memory
-          PULD                            ; (IY) Pull the stack into the CPU Register D
-          STD     IX_ContextSaving_u16    ; Store the CPU Register D value in fixed memory
-          PULD                            ; (PC) Pull the stack into the CPU Register D
-          STD     PC_ContextSaving_u16    ; Store the CPU Register D value in fixed memory
-          PULA                            ; (P_PAGE) Pull the stack into the CPU Register D
-          STAA    PPAGE_ContextSaving_u8  ; Store the CPU Register A value in fixed memory
-
-          STS     SP_ContextSaving_u16    ; (SP) Store Stack Pointer in fixed memory
-    }
-    gInterruptFlag=1;
-    //(void)GetTaskID(TaskRunning);
-     //task = *TaskRunning;
     if(TaskExecuted_ID == 0xFFFF)
     {
         BackgroundControlBlock.BackgroundContextSave.CCR_TaskContext_u16 = CCR_ContextSaving_u16;
@@ -502,7 +441,74 @@ void interrupt  vfnPIT_Channel1_Isr( void  )
         TaskControlBlock[TaskExecuted_ID].Task_ContextSave.SP_TaskContext_u16      = SP_ContextSaving_u16;
         TaskControlBlock[TaskExecuted_ID].Task_Interrupted                         = TASK_PREEMPTED;
     }
-    EnableAllInterrupts();
+    //EnableAllInterrupts();
+    /* Verify that Real Time Interrupt caused the interrupt */
+    if( PITTF_PTF0 == 1u )
+    {
+        /*call callback function, if initialized*/
+        if((Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[0].Pit_Channel_Callback != NULL ) && (Gpt_Notification[0] == GPT_NOTIFICATION_ENABLE))
+        {
+            Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[0].Pit_Channel_Callback();
+        }
+    }
+    /* Clear the real time interrupt flag */
+    PITTF_PTF0 = 1u;
+    gInterruptFlag=0;
+    /* Call Dispatcher at the end of the interruption */
+     __asm
+    {
+         MOVW @Dispatcher, 2, -sp;
+         RTS
+    }
+}
+
+void interrupt  vfnPIT_Channel1_Isr( void  )
+{  
+    //DisableAllInterrupts();
+       __asm
+    {
+          SEI
+          PULD                            ; (CCR) Pull stack into the CPU Register D
+          STD     CCR_ContextSaving_u16   ; Store the CPU Register D value in fixed memory
+          PULD                            ; (D || BA) Pull the stack into the CPU Register D
+          STD     D_ContextSaving_u16     ; Store the CPU Register D value in fixed memory
+          PULD                            ; (IX) Pull the stack into the CPU Register D
+          STD     IY_ContextSaving_u16    ; Store the CPU Register D value in fixed memory
+          PULD                            ; (IY) Pull the stack into the CPU Register D
+          STD     IX_ContextSaving_u16    ; Store the CPU Register D value in fixed memory
+          PULD                            ; (PC) Pull the stack into the CPU Register D
+          STD     PC_ContextSaving_u16    ; Store the CPU Register D value in fixed memory
+          PULA                            ; (P_PAGE) Pull the stack into the CPU Register D
+          STAA    PPAGE_ContextSaving_u8  ; Store the CPU Register A value in fixed memory
+
+          STS     SP_ContextSaving_u16    ; (SP) Store Stack Pointer in fixed memory
+          CLI
+    }
+    //gInterruptFlag=1;
+
+    if(TaskExecuted_ID == 0xFFFF)
+    {
+        BackgroundControlBlock.BackgroundContextSave.CCR_TaskContext_u16 = CCR_ContextSaving_u16;
+        BackgroundControlBlock.BackgroundContextSave.D_TaskContext_u16 = D_ContextSaving_u16;
+        BackgroundControlBlock.BackgroundContextSave.X_TaskContext_u16 = IX_ContextSaving_u16;
+        BackgroundControlBlock.BackgroundContextSave.Y_TaskContext_u16 = IY_ContextSaving_u16;
+        BackgroundControlBlock.BackgroundContextSave.PC_TaskContext_u16 = PC_ContextSaving_u16;
+        BackgroundControlBlock.BackgroundContextSave.PPAGE_TaskContext_u16 = PPAGE_ContextSaving_u8;
+        BackgroundControlBlock.BackgroundContextSave.SP_TaskContext_u16 = SP_ContextSaving_u16;
+        BackgroundControlBlock.BackgroundInterrupted = TASK_PREEMPTED;
+    }
+    else
+    {
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.CCR_TaskContext_u16     = CCR_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.D_TaskContext_u16       = D_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.X_TaskContext_u16       = IX_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.Y_TaskContext_u16       = IY_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.PC_TaskContext_u16      = PC_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.PPAGE_TaskContext_u16   = PPAGE_ContextSaving_u8;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.SP_TaskContext_u16      = SP_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_Interrupted                         = TASK_PREEMPTED;
+    }
+    //EnableAllInterrupts();
     /* Verify that Real Time Interrupt caused the interrupt */
     if( PITTF_PTF1 == 1u )
     {
@@ -525,9 +531,10 @@ void interrupt  vfnPIT_Channel2_Isr( void  )
 {
 //TaskRefType TaskRunning;
 //u16 task;
-    DisableAllInterrupts(); 
+    //DisableAllInterrupts(); 
     __asm
     {
+          SEI
           PULD                            ; (CCR) Pull stack into the CPU Register D
           STD     CCR_ContextSaving_u16   ; Store the CPU Register D value in fixed memory
           PULD                            ; (D || BA) Pull the stack into the CPU Register D
@@ -542,11 +549,11 @@ void interrupt  vfnPIT_Channel2_Isr( void  )
           STAA    PPAGE_ContextSaving_u8  ; Store the CPU Register A value in fixed memory
 
           STS     SP_ContextSaving_u16    ; (SP) Store Stack Pointer in fixed memory
+          CLI
     }
-    gInterruptFlag=1;
-    (void)GetTaskID(TaskRunning);
-     task = *TaskRunning;
-    if(task == 0xFFFF)
+    //gInterruptFlag=1;
+    
+    if(TaskExecuted_ID == 0xFFFF)
     {
         BackgroundControlBlock.BackgroundContextSave.CCR_TaskContext_u16 = CCR_ContextSaving_u16;
         BackgroundControlBlock.BackgroundContextSave.D_TaskContext_u16 = D_ContextSaving_u16;
@@ -559,16 +566,16 @@ void interrupt  vfnPIT_Channel2_Isr( void  )
     }
     else
     {
-        TaskControlBlock[task].Task_ContextSave.CCR_TaskContext_u16     = CCR_ContextSaving_u16;
-        TaskControlBlock[task].Task_ContextSave.D_TaskContext_u16       = D_ContextSaving_u16;
-        TaskControlBlock[task].Task_ContextSave.X_TaskContext_u16       = IX_ContextSaving_u16;
-        TaskControlBlock[task].Task_ContextSave.Y_TaskContext_u16       = IY_ContextSaving_u16;
-        TaskControlBlock[task].Task_ContextSave.PC_TaskContext_u16      = PC_ContextSaving_u16;
-        TaskControlBlock[task].Task_ContextSave.PPAGE_TaskContext_u16   = PPAGE_ContextSaving_u8;
-        TaskControlBlock[task].Task_ContextSave.SP_TaskContext_u16      = SP_ContextSaving_u16;
-        TaskControlBlock[task].Task_Interrupted                         = TASK_PREEMPTED;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.CCR_TaskContext_u16     = CCR_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.D_TaskContext_u16       = D_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.X_TaskContext_u16       = IX_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.Y_TaskContext_u16       = IY_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.PC_TaskContext_u16      = PC_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.PPAGE_TaskContext_u16   = PPAGE_ContextSaving_u8;
+        TaskControlBlock[TaskExecuted_ID].Task_ContextSave.SP_TaskContext_u16      = SP_ContextSaving_u16;
+        TaskControlBlock[TaskExecuted_ID].Task_Interrupted                         = TASK_PREEMPTED;
     }
-    EnableAllInterrupts();
+    //EnableAllInterrupts();
     /* Verify that Real Time Interrupt caused the interrupt */
     if( PITTF_PTF2 == 1u )
     {
