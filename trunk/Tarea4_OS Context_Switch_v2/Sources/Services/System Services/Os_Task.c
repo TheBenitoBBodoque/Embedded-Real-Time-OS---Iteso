@@ -62,7 +62,7 @@ TASK (Task_1ms)
   Status_Type Error_Result = E_OK;
   PORTB_PB0= 1;
   
-  for (index=0;index<200;index++){
+  for (index=0;index<32000;index++){
    }
   PORTB_PB0= 0;
   Error_Result=TerminateTask();
@@ -81,7 +81,7 @@ TASK (Task_4ms)
   Status_Type Error_Result = E_OK;
   PORTB_PB1= 1;
   
-  for (index=0;index<200;index++){
+  for (index=0;index<32000;index++){
   }
  /* if(!initbuffer)
   {
@@ -113,7 +113,7 @@ TASK (Task_8ms)
   u16 index;
   Status_Type Error_Result = E_OK;
   PORTB_PB2= 1;
-  for (index=0;index<700;index++){
+  for (index=0;index<32000;index++){
   }
   PORTB_PB2= 0;
   Error_Result=TerminateTask();
@@ -131,7 +131,7 @@ TASK (Task_16ms)
   u16 index;
   Status_Type Error_Result = E_OK;
   PORTB_PB3= 1;   
-  for (index=0;index<700;index++){
+  for (index=0;index<32000;index++){
   }
   PORTB_PB3= 0;
  Error_Result=TerminateTask();
@@ -181,6 +181,7 @@ TASK (Task_64ms)
 *   Caveats: Non Reentrant
 *****************************************************************************************************/
 TASK (Task_100ms){
+  u16 index;
   PORTB_PB6= 1;
   
   PORTA_PA4= ~PORTA_PA4;
@@ -188,6 +189,8 @@ TASK (Task_100ms){
      gRotaBit_counter=0;
   }
   gRotaBit_counter++;
+    for (index=0;index<32000;index++){
+  }
   PORTB_PB6= 0;
   
 }
