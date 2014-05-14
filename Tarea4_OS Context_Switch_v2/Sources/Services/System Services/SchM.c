@@ -109,7 +109,7 @@ void SchM_Start(void)
     /*Start the timer for the OS tick*/
     Gpt_StartTimer(CHANNEL_0, 500u);
     Gpt_StartTimer(CHANNEL_1, 20000u);
-    Gpt_StartTimer(CHANNEL_2, 40000u);
+    Gpt_StartTimer(CHANNEL_2, 40020u);
     /*Enable notification*/
     Gpt_EnableNotification(CHANNEL_0);
     Gpt_EnableNotification(CHANNEL_1);
@@ -192,7 +192,6 @@ void SchM_OsTick(void)
   }
    
   SchM_OSTickCounter ++;
-  PORTB_PB2= ~PORTB_PB2;
   
 
 }
@@ -300,7 +299,7 @@ void Dispatcher(void)
                 TaskExecuted_ID = DispacherArray[IndexPriority][0U];
                 if(TaskControlBlock[TaskExecuted_ID].Task_Interrupted == TASK_PREEMPTED)
                 {
-                    DisableAllInterrupts();
+                    //DisableAllInterrupts();
                     /* Return Context to the Interrupted Task */
                     TaskControlBlock[TaskExecuted_ID].Task_Interrupted = TASK_NOPREEMPTED;
                     PPAGE_ContextRestore_u8  =  TaskControlBlock[TaskExecuted_ID].Task_ContextSave.PPAGE_TaskContext_u16;
@@ -312,6 +311,9 @@ void Dispatcher(void)
                     SP_ContextRestore_u16    =  TaskControlBlock[TaskExecuted_ID].Task_ContextSave.SP_TaskContext_u16;
                     __asm
                     {
+                        SEI
+                        LDAA   #0;
+                        TFR    A,CCRH;
                         LDS    SP_ContextRestore_u16             ; (SP) Load from fixed memory location to SP
                         LDAA   PPAGE_ContextRestore_u8           ; (P_PAGE) Load from a fixed memory location to Register A
                         PSHA                                    ; Push the CPU Register A value into the Stack
@@ -325,13 +327,16 @@ void Dispatcher(void)
                         PSHD                                    ; Push the CPU Register D value into the Stack
                         LDD    CCR_ContextRestore_u16            ; (CCR) Load from a fixed memory location to Register D
                         PSHD                                    ; Push the CPU Register D value into the Stack
+                        CLI
                     }
-                    EnableAllInterrupts();
+                    //EnableAllInterrupts();
                     asm(RTI);
                 }
                 else
                 {
                     TaskControlBlock[TaskExecuted_ID].Task_State = RUNNING;
+                    asm("LDAA #0");
+                    asm("TFR A,CCRH");
                     TaskConfigInitial->ptr_Task[TaskExecuted_ID].TaskCallback();
                     NoTaskExecuted = FALSE;
                 }
@@ -350,7 +355,7 @@ void Dispatcher(void)
     }
     if(BackgroundControlBlock.BackgroundInterrupted == TASK_PREEMPTED)
     {
-        DisableAllInterrupts();
+        //DisableAllInterrupts();
         BackgroundControlBlock.BackgroundInterrupted = TASK_NOPREEMPTED;
         PPAGE_ContextRestore_u8  =  BackgroundControlBlock.BackgroundContextSave.PPAGE_TaskContext_u16;
         PC_ContextRestore_u16    =  BackgroundControlBlock.BackgroundContextSave.PC_TaskContext_u16;
@@ -361,6 +366,9 @@ void Dispatcher(void)
         SP_ContextRestore_u16   =   BackgroundControlBlock.BackgroundContextSave.SP_TaskContext_u16;
         __asm
         {
+            SEI
+            LDAA   #0;
+            TFR    A,CCRH;
             LDS    SP_ContextRestore_u16             ; (SP) Load from fixed memory location to SP
             LDAA   PPAGE_ContextRestore_u8           ; (P_PAGE) Load from a fixed memory location to Register A
             PSHA                                    ; Push the CPU Register A value into the Stack
@@ -374,8 +382,9 @@ void Dispatcher(void)
             PSHD                                    ; Push the CPU Register D value into the Stack
             LDD    CCR_ContextRestore_u16            ; (CCR) Load from a fixed memory location to Register D
             PSHD                                    ; Push the CPU Register D value into the Stack
+            CLI
         }
-        EnableAllInterrupts();
+        //EnableAllInterrupts();
         asm(RTI);
     }
     else

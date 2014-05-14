@@ -240,6 +240,7 @@ void interrupt  vfnDummy_D_Isr( void  )
 void interrupt vfnSoftware_Isr(void){
     __asm
     {
+          SEI
           PULD                            ; (CCR) Pull stack into the CPU Register D
           STD     CCR_ContextSaving_u16   ; Store the CPU Register D value in fixed memory
           PULD                            ; (D || BA) Pull the stack into the CPU Register D
@@ -254,6 +255,7 @@ void interrupt vfnSoftware_Isr(void){
           STAA    PPAGE_ContextSaving_u8  ; Store the CPU Register A value in fixed memory
 
           STS     SP_ContextSaving_u16    ; (SP) Store Stack Pointer in fixed memory
+          CLI
     }
 
     if(TaskExecuted_ID == 0xFFFF)

@@ -87,6 +87,7 @@ Status_Type ActivateTask(TaskType taskID)
   {
      Status = E_OS_ID;
   }
+  
   return Status;
 }
 
@@ -129,22 +130,9 @@ Status_Type TerminateTask (void)
 Status_Type GetTaskID(TaskRefType taskIDRef)
 {
   u16 index_ControlBlock;
-  u8  TaskIsRunning;
   Status_Type Status = E_OK;
   
-  for(index_ControlBlock=0U;index_ControlBlock < MAX_NUM_TASK;index_ControlBlock++)
-  {
-    if(TaskControlBlock[index_ControlBlock].Task_State == RUNNING){
-          *taskIDRef = index_ControlBlock;
-          TaskIsRunning=1;
-          break;
-    }else{
-          TaskIsRunning=0;
-    }
-  }
-  if(!TaskIsRunning){ 
-    *taskIDRef = 0xFFFF;
-  }
+    *taskIDRef = TaskExecuted_ID;
   return Status;
 }
 
