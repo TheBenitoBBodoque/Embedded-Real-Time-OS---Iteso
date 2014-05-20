@@ -80,7 +80,7 @@ Status_Type ActivateTask(TaskType taskID)
        Status = E_OS_LIMIT;
     }
     if(gInterruptFlag==0){
-      __asm SWI;
+      //__asm SWI;
     }
   }
   else
@@ -113,7 +113,7 @@ Status_Type TerminateTask (void)
   }
   DispacherArray[TaskConfigInitial->ptr_Task[TaskExecuted_ID].Task_Priority][IndexQueue-1] = 0xFFFF;
   TaskExecuted_ID = 0xFFFF;
-  Dispatcher();
+  //Dispatcher();
   return Status;
 }
 
@@ -129,7 +129,6 @@ Status_Type TerminateTask (void)
 
 Status_Type GetTaskID(TaskRefType taskIDRef)
 {
-  u16 index_ControlBlock;
   Status_Type Status = E_OK;
   
     *taskIDRef = TaskExecuted_ID;
