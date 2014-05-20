@@ -108,8 +108,8 @@ void SchM_Start(void)
     u16 index_ControlBlock;
     /*Start the timer for the OS tick*/
     Gpt_StartTimer(CHANNEL_0, 500u);
-    Gpt_StartTimer(CHANNEL_1, 20000u);
-    Gpt_StartTimer(CHANNEL_2, 40020u);
+    //Gpt_StartTimer(CHANNEL_1, 20000u);
+    //Gpt_StartTimer(CHANNEL_2, 40020u);
     /*Enable notification*/
     Gpt_EnableNotification(CHANNEL_0);
     Gpt_EnableNotification(CHANNEL_1);
@@ -174,9 +174,8 @@ void SchM_OsTick(void)
   u8 Task_Index = 0;
   Status_Type StatusErrorResult = E_OK;
 
- if(!SchM_OSTickEnabled)
-  {
-    SchM_OSTickEnabled = SCHM_OSTICK_ENABLED;
+    _FEED_COP();
+    //SchM_OSTickEnabled = SCHM_OSTICK_ENABLED;
     for(Task_Index=0;Task_Index < TaskConfigInitial[0U].TaskNumberConfig;Task_Index++)
     {
        if((SchM_OSTickCounter & TaskConfigInitial->ptr_Task[Task_Index].Mask) == 
@@ -185,11 +184,6 @@ void SchM_OsTick(void)
          StatusErrorResult = ActivateTask(((TaskType)TaskConfigInitial->ptr_Task[Task_Index].Task_ID));
        }
     }
-  }
-  else
-  {
-     /*ERROR: Ostick flag was not disabled*/   
-  }
    
   SchM_OSTickCounter ++;
   
@@ -206,7 +200,7 @@ void SchM_OsTick(void)
 void SchM_Background(void)
 {
    
-  /* if(gInterrupt_PIT_flag & 0x01){
+   if(gInterrupt_PIT_flag & 0x01){
      gInterrupt_PIT_flag &=0xFE;
      Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[0].Pit_Channel_Callback();
    }
@@ -221,7 +215,7 @@ void SchM_Background(void)
    if(gInterrupt_PIT_flag & 0x08){
      gInterrupt_PIT_flag &=0xF7;
      Gpt_ConfigType_initial->ptr_Pit_ChannelConfig[3].Pit_Channel_Callback();
-   }*/
+   }
    
    switch(gRotaBit_counter){
       
@@ -273,7 +267,7 @@ void SchM_Background(void)
    {
      /*Scheduler is not enabled*/
    }
-   _FEED_COP();
+
 }
 
 /*****************************************************************************************************                                                                        
@@ -299,7 +293,7 @@ void Dispatcher(void)
                 TaskExecuted_ID = DispacherArray[IndexPriority][0U];
                 if(TaskControlBlock[TaskExecuted_ID].Task_Interrupted == TASK_PREEMPTED)
                 {
-                    //DisableAllInterrupts();
+                    DisableAllInterrupts();
                     /* Return Context to the Interrupted Task */
                     TaskControlBlock[TaskExecuted_ID].Task_Interrupted = TASK_NOPREEMPTED;
                     PPAGE_ContextRestore_u8  =  TaskControlBlock[TaskExecuted_ID].Task_ContextSave.PPAGE_TaskContext_u16;
@@ -309,6 +303,7 @@ void Dispatcher(void)
                     D_ContextRestore_u16     =  TaskControlBlock[TaskExecuted_ID].Task_ContextSave.D_TaskContext_u16;
                     CCR_ContextRestore_u16   =  TaskControlBlock[TaskExecuted_ID].Task_ContextSave.CCR_TaskContext_u16;
                     SP_ContextRestore_u16    =  TaskControlBlock[TaskExecuted_ID].Task_ContextSave.SP_TaskContext_u16;
+                    
                     __asm
                     {
                         SEI
@@ -319,22 +314,22 @@ void Dispatcher(void)
                         PSHA                                    ; Push the CPU Register A value into the Stack
                         LDD    PC_ContextRestore_u16             ; (PC) Load from a fixed memory location to Register D
                         PSHD                                    ; Push the CPU Register D value into the Stack
-                        LDD    IX_ContextRestore_u16             ; (IY) Load from a fixed memory location to Register D
+                        LDD    IY_ContextRestore_u16             ; (IY) Load from a fixed memory location to Register D
                         PSHD                                    ; Push the CPU Register D value into the Stack
-                        LDD    IY_ContextRestore_u16             ; (IX) Load from a fixed memory location to Register D
+                        LDD    IX_ContextRestore_u16             ; (IX) Load from a fixed memory location to Register D
                         PSHD                                    ; Push the CPU Register D value into the Stack
                         LDD    D_ContextRestore_u16              ; (D || BA) Load from a fixed memory location to Register D
                         PSHD                                    ; Push the CPU Register D value into the Stack
                         LDD    CCR_ContextRestore_u16            ; (CCR) Load from a fixed memory location to Register D
                         PSHD                                    ; Push the CPU Register D value into the Stack
-                        CLI
                     }
-                    //EnableAllInterrupts();
+                    EnableAllInterrupts();
                     asm(RTI);
                 }
                 else
                 {
                     TaskControlBlock[TaskExecuted_ID].Task_State = RUNNING;
+                    asm(CLI);
                     asm("LDAA #0");
                     asm("TFR A,CCRH");
                     TaskConfigInitial->ptr_Task[TaskExecuted_ID].TaskCallback();
@@ -355,7 +350,7 @@ void Dispatcher(void)
     }
     if(BackgroundControlBlock.BackgroundInterrupted == TASK_PREEMPTED)
     {
-        //DisableAllInterrupts();
+        DisableAllInterrupts();
         BackgroundControlBlock.BackgroundInterrupted = TASK_NOPREEMPTED;
         PPAGE_ContextRestore_u8  =  BackgroundControlBlock.BackgroundContextSave.PPAGE_TaskContext_u16;
         PC_ContextRestore_u16    =  BackgroundControlBlock.BackgroundContextSave.PC_TaskContext_u16;
@@ -382,9 +377,8 @@ void Dispatcher(void)
             PSHD                                    ; Push the CPU Register D value into the Stack
             LDD    CCR_ContextRestore_u16            ; (CCR) Load from a fixed memory location to Register D
             PSHD                                    ; Push the CPU Register D value into the Stack
-            CLI
         }
-        //EnableAllInterrupts();
+        EnableAllInterrupts();
         asm(RTI);
     }
     else

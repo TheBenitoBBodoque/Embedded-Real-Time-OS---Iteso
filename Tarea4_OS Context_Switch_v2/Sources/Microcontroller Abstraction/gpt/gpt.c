@@ -394,7 +394,14 @@ void Gpt_DisableNotification( Pit_ChannelType Channel ) {
 
 void interrupt  vfnPIT_Channel0_Isr( void  )
 {
-   //DisableAllInterrupts(); 
+  PORTB_PB0 = 0;
+  PORTB_PB1 = 0;
+  PORTB_PB2 = 0;
+  PORTB_PB3 = 0;
+  PORTB_PB4 = 0;
+  PORTB_PB5 = 0;
+    //DisableAllInterrupts();
+    DisableInterrupts; 
     __asm
     {
           SEI
@@ -417,7 +424,6 @@ void interrupt  vfnPIT_Channel0_Isr( void  )
     __asm{
     
     }
-    //PORTB_PB0= ~PORTB_PB0;
     gInterruptFlag=1;
     if(TaskExecuted_ID == 0xFFFF)
     {
@@ -441,7 +447,7 @@ void interrupt  vfnPIT_Channel0_Isr( void  )
         TaskControlBlock[TaskExecuted_ID].Task_ContextSave.SP_TaskContext_u16      = SP_ContextSaving_u16;
         TaskControlBlock[TaskExecuted_ID].Task_Interrupted                         = TASK_PREEMPTED;
     }
-    //EnableAllInterrupts();
+    EnableInterrupts;
     /* Verify that Real Time Interrupt caused the interrupt */
     if( PITTF_PTF0 == 1u )
     {

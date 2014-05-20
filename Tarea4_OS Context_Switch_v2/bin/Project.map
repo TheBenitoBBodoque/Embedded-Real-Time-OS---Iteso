@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "C:\Users\Miguel\Desktop\DISOAE Repository\Tarea4_OS Context_Switch_v2\bin\Project.abs"
+PROGRAM "C:\Maestria\SistemasOperativos\Practicas\trunk\Tarea4_OS Context_Switch_v2\bin\Project.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -36,7 +36,7 @@ extern struct _tagStartup {
   unsigned nofZeroOut     2
   _Range   pZeroOut       0x2100     180
                           0xF31000     1
-  _Copy    *toCopyDownBeg 0xC62B
+  _Copy    *toCopyDownBeg 0xC641
 } _startupData;
 
 *********************************************************************************************
@@ -46,9 +46,9 @@ Section Name                    Size  Type     From       To       Segment
 .init                             15     R     0xC000     0xC00E   ROM_C000
 .startData                        81     R     0xC00F     0xC05F   ROM_C000
 .rodata                          125     R     0xC060     0xC0DC   ROM_C000
-NON_BANKED                      1358     R     0xC0DD     0xC62A   ROM_C000
-.copy                              9     R     0xC62B     0xC633   ROM_C000
-.text                           1985     R   0xFE8000   0xFE87C0   PAGE_FE
+NON_BANKED                      1380     R     0xC0DD     0xC640   ROM_C000
+.copy                              9     R     0xC641     0xC649   ROM_C000
+.text                           2047     R   0xFE8000   0xFE87FE   PAGE_FE
 .stack                           256   R/W     0x2000     0x20FF   RAM
 .data                              2   R/W     0x2100     0x2101   RAM
 HEAP                               1   R/W   0xF31000   0xF31000   RAM_F3
@@ -796,7 +796,7 @@ HEAP                               1   R/W   0xF31000   0xF31000   RAM_F3
 .vectSeg739_vect                   2     R     0xFFFE     0xFFFF   .vectSeg739
 
 Summary of section sizes per section type:
-READ_ONLY (R):         EE5 (dec:     3813)
+READ_ONLY (R):         F39 (dec:     3897)
 READ_WRITE (R/W):      1B5 (dec:      437)
 NO_INIT (N/I):         383 (dec:      899)
 
@@ -1390,7 +1390,7 @@ MODULE:                 -- MC9S12XEP100.c.o --
      _TIM_PAFLG                                 3F1       1       1       0   .abs_section_3f1
      _TIM_OCPD                                  3FC       1       1       0   .abs_section_3fc
      _TIM_PTPSR                                 3FE       1       1       0   .abs_section_3fe
-     _PORTAB                                      0       2       2      32   .abs_section_0
+     _PORTAB                                      0       2       2      44   .abs_section_0
      _DDRAB                                       2       2       2       2   .abs_section_2
      _PORTCD                                      4       2       2       0   .abs_section_4
      _DDRCD                                       6       2       2       0   .abs_section_6
@@ -1573,8 +1573,8 @@ MODULE:                 -- rtshc12.c.o (ansixbi.lib) --
 - VARIABLES:
 MODULE:                 -- int_vectors.c.o --
 - PROCEDURES:
-     DisableAllInterrupts                    FE805F       B      11       2   .text       
-     EnableAllInterrupts                     FE806A       B      11       2   .text       
+     DisableAllInterrupts                    FE805F       B      11       6   .text       
+     EnableAllInterrupts                     FE806A       B      11       6   .text       
      vfnDummy_D_Isr                            C1CF       1       1     112   NON_BANKED  
      vfnSoftware_Isr                           C1D0      CE     206       1   NON_BANKED  
 - VARIABLES:
@@ -1598,29 +1598,29 @@ MODULE:                 -- mcu.c.o --
 MODULE:                 -- gpt.c.o --
 - PROCEDURES:
      Gpt_Init                                FE80F0      D0     208       5   .text       
-     Gpt_StartTimer                          FE81C0      B2     178       6   .text       
+     Gpt_StartTimer                          FE81C0      B2     178       2   .text       
      Gpt_EnableNotification                  FE8272      2A      42       6   .text       
-     vfnPIT_Channel0_Isr                       C29E      F9     249       1   NON_BANKED  
-     vfnPIT_Channel1_Isr                       C397      F1     241       1   NON_BANKED  
-     vfnPIT_Channel2_Isr                       C488      F1     241       1   NON_BANKED  
-     vfnPIT_Channel3_Isr                       C579      26      38       1   NON_BANKED  
+     vfnPIT_Channel0_Isr                       C29E     10F     271       1   NON_BANKED  
+     vfnPIT_Channel1_Isr                       C3AD      F1     241       1   NON_BANKED  
+     vfnPIT_Channel2_Isr                       C49E      F1     241       1   NON_BANKED  
+     vfnPIT_Channel3_Isr                       C58F      26      38       1   NON_BANKED  
 - VARIABLES:
-     gInterruptFlag                            2146       1       1       3   .common     
+     gInterruptFlag                            2146       1       1       2   .common     
 MODULE:                 -- gpt_cfg.c.o --
 - PROCEDURES:
 - VARIABLES:
      Gpt_ChannelConfigType_initial             C060      18      24       1   .rodata     
-     Gpt_ConfigType_initial                    C078       7       7      13   .rodata     
+     Gpt_ConfigType_initial                    C078       7       7      17   .rodata     
      Gpt_Notification                          2104       8       8       8   .bss        
 MODULE:                 -- SchM.c.o --
 - PROCEDURES:
      SchM_Init                               FE829C      18      24       2   .text       
-     SchM_Start                              FE82B4      FB     251       2   .text       
-     SchM_OsTick                             FE83AF      39      57       2   .text       
-     SchM_Background                         FE83E8      59      89       2   .text       
-     Dispatcher                              FE8441     145     325       9   .text       
+     SchM_Start                              FE82B4      E5     229       2   .text       
+     SchM_OsTick                             FE8399      35      53       2   .text       
+     SchM_Background                         FE83CE      92     146       2   .text       
+     Dispatcher                              FE8460     15E     350       7   .text       
 - VARIABLES:
-     SchM_OSTickEnabled                        210C       1       1       5   .bss        
+     SchM_OSTickEnabled                        210C       1       1       3   .bss        
      SchM_OSTickCounter                        210E       2       2       3   .bss        
      SchM_SchedulerEnabled                     2110       1       1       2   .bss        
      CCR_ContextRestore_u16                    2148       2       2       4   .common     
@@ -1630,44 +1630,45 @@ MODULE:                 -- SchM.c.o --
      PC_ContextRestore_u16                     2150       2       2       4   .common     
      PPAGE_ContextRestore_u8                   2152       1       1       4   .common     
      SP_ContextRestore_u16                     2154       2       2       4   .common     
+     gInterrupt_PIT_flag                       2156       1       1       8   .common     
 MODULE:                 -- Os_Task.c.o --
 - PROCEDURES:
-     Task_1ms                                FE8586      13      19       2   .text       
-     Task_4ms                                FE8599      13      19       2   .text       
-     Task_8ms                                FE85AC      13      19       2   .text       
-     Task_16ms                               FE85BF      13      19       2   .text       
-     Task_32ms                               FE85D2      13      19       2   .text       
-     Task_64ms                               FE85E5      13      19       2   .text       
-     Task_100ms                              FE85F8      22      34       2   .text       
-     Task_200ms                              FE861A       F      15       2   .text       
+     Task_1ms                                FE85BE      16      22       2   .text       
+     Task_4ms                                FE85D4      16      22       2   .text       
+     Task_8ms                                FE85EA      16      22       2   .text       
+     Task_16ms                               FE8600      16      22       2   .text       
+     Task_32ms                               FE8616      16      22       2   .text       
+     Task_64ms                               FE862C      16      22       2   .text       
+     Task_100ms                              FE8642      22      34       2   .text       
+     Task_200ms                              FE8664       F      15       2   .text       
 - VARIABLES:
-     gRotaBit_counter                          2156       1       1       4   .common     
+     gRotaBit_counter                          2157       1       1       4   .common     
 MODULE:                 -- Os_TaskCfg.c.o --
 - PROCEDURES:
 - VARIABLES:
      TaskInitial                               C07F      5A      90       1   .rodata     
      TaskConfigInitial                         C0D9       4       4       8   .rodata     
      DispacherArray                            2158      3C      60       7   .common     
-     TaskControlBlock                          2194       3       3      22   .common     
+     TaskControlBlock                          2194       3       3      24   .common     
      BackgroundControlBlock                    2198      10      16      49   .common     
 MODULE:                 -- Os_TaskM.c.o --
 - PROCEDURES:
-     ActivateTask                            FE8629      86     134       2   .text       
-     TerminateTask                           FE86AF      76     118      12   .text       
+     ActivateTask                            FE8673      7E     126       2   .text       
+     TerminateTask                           FE86F1      72     114      12   .text       
 - VARIABLES:
      TaskExecuted_ID                           2100       2       2      14   .data       
 MODULE:                 -- mem.c.o --
 - PROCEDURES:
-     Mem_Init                                FE8725      4F      79       2   .text       
-     Mem_Alloc                               FE8774      4D      77       2   .text       
+     Mem_Init                                FE8763      4F      79       2   .text       
+     Mem_Alloc                               FE87B2      4D      77       2   .text       
 - VARIABLES:
      mcal_mem_InitMem                        F31000       1       1       2   HEAP        
      mcal_mem_MemHandler                       21A8       A      10      22   .common     
      mcal_mem_TotalMemSizeBytes                21B2       2       2       3   .common     
 MODULE:                 -- serial.c.o --
 - PROCEDURES:
-     vfnSCI_Tx_Rx_Handler                      C59F      86     134       1   NON_BANKED  
-     vfnSCI0_Tx_Rx_Isr                         C625       6       6       1   NON_BANKED  
+     vfnSCI_Tx_Rx_Handler                      C5B5      86     134       1   NON_BANKED  
+     vfnSCI0_Tx_Rx_Isr                         C63B       6       6       1   NON_BANKED  
 - VARIABLES:
      sci_ch_status                             2112      1E      30      10   .bss        
 
@@ -1681,12 +1682,12 @@ MODULE STATISTIC
   rtshc12.c.o (ansixbi.lib)                    0    242      0
   int_vectors.c.o                             14    229    238
   mcu.c.o                                      8    123      0
-  gpt.c.o                                      1   1197      0
+  gpt.c.o                                      1   1219      0
   gpt_cfg.c.o                                  8      0     31
-  SchM.c.o                                    17    746      0
-  Os_Task.c.o                                  1    163      0
+  SchM.c.o                                    18    802      0
+  Os_Task.c.o                                  1    181      0
   Os_TaskCfg.c.o                              79      0     94
-  Os_TaskM.c.o                                 2    252      0
+  Os_TaskM.c.o                                 2    240      0
   mem.c.o                                     13    156      0
   serial.c.o                                  30    140      0
   other                                      256     83      9
@@ -3199,8 +3200,9 @@ SECTION: ".common"
   mcal_mcu_u16PLL_Loss_of_Lock_Counter mcal_mcu_gu32BusFrequency gInterruptFlag 
   CCR_ContextRestore_u16 D_ContextRestore_u16 IX_ContextRestore_u16 
   IY_ContextRestore_u16 PC_ContextRestore_u16 PPAGE_ContextRestore_u8 
-  SP_ContextRestore_u16 gRotaBit_counter DispacherArray TaskControlBlock 
-  BackgroundControlBlock mcal_mem_MemHandler mcal_mem_TotalMemSizeBytes 
+  SP_ContextRestore_u16 gInterrupt_PIT_flag gRotaBit_counter DispacherArray 
+  TaskControlBlock BackgroundControlBlock mcal_mem_MemHandler 
+  mcal_mem_TotalMemSizeBytes 
 SECTION: ".abs_section_ff10"
   vectors 
 
@@ -3208,7 +3210,7 @@ SECTION: ".abs_section_ff10"
 OBJECT LIST SORTED BY ADDRESS
      Name                                      Addr   hSize   dSize     Ref    Section   RLIB
 ---------------------------------------------------------------------------------------------
-     _PORTAB                                      0       2       2      32   .abs_section_0
+     _PORTAB                                      0       2       2      44   .abs_section_0
      _DDRAB                                       2       2       2       2   .abs_section_2
      _PORTCD                                      4       2       2       0   .abs_section_4
      _DDRCD                                       6       2       2       0   .abs_section_6
@@ -3949,7 +3951,7 @@ OBJECT LIST SORTED BY ADDRESS
      TaskExecuted_ID                           2100       2       2      14   .data       
      gInterrupt_nested_flag                    2102       1       1       4   .bss        
      Gpt_Notification                          2104       8       8       8   .bss        
-     SchM_OSTickEnabled                        210C       1       1       5   .bss        
+     SchM_OSTickEnabled                        210C       1       1       3   .bss        
      SchM_OSTickCounter                        210E       2       2       3   .bss        
      SchM_SchedulerEnabled                     2110       1       1       2   .bss        
      sci_ch_status                             2112      1E      30      10   .bss        
@@ -3963,7 +3965,7 @@ OBJECT LIST SORTED BY ADDRESS
      mcal_mcu_gu16ClockGlobalStatus            213E       2       2       2   .common     
      mcal_mcu_u16PLL_Loss_of_Lock_Counter       2140       2       2       1   .common     
      mcal_mcu_gu32BusFrequency                 2142       4       4       4   .common     
-     gInterruptFlag                            2146       1       1       3   .common     
+     gInterruptFlag                            2146       1       1       2   .common     
      CCR_ContextRestore_u16                    2148       2       2       4   .common     
      D_ContextRestore_u16                      214A       2       2       4   .common     
      IX_ContextRestore_u16                     214C       2       2       4   .common     
@@ -3971,15 +3973,16 @@ OBJECT LIST SORTED BY ADDRESS
      PC_ContextRestore_u16                     2150       2       2       4   .common     
      PPAGE_ContextRestore_u8                   2152       1       1       4   .common     
      SP_ContextRestore_u16                     2154       2       2       4   .common     
-     gRotaBit_counter                          2156       1       1       4   .common     
+     gInterrupt_PIT_flag                       2156       1       1       8   .common     
+     gRotaBit_counter                          2157       1       1       4   .common     
      DispacherArray                            2158      3C      60       7   .common     
-     TaskControlBlock                          2194       3       3      22   .common     
+     TaskControlBlock                          2194       3       3      24   .common     
      BackgroundControlBlock                    2198      10      16      49   .common     
      mcal_mem_MemHandler                       21A8       A      10      22   .common     
      mcal_mem_TotalMemSizeBytes                21B2       2       2       3   .common     
      _Startup                                  C000       F      15       1   .init       
      Gpt_ChannelConfigType_initial             C060      18      24       1   .rodata     
-     Gpt_ConfigType_initial                    C078       7       7      13   .rodata     
+     Gpt_ConfigType_initial                    C078       7       7      17   .rodata     
      TaskInitial                               C07F      5A      90       1   .rodata     
      TaskConfigInitial                         C0D9       4       4       8   .rodata     
      _LMULU16x32                               C0DD       F      15       1   NON_BANKED  
@@ -3989,40 +3992,40 @@ OBJECT LIST SORTED BY ADDRESS
      _FPCMP                                    C1C7       8       8       1   NON_BANKED  
      vfnDummy_D_Isr                            C1CF       1       1     112   NON_BANKED  
      vfnSoftware_Isr                           C1D0      CE     206       1   NON_BANKED  
-     vfnPIT_Channel0_Isr                       C29E      F9     249       1   NON_BANKED  
-     vfnPIT_Channel1_Isr                       C397      F1     241       1   NON_BANKED  
-     vfnPIT_Channel2_Isr                       C488      F1     241       1   NON_BANKED  
-     vfnPIT_Channel3_Isr                       C579      26      38       1   NON_BANKED  
-     vfnSCI_Tx_Rx_Handler                      C59F      86     134       1   NON_BANKED  
-     vfnSCI0_Tx_Rx_Isr                         C625       6       6       1   NON_BANKED  
+     vfnPIT_Channel0_Isr                       C29E     10F     271       1   NON_BANKED  
+     vfnPIT_Channel1_Isr                       C3AD      F1     241       1   NON_BANKED  
+     vfnPIT_Channel2_Isr                       C49E      F1     241       1   NON_BANKED  
+     vfnPIT_Channel3_Isr                       C58F      26      38       1   NON_BANKED  
+     vfnSCI_Tx_Rx_Handler                      C5B5      86     134       1   NON_BANKED  
+     vfnSCI0_Tx_Rx_Isr                         C63B       6       6       1   NON_BANKED  
      vectors                                   FF10      EE     238       0   .abs_section_ff10
      mcal_mem_InitMem                        F31000       1       1       2   HEAP        
      main                                    FE8000      23      35       2   .text       
      Init                                    FE8023      3C      60       2   .text       
-     DisableAllInterrupts                    FE805F       B      11       2   .text       
-     EnableAllInterrupts                     FE806A       B      11       2   .text       
+     DisableAllInterrupts                    FE805F       B      11       6   .text       
+     EnableAllInterrupts                     FE806A       B      11       6   .text       
      Mcu_Init                                FE8075       5       5       2   .text       
      Mcu_DistributePllClock                  FE807A      76     118       2   .text       
      Gpt_Init                                FE80F0      D0     208       5   .text       
-     Gpt_StartTimer                          FE81C0      B2     178       6   .text       
+     Gpt_StartTimer                          FE81C0      B2     178       2   .text       
      Gpt_EnableNotification                  FE8272      2A      42       6   .text       
      SchM_Init                               FE829C      18      24       2   .text       
-     SchM_Start                              FE82B4      FB     251       2   .text       
-     SchM_OsTick                             FE83AF      39      57       2   .text       
-     SchM_Background                         FE83E8      59      89       2   .text       
-     Dispatcher                              FE8441     145     325       9   .text       
-     Task_1ms                                FE8586      13      19       2   .text       
-     Task_4ms                                FE8599      13      19       2   .text       
-     Task_8ms                                FE85AC      13      19       2   .text       
-     Task_16ms                               FE85BF      13      19       2   .text       
-     Task_32ms                               FE85D2      13      19       2   .text       
-     Task_64ms                               FE85E5      13      19       2   .text       
-     Task_100ms                              FE85F8      22      34       2   .text       
-     Task_200ms                              FE861A       F      15       2   .text       
-     ActivateTask                            FE8629      86     134       2   .text       
-     TerminateTask                           FE86AF      76     118      12   .text       
-     Mem_Init                                FE8725      4F      79       2   .text       
-     Mem_Alloc                               FE8774      4D      77       2   .text       
+     SchM_Start                              FE82B4      E5     229       2   .text       
+     SchM_OsTick                             FE8399      35      53       2   .text       
+     SchM_Background                         FE83CE      92     146       2   .text       
+     Dispatcher                              FE8460     15E     350       7   .text       
+     Task_1ms                                FE85BE      16      22       2   .text       
+     Task_4ms                                FE85D4      16      22       2   .text       
+     Task_8ms                                FE85EA      16      22       2   .text       
+     Task_16ms                               FE8600      16      22       2   .text       
+     Task_32ms                               FE8616      16      22       2   .text       
+     Task_64ms                               FE862C      16      22       2   .text       
+     Task_100ms                              FE8642      22      34       2   .text       
+     Task_200ms                              FE8664       F      15       2   .text       
+     ActivateTask                            FE8673      7E     126       2   .text       
+     TerminateTask                           FE86F1      72     114      12   .text       
+     Mem_Init                                FE8763      4F      79       2   .text       
+     Mem_Alloc                               FE87B2      4D      77       2   .text       
 
 *********************************************************************************************
 UNUSED-OBJECTS SECTION
@@ -4051,8 +4054,6 @@ serial.c.o:
 NOT USED VARIABLES
 rtshc12.c.o (ansixbi.lib):
   _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
-SchM.c.o:
-  gInterrupt_PIT_flag 
 Os_Task.c.o:
   initbuffer OS_TaskPerformance UartIndx 
 serial.c.o:
@@ -4061,13 +4062,13 @@ serial.c.o:
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xC62B ---- SIZE       5 ---
+------- ROM-ADDRESS: 0xC641 ---- SIZE       5 ---
 Filling bytes inserted
  00020FE100
-------- ROM-ADDRESS: 0xC630 ---- RAM-ADDRESS: 0x2100 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC646 ---- RAM-ADDRESS: 0x2100 ---- SIZE       2 ---
 Name of initialized Object : TaskExecuted_ID
  FFFF
-------- ROM-ADDRESS: 0xC632 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xC648 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -4085,11 +4086,12 @@ vfnSoftware_Isr           USES CCR_ContextSaving_u16 D_ContextSaving_u16
                                 IY_ContextSaving_u16 IX_ContextSaving_u16 PC_ContextSaving_u16 
                                 PPAGE_ContextSaving_u8 SP_ContextSaving_u16 TaskExecuted_ID 
                                 BackgroundControlBlock TaskControlBlock Dispatcher 
-vfnPIT_Channel0_Isr       USES CCR_ContextSaving_u16 D_ContextSaving_u16 
-                                IY_ContextSaving_u16 IX_ContextSaving_u16 PC_ContextSaving_u16 
-                                PPAGE_ContextSaving_u8 SP_ContextSaving_u16 gInterruptFlag 
-                                TaskExecuted_ID BackgroundControlBlock TaskControlBlock _PITTF 
-                                Gpt_ConfigType_initial Gpt_Notification Dispatcher 
+vfnPIT_Channel0_Isr       USES _PORTAB CCR_ContextSaving_u16 
+                                D_ContextSaving_u16 IY_ContextSaving_u16 IX_ContextSaving_u16 
+                                PC_ContextSaving_u16 PPAGE_ContextSaving_u8 SP_ContextSaving_u16 
+                                gInterruptFlag TaskExecuted_ID BackgroundControlBlock 
+                                TaskControlBlock _PITTF Gpt_ConfigType_initial Gpt_Notification 
+                                Dispatcher 
 vfnPIT_Channel1_Isr       USES CCR_ContextSaving_u16 D_ContextSaving_u16 
                                 IY_ContextSaving_u16 IX_ContextSaving_u16 PC_ContextSaving_u16 
                                 PPAGE_ContextSaving_u8 SP_ContextSaving_u16 TaskExecuted_ID 
@@ -4127,15 +4129,16 @@ SchM_Init                 USES Gpt_ConfigType_initial Gpt_Init Mem_Init
 SchM_Start                USES Gpt_StartTimer Gpt_EnableNotification 
                                 DispacherArray BackgroundControlBlock Mem_Alloc 
                                 TaskControlBlock TaskConfigInitial SchM_Background 
-SchM_OsTick               USES SchM_OSTickEnabled TaskConfigInitial 
-                                SchM_OSTickCounter ActivateTask 
-SchM_Background           USES gRotaBit_counter _CASE_CHECKED_BYTE _PORTAB 
+SchM_OsTick               USES TaskConfigInitial SchM_OSTickCounter 
+                                ActivateTask 
+SchM_Background           USES gInterrupt_PIT_flag Gpt_ConfigType_initial 
+                                gRotaBit_counter _CASE_CHECKED_BYTE _PORTAB 
                                 SchM_SchedulerEnabled SchM_OSTickEnabled 
 Dispatcher                USES Dispatcher DispacherArray TaskExecuted_ID 
-                                PPAGE_ContextRestore_u8 PC_ContextRestore_u16 IY_ContextRestore_u16 
-                                IX_ContextRestore_u16 D_ContextRestore_u16 CCR_ContextRestore_u16 
-                                SP_ContextRestore_u16 TaskConfigInitial BackgroundControlBlock 
-                                TaskControlBlock 
+                                TaskControlBlock DisableAllInterrupts PPAGE_ContextRestore_u8 
+                                PC_ContextRestore_u16 IY_ContextRestore_u16 IX_ContextRestore_u16 
+                                D_ContextRestore_u16 CCR_ContextRestore_u16 SP_ContextRestore_u16 
+                                EnableAllInterrupts TaskConfigInitial BackgroundControlBlock 
 Task_1ms                  USES _PORTAB TerminateTask 
 Task_4ms                  USES _PORTAB TerminateTask 
 Task_8ms                  USES _PORTAB TerminateTask 
@@ -4145,9 +4148,9 @@ Task_64ms                 USES _PORTAB TerminateTask
 Task_100ms                USES _PORTAB gRotaBit_counter 
 Task_200ms                USES _PORTAB 
 ActivateTask              USES TaskConfigInitial DispacherArray 
-                                TaskControlBlock gInterruptFlag 
+                                TaskControlBlock 
 TerminateTask             USES TaskExecuted_ID TaskControlBlock DispacherArray 
-                                Dispatcher TaskConfigInitial 
+                                TaskConfigInitial 
 Mem_Init                  USES mcal_mem_InitMem mcal_mem_MemHandler 
                                 mcal_mem_TotalMemSizeBytes 
 Mem_Alloc                 USES mcal_mem_MemHandler _FPCMP 
@@ -4181,10 +4184,6 @@ DEPENDENCY TREE
  |  |     |  | 
  |  |     |  +- TerminateTask        (recursive dependency)
  |  |     |     | 
- |  |     |     +- Dispatcher           (recursive dependency)
- |  |     |     |  | 
- |  |     |     |  +- TaskConfigInitial    (see above)
- |  |     |     |     
  |  |     |     +- TaskConfigInitial    (see above)
  |  |     |        
  |  |     +- Task_4ms            
@@ -4253,6 +4252,8 @@ DEPENDENCY TREE
  |     |  
  |     +- SchM_Background     
  |        | 
+ |        +- Gpt_ConfigType_initial (see above)
+ |        |  
  |        +- _CASE_CHECKED_BYTE   (see above)
  |           
  +- _Startup            
@@ -4273,19 +4274,25 @@ DEPENDENCY TREE
  |  | 
  |  +- Gpt_ConfigType_initial (see above)
  |  |  
- |  +- Dispatcher           (see above) (recursive dependency)
- |     
+ |  +- Dispatcher          
+ |     | 
+ |     +- DisableAllInterrupts (see above)
+ |     |  
+ |     +- EnableAllInterrupts  (see above)
+ |     |  
+ |     +- TaskConfigInitial    (see above)
+ |        
  +- vfnPIT_Channel1_Isr 
  |  | 
  |  +- Gpt_ConfigType_initial (see above)
  |  |  
- |  +- Dispatcher           (see above) (recursive dependency)
+ |  +- Dispatcher           (see above)
  |     
  +- vfnPIT_Channel0_Isr 
  |  | 
  |  +- Gpt_ConfigType_initial (see above)
  |  |  
- |  +- Dispatcher           (see above) (recursive dependency)
+ |  +- Dispatcher           (see above)
  |     
  +- vfnSCI0_Tx_Rx_Isr   
  |  | 
@@ -4293,7 +4300,7 @@ DEPENDENCY TREE
  |       
  +- vfnSoftware_Isr     
  |  | 
- |  +- Dispatcher           (see above) (recursive dependency)
+ |  +- Dispatcher           (see above)
  |     
  +- _Startup             (see above)
     
@@ -4303,6 +4310,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 8
-Total size of all blocks to be downloaded: 3813
+Number of blocks to be downloaded: 7
+Total size of all blocks to be downloaded: 3897
 
