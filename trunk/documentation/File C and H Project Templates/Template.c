@@ -1,15 +1,15 @@
 /******************************************************************************
-*   Filename:   Example.c 
+*   Filename:   Example.c
 *
-*   Description:
+*   Description:  
 *
 *
-*   Revision History:
+*   Revision history:
 *
-*   Date          #Change       Author     
-*   MM-DD-YY      Number:       Initials   Description of change
+*   Date          Change#       Author     
+*   DD-MM-YY      XX            Initials   Description of change
 *   -----------   -----------   --------   ------------------------------------
-*   
+*   08/03/15	  00            SPA        Initial Version
 ******************************************************************************/
 
 /******************************************************************************
